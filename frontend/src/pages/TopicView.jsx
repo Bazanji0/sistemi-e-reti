@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { useFetch } from '../hooks/useFetch';
 import { api } from '../lib/api';
 
@@ -54,7 +55,7 @@ export default function TopicView() {
       )}
 
       <div className="card prose-content">
-        <ReactMarkdown>{topic.content}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{topic.content}</ReactMarkdown>
       </div>
 
       <div className="flex gap-2.5">
