@@ -14,39 +14,79 @@ const nodeColors = {
   T: '#14b8a6',
 };
 
+// Posizioni manuali ragionate per evitare incroci
+// Layout a "flusso" dall'alto (fisico) verso il basso (applicazioni + sicurezza)
+const nodePositions = {
+  // Riga 1: Livello fisico
+  A: { x: 0, y: 0 },       // Mezzi Trasmissivi
+  C: { x: 280, y: 0 },     // Cablaggio Strutturato
+  B: { x: 560, y: 0 },     // Apparati di Rete
+
+  // Riga 2: Ethernet + Modelli
+  D: { x: 140, y: 160 },   // Ethernet
+  E: { x: 420, y: 160 },   // Modelli di Riferimento
+
+  // Riga 3: IP + Trasporto
+  F: { x: 140, y: 320 },   // Indirizzi IP
+  M: { x: 420, y: 320 },   // Trasporto
+
+  // Riga 4: Subnetting + Routing + Applicazioni
+  G: { x: 0, y: 480 },     // FLSM
+  H: { x: 200, y: 480 },   // VLSM
+  I: { x: 420, y: 480 },   // Routing
+  N: { x: 620, y: 320 },   // Applicazioni e QUIC
+
+  // Riga 5: Routing dettagli
+  J: { x: 300, y: 620 },   // Routing Statico
+  K: { x: 480, y: 620 },   // Grafi
+  L: { x: 660, y: 620 },   // RIP e OSPF
+
+  // Riga 6: Sicurezza (a destra, cluster separato)
+  R: { x: 800, y: 80 },    // VLAN
+  O: { x: 900, y: 280 },   // Firewall
+  P: { x: 1100, y: 200 },  // Crittografia
+  Q: { x: 1100, y: 380 },  // VPN
+  S: { x: 900, y: 480 },   // Malware
+
+  // Packet Tracer (sotto sicurezza)
+  T: { x: 800, y: 620 },   // Packet Tracer
+};
+
 const connections = [
-  ['A', 'C', 'Mezzi fisici → Cablaggio'],
+  // Flusso principale (alto → basso)
   ['A', 'D', 'Mezzi → Ethernet'],
-  ['B', 'D', 'Apparati → Ethernet'],
-  ['B', 'E', 'Apparati → Livelli OSI'],
   ['C', 'D', 'Cablaggio → Ethernet'],
-  ['D', 'E', 'Ethernet → Livello 2 OSI'],
+  ['B', 'D', 'Apparati → Ethernet'],
+  ['B', 'E', 'Apparati → Modelli OSI'],
+  ['D', 'E', 'Ethernet ↔ Livello 2'],
   ['E', 'F', 'Modelli → IP'],
   ['E', 'M', 'Modelli → Trasporto'],
-  ['F', 'G', 'IP → Subnetting FLSM'],
+  ['M', 'N', 'Trasporto → Applicazioni'],
+
+  // Subnetting
+  ['F', 'G', 'IP → FLSM'],
   ['F', 'H', 'IP → VLSM'],
-  ['F', 'I', 'IP → Routing'],
   ['G', 'H', 'FLSM → VLSM'],
-  ['I', 'J', 'Routing → Statico'],
+
+  // Routing
+  ['F', 'I', 'IP → Routing'],
+  ['I', 'J', 'Routing Statico'],
   ['I', 'K', 'Routing → Grafi'],
   ['I', 'L', 'Routing → RIP/OSPF'],
-  ['K', 'L', 'Grafi → Algoritmi routing'],
-  ['M', 'N', 'Trasporto → Applicazioni'],
-  ['H', 'L', 'VLSM → OSPF'],
-  // Nuove sezioni
+  ['K', 'L', 'Grafi → Algoritmi'],
+
+  // Sicurezza (cluster separato)
+  ['R', 'B', 'VLAN → Switch'],
+  ['O', 'R', 'Firewall ↔ VLAN'],
   ['O', 'P', 'Firewall → Crittografia'],
   ['O', 'Q', 'Firewall → VPN'],
-  ['O', 'R', 'Firewall → VLAN'],
   ['O', 'S', 'Firewall → Difesa Malware'],
   ['P', 'Q', 'Crittografia → VPN'],
-  ['P', 'N', 'Crittografia → TLS/QUIC'],
-  ['Q', 'F', 'VPN → Indirizzi IP'],
-  ['R', 'B', 'VLAN → Switch'],
-  ['R', 'D', 'VLAN → Ethernet 802.1Q'],
-  ['S', 'O', 'Malware → Firewall'],
-  ['T', 'R', 'Packet Tracer → VLAN'],
-  ['T', 'I', 'Packet Tracer → Routing'],
-  ['T', 'B', 'Packet Tracer → Apparati'],
+  ['P', 'N', 'TLS → Applicazioni'],
+
+  // Packet Tracer
+  ['T', 'R', 'PT → VLAN'],
+  ['T', 'I', 'PT → Routing'],
 ];
 
 const staticEdges = connections.map(([from, to, label], i) => ({
@@ -54,8 +94,9 @@ const staticEdges = connections.map(([from, to, label], i) => ({
   source: from,
   target: to,
   label,
-  labelStyle: { fill: '#4b5563', fontSize: 9, fontWeight: 500 },
-  labelBgStyle: { fill: '#050508', fillOpacity: 0.9 },
+  type: 'smoothstep',
+  labelStyle: { fill: '#6b7280', fontSize: 9, fontWeight: 500 },
+  labelBgStyle: { fill: '#050508', fillOpacity: 0.92 },
   labelBgPadding: [6, 3],
   labelBgBorderRadius: 4,
   style: { stroke: '#2a2a42', strokeWidth: 1.5 },
@@ -68,13 +109,9 @@ export default function ConceptMap() {
 
   const computedNodes = useMemo(() => {
     if (!sections) return [];
-    const cols = 4;
-    return sections.map((s, i) => ({
+    return sections.map((s) => ({
       id: s.id,
-      position: {
-        x: (i % cols) * 280 + 50,
-        y: Math.floor(i / cols) * 180 + 50,
-      },
+      position: nodePositions[s.id] || { x: 0, y: 0 },
       data: { label: `${s.code} — ${s.name}` },
       style: {
         background: `${nodeColors[s.id]}10`,
@@ -85,7 +122,7 @@ export default function ConceptMap() {
         fontSize: '12px',
         fontWeight: '600',
         cursor: 'pointer',
-        minWidth: '180px',
+        minWidth: '160px',
         textAlign: 'center',
         backdropFilter: 'blur(8px)',
         transition: 'all 0.2s ease',
@@ -116,7 +153,7 @@ export default function ConceptMap() {
         <p className="page-subtitle">Clicca su un nodo per aprire la sezione</p>
       </div>
 
-      <div className="card p-0 overflow-hidden" style={{ height: '70vh' }}>
+      <div className="card p-0 overflow-hidden" style={{ height: '75vh' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -124,6 +161,7 @@ export default function ConceptMap() {
           onEdgesChange={onEdgesChange}
           onNodeClick={onNodeClick}
           fitView
+          fitViewOptions={{ padding: 0.15 }}
           attributionPosition="bottom-left"
           proOptions={{ hideAttribution: true }}
         >
