@@ -396,7 +396,7 @@ export const topics = [
     "section_id": "E",
     "number": 2,
     "title": "Modello ISO/OSI",
-    "content": "Il modello **ISO/OSI** (Open Systems Interconnection) ha **7 livelli**:\n\n| # | Livello | Funzione | PDU |\n|---|---------|----------|-----|\n| 7 | **Applicazione** | Interfaccia utente | Dati |\n| 6 | **Presentazione** | Formato/crittografia | Dati |\n| 5 | **Sessione** | Gestione sessioni | Dati |\n| 4 | **Trasporto** | Comunicazione end-to-end | Segmento |\n| 3 | **Rete** | Instradamento (IP) | Pacchetto |\n| 2 | **Collegamento dati** | Frame e MAC | Frame |\n| 1 | **Fisico** | Bit sul mezzo | Bit |\n\nMnemonico: **A**ll **P**eople **S**eem **T**o **N**eed **D**ata **P**rocessing",
+    "content": "Il modello **ISO/OSI** (Open Systems Interconnection) ha **7 livelli**. Immaginalo come una **scala**: i dati partono dall'alto (livello 7) e scendono fino al cavo (livello 1), poi risalgono dal destinatario.\n\n### I 7 livelli dal basso verso l'alto:\n\n**Livello 1 — Fisico:**\nÈ il cavo, la fibra, il Wi-Fi. Si occupa di trasmettere **bit** (0 e 1) sul mezzo fisico. Non sa cosa significano quei bit.\n\n**Livello 2 — Collegamento dati:**\nOrganizza i bit in **frame** e usa gli indirizzi **MAC** per comunicare nella rete locale. È il livello dello **switch**.\n\n**Livello 3 — Rete:**\nSi occupa dell'**instradamento** dei **pacchetti** usando gli indirizzi **IP**. È il livello del **router**.\n\n**Livello 4 — Trasporto:**\nGarantisce la comunicazione **end-to-end** tra applicazioni. Qui lavorano **TCP** (affidabile) e **UDP** (veloce). L'unità dati si chiama **segmento**.\n\n**Livello 5 — Sessione:**\nApre, gestisce e chiude le **sessioni** di comunicazione tra due host.\n\n**Livello 6 — Presentazione:**\nSi occupa del **formato** dei dati: conversione, compressione, crittografia.\n\n**Livello 7 — Applicazione:**\nÈ quello che **vedi tu**: il browser, l'email, la chat. L'interfaccia tra l'utente e la rete.\n\n### Come ricordarli (dal 7 al 1):\n**A**ll **P**eople **S**eem **T**o **N**eed **D**ata **P**rocessing\n(Applicazione, Presentazione, Sessione, Trasporto, Rete, Dati/Collegamento, Fisico)",
     "keywords": "ISO/OSI,7 livelli,applicazione,trasporto,rete,fisico"
   },
   {
@@ -404,7 +404,7 @@ export const topics = [
     "section_id": "E",
     "number": 3,
     "title": "Modello TCP/IP",
-    "content": "Il modello **TCP/IP** ha **4 livelli**:\n\n| # | Livello | Funzione | Protocolli |\n|---|---------|----------|------------|\n| 4 | **Application** | Servizi all'utente | HTTP, FTP, DNS, SMTP |\n| 3 | **Transport** | Comunicazione end-to-end | TCP, UDP |\n| 2 | **Internet** | Instradamento | IP, ICMP, ARP |\n| 1 | **Network Access** | Accesso fisico alla rete | Ethernet, Wi-Fi |\n\n### Caratteristiche:\n- Più semplice e pratico dell'OSI\n- Basato sui protocolli reali di Internet\n- Modello di riferimento effettivo per le reti moderne",
+    "content": "Il modello **TCP/IP** è quello che **Internet usa davvero**. Ha solo **4 livelli** perché è più pratico e diretto.\n\n### I 4 livelli dal basso verso l'alto:\n\n**Livello 1 — Network Access (Accesso alla rete):**\nTutto ciò che riguarda il collegamento fisico: cavi, Wi-Fi, Ethernet, MAC address. In pratica unisce i livelli 1 e 2 dell'OSI.\n\n**Livello 2 — Internet:**\nSi occupa dell'**instradamento** dei pacchetti. Il protocollo principale è **IP** (Internet Protocol). Qui lavora il **router**. Corrisponde al livello 3 dell'OSI.\n\n**Livello 3 — Transport (Trasporto):**\nGestisce la comunicazione tra applicazioni. Ci sono due protocolli:\n- **TCP**: affidabile, conferma la ricezione (usato per web, email)\n- **UDP**: veloce, senza garanzie (usato per streaming, gaming)\n\n**Livello 4 — Application (Applicazione):**\nTutto ciò che l'utente usa: **HTTP** (siti web), **DNS** (risoluzione nomi), **SMTP** (email), **FTP** (trasferimento file). Accorpa i livelli 5, 6 e 7 dell'OSI.\n\n### Perché solo 4 livelli?\nTCP/IP è nato per **funzionare**, non per essere bello sulla carta. Raggruppa le funzioni che nella pratica vanno insieme, senza complicazioni inutili.",
     "keywords": "TCP/IP,4 livelli,Application,Transport,Internet,Network Access"
   },
   {
@@ -412,19 +412,27 @@ export const topics = [
     "section_id": "E",
     "number": 4,
     "title": "Corrispondenza OSI ↔ TCP/IP",
-    "content": "### Mapping tra i due modelli:\n\n| OSI | TCP/IP |\n|-----|--------|\n| Applicazione + Presentazione + Sessione | **Application** |\n| Trasporto | **Transport** |\n| Rete | **Internet** |\n| Collegamento dati + Fisico | **Network Access** |\n\n### Differenze chiave:\n- OSI: modello **teorico** di riferimento\n- TCP/IP: modello **pratico** basato su protocolli reali\n- OSI ha 7 livelli più dettagliati\n- TCP/IP accorpa alcuni livelli per semplicità",
+    "content": "I due modelli descrivono le **stesse cose** ma con una granularità diversa. Ecco come si corrispondono:\n\n### Da OSI a TCP/IP:\n\n**OSI livelli 7 + 6 + 5** (Applicazione + Presentazione + Sessione)\n→ diventano un unico livello **Application** in TCP/IP.\nPerché? Nella pratica, un protocollo come HTTP si occupa di tutto: sessione, formato dei dati e interfaccia.\n\n**OSI livello 4** (Trasporto)\n→ corrisponde a **Transport** in TCP/IP.\nStessa identica funzione: TCP e UDP.\n\n**OSI livello 3** (Rete)\n→ corrisponde a **Internet** in TCP/IP.\nStessa funzione: instradamento con IP.\n\n**OSI livelli 2 + 1** (Collegamento dati + Fisico)\n→ diventano un unico livello **Network Access** in TCP/IP.\nPerché? Ethernet gestisce sia i frame (livello 2) sia il mezzo fisico (livello 1) come un tutt'uno.\n\n### In sintesi:\n- **OSI** = 7 livelli, **teorico**, perfetto per **studiare e capire**\n- **TCP/IP** = 4 livelli, **pratico**, è quello che **Internet usa davvero**\n- OSI spiega nel dettaglio, TCP/IP semplifica raggruppando",
     "keywords": "corrispondenza,OSI,TCP/IP,mapping"
   },
   {
     "id": 35,
     "section_id": "E",
     "number": 5,
-    "title": "Perché Internet usa TCP/IP",
-    "content": "Internet utilizza il modello **TCP/IP** per ragioni storiche e pratiche:\n\n### Motivazioni:\n- TCP/IP è stato **sviluppato prima** dell'OSI (anni '70 vs anni '80)\n- È stato **adottato nella pratica** da ARPANET (predecessore di Internet)\n- I protocolli TCP e IP erano già **funzionanti e testati**\n- L'OSI è rimasto un modello **teorico/accademico**\n- TCP/IP è **più semplice** e pragmatico\n\n### Risultato:\n- OSI = ottimo per **studiare** e **comprendere** le reti\n- TCP/IP = modello **usato nella realtà** di Internet",
-    "keywords": "Internet,TCP/IP,ARPANET,storico,pratico"
+    "title": "Incapsulamento",
+    "content": "L'**incapsulamento** è il meccanismo fondamentale dei modelli a livelli. Quando invii un dato (es. una pagina web), ogni livello **aggiunge il proprio header** al pacchetto.\n\n### Come funziona (esempio: apri un sito web):\n\n```\nTu scrivi \"google.com\" nel browser\n         ↓\nLivello 7 (Applicazione): crea la richiesta HTTP\n  [HTTP: GET /index.html]\n         ↓\nLivello 4 (Trasporto): aggiunge porta sorgente e destinazione\n  [TCP: porta 443] [HTTP: GET /index.html]\n         ↓\nLivello 3 (Rete): aggiunge IP sorgente e destinazione\n  [IP: 192.168.1.10 → 142.250.180.46] [TCP] [HTTP]\n         ↓\nLivello 2 (Collegamento): aggiunge MAC sorgente e destinazione\n  [MAC: aa:bb → cc:dd] [IP] [TCP] [HTTP]\n         ↓\nLivello 1 (Fisico): converte tutto in bit e li manda sul cavo\n  0110110101010101...\n```\n\n### Ogni livello ha un nome diverso per i dati:\n- Livello 7-5: **Dati**\n- Livello 4: **Segmento** (TCP) o **Datagram** (UDP)\n- Livello 3: **Pacchetto**\n- Livello 2: **Frame**\n- Livello 1: **Bit**\n\nIl destinatario fa il processo inverso: **de-incapsula** livello per livello fino a leggere i dati originali.",
+    "keywords": "incapsulamento,header,PDU,segmento,pacchetto,frame"
   },
   {
     "id": 36,
+    "section_id": "E",
+    "number": 6,
+    "title": "Perché Internet usa TCP/IP",
+    "content": "Internet utilizza il modello **TCP/IP** per ragioni storiche e pratiche.\n\n### La storia:\nNegli **anni '70**, il Dipartimento della Difesa americano creò **ARPANET**, la prima rete a pacchetti. Per far funzionare ARPANET servivano dei protocolli, e vennero creati **TCP e IP**.\n\nNegli **anni '80**, l'ISO propose il modello OSI come standard universale. Ma ormai TCP/IP era già **ovunque**: università, governi e aziende lo usavano da anni.\n\n### Perché TCP/IP ha vinto:\n- Era **già funzionante** quando l'OSI era ancora sulla carta\n- Era **gratuito e aperto** (non proprietario)\n- Era **più semplice** (4 livelli vs 7)\n- ARPANET (poi Internet) lo aveva già adottato\n\n### Allora a cosa serve l'OSI?\nL'OSI è il modello perfetto per **studiare e capire** le reti. Quando dici \"opera al livello 2\" o \"è un protocollo di livello 3\", stai usando il linguaggio dell'OSI. È il **vocabolario comune** del networking.\n\n> **OSI** = come **studiamo** le reti\n> **TCP/IP** = come le reti **funzionano davvero**",
+    "keywords": "Internet,TCP/IP,ARPANET,storico,pratico"
+  },
+  {
+    "id": 37,
     "section_id": "F",
     "number": 6,
     "title": "Indirizzo IP",
@@ -432,7 +440,7 @@ export const topics = [
     "keywords": "indirizzo IP,host,instradamento,IPv4,IPv6"
   },
   {
-    "id": 37,
+    "id": 38,
     "section_id": "F",
     "number": 7,
     "title": "IPv4",
@@ -440,7 +448,7 @@ export const topics = [
     "keywords": "IPv4,32 bit,ottetti,Net ID,Host ID"
   },
   {
-    "id": 38,
+    "id": 39,
     "section_id": "F",
     "number": 8,
     "title": "Indirizzi speciali",
@@ -448,7 +456,7 @@ export const topics = [
     "keywords": "indirizzo di rete,host,broadcast,.0,.255"
   },
   {
-    "id": 39,
+    "id": 40,
     "section_id": "F",
     "number": 9,
     "title": "Subnet mask",
@@ -456,7 +464,7 @@ export const topics = [
     "keywords": "subnet mask,rete,host,AND,bit"
   },
   {
-    "id": 40,
+    "id": 41,
     "section_id": "F",
     "number": 10,
     "title": "Notazione CIDR",
@@ -464,7 +472,7 @@ export const topics = [
     "keywords": "CIDR,slash,notazione,flessibile,classi"
   },
   {
-    "id": 41,
+    "id": 42,
     "section_id": "F",
     "number": 11,
     "title": "Default gateway",
@@ -472,7 +480,7 @@ export const topics = [
     "keywords": "default gateway,router,rete esterna,instradamento"
   },
   {
-    "id": 42,
+    "id": 43,
     "section_id": "G",
     "number": 12,
     "title": "Cos'è il subnetting",
@@ -480,7 +488,7 @@ export const topics = [
     "keywords": "subnetting,sottoreti,gestione,sicurezza,broadcast"
   },
   {
-    "id": 43,
+    "id": 44,
     "section_id": "G",
     "number": 13,
     "title": "FLSM",
@@ -488,7 +496,7 @@ export const topics = [
     "keywords": "FLSM,Fixed Length,stessa mask,sottoreti"
   },
   {
-    "id": 44,
+    "id": 45,
     "section_id": "G",
     "number": 14,
     "title": "Procedimento FLSM",
@@ -496,7 +504,7 @@ export const topics = [
     "keywords": "procedimento,FLSM,bit,calcolo,formula"
   },
   {
-    "id": 45,
+    "id": 46,
     "section_id": "G",
     "number": 15,
     "title": "Esempio FLSM",
@@ -504,7 +512,7 @@ export const topics = [
     "keywords": "esempio,FLSM,/26,sottoreti,calcolo"
   },
   {
-    "id": 46,
+    "id": 47,
     "section_id": "G",
     "number": 16,
     "title": "Limiti FLSM",
@@ -512,7 +520,7 @@ export const topics = [
     "keywords": "limiti,spreco,flessibilità,VLSM"
   },
   {
-    "id": 47,
+    "id": 48,
     "section_id": "H",
     "number": 17,
     "title": "VLSM",
@@ -520,7 +528,7 @@ export const topics = [
     "keywords": "VLSM,Variable Length,subnet mask diverse,efficienza"
   },
   {
-    "id": 48,
+    "id": 49,
     "section_id": "H",
     "number": 18,
     "title": "Efficienza VLSM",
@@ -528,7 +536,7 @@ export const topics = [
     "keywords": "efficienza,confronto,FLSM,spreco,risparmio"
   },
   {
-    "id": 49,
+    "id": 50,
     "section_id": "H",
     "number": 19,
     "title": "Metodo VLSM",
@@ -536,7 +544,7 @@ export const topics = [
     "keywords": "metodo,procedimento,ordinare,assegnare"
   },
   {
-    "id": 50,
+    "id": 51,
     "section_id": "H",
     "number": 20,
     "title": "Esempio VLSM",
@@ -544,7 +552,7 @@ export const topics = [
     "keywords": "esempio,VLSM,/25,/27,/28,assegnazione"
   },
   {
-    "id": 51,
+    "id": 52,
     "section_id": "H",
     "number": 21,
     "title": "Uso del VLSM",
@@ -552,7 +560,7 @@ export const topics = [
     "keywords": "aziendali,ISP,infrastrutture,CIDR,OSPF"
   },
   {
-    "id": 52,
+    "id": 53,
     "section_id": "I",
     "number": 22,
     "title": "Cos'è il routing",
@@ -560,7 +568,7 @@ export const topics = [
     "keywords": "routing,instradamento,percorso,router,livello 3"
   },
   {
-    "id": 53,
+    "id": 54,
     "section_id": "I",
     "number": 23,
     "title": "Tabella di routing",
@@ -568,7 +576,7 @@ export const topics = [
     "keywords": "tabella di routing,next hop,interfaccia,metrica,entry"
   },
   {
-    "id": 54,
+    "id": 55,
     "section_id": "I",
     "number": 24,
     "title": "Routing diretto vs indiretto",
@@ -576,7 +584,7 @@ export const topics = [
     "keywords": "diretto,indiretto,stessa rete,reti diverse,ARP"
   },
   {
-    "id": 55,
+    "id": 56,
     "section_id": "I",
     "number": 25,
     "title": "Longest prefix match",
@@ -584,7 +592,7 @@ export const topics = [
     "keywords": "longest prefix match,rotta più specifica,subnet mask"
   },
   {
-    "id": 56,
+    "id": 57,
     "section_id": "I",
     "number": 26,
     "title": "Router di default",
@@ -592,7 +600,7 @@ export const topics = [
     "keywords": "default route,0.0.0.0,rotta predefinita,Internet"
   },
   {
-    "id": 57,
+    "id": 58,
     "section_id": "J",
     "number": 27,
     "title": "Routing statico",
@@ -600,7 +608,7 @@ export const topics = [
     "keywords": "routing statico,manuale,configurazione,rotte"
   },
   {
-    "id": 58,
+    "id": 59,
     "section_id": "J",
     "number": 28,
     "title": "Vantaggi e svantaggi routing statico",
@@ -608,7 +616,7 @@ export const topics = [
     "keywords": "vantaggi,svantaggi,scalabilità,sicurezza,overhead"
   },
   {
-    "id": 59,
+    "id": 60,
     "section_id": "K",
     "number": 31,
     "title": "Rete come grafo",
@@ -616,7 +624,7 @@ export const topics = [
     "keywords": "grafo,nodi,archi,router,link"
   },
   {
-    "id": 60,
+    "id": 61,
     "section_id": "K",
     "number": 32,
     "title": "Elementi del grafo",
@@ -624,7 +632,7 @@ export const topics = [
     "keywords": "nodo,arco,cammino,costo,peso"
   },
   {
-    "id": 61,
+    "id": 62,
     "section_id": "K",
     "number": 33,
     "title": "Cammino minimo",
@@ -632,7 +640,7 @@ export const topics = [
     "keywords": "cammino minimo,shortest path,Dijkstra,Bellman-Ford,costo"
   },
   {
-    "id": 62,
+    "id": 63,
     "section_id": "L",
     "number": 34,
     "title": "Routing dinamico",
@@ -640,7 +648,7 @@ export const topics = [
     "keywords": "routing dinamico,automatico,scalabile,failover"
   },
   {
-    "id": 63,
+    "id": 64,
     "section_id": "L",
     "number": 35,
     "title": "RIP",
@@ -648,7 +656,7 @@ export const topics = [
     "keywords": "RIP,distance vector,hop count,15 hop,Bellman-Ford"
   },
   {
-    "id": 64,
+    "id": 65,
     "section_id": "L",
     "number": 36,
     "title": "OSPF",
@@ -656,7 +664,7 @@ export const topics = [
     "keywords": "OSPF,link state,Dijkstra,costo,gerarchico,LSA"
   },
   {
-    "id": 65,
+    "id": 66,
     "section_id": "L",
     "number": 37,
     "title": "RIP vs OSPF",
@@ -664,7 +672,7 @@ export const topics = [
     "keywords": "RIP,OSPF,confronto,distance vector,link state"
   },
   {
-    "id": 66,
+    "id": 67,
     "section_id": "M",
     "number": 39,
     "title": "Livello trasporto",
@@ -672,7 +680,7 @@ export const topics = [
     "keywords": "livello trasporto,end-to-end,multiplexing,segmentazione"
   },
   {
-    "id": 67,
+    "id": 68,
     "section_id": "M",
     "number": 40,
     "title": "TCP vs UDP overview",
@@ -680,7 +688,7 @@ export const topics = [
     "keywords": "TCP,UDP,affidabile,non affidabile"
   },
   {
-    "id": 68,
+    "id": 69,
     "section_id": "M",
     "number": 41,
     "title": "TCP in dettaglio",
@@ -688,7 +696,7 @@ export const topics = [
     "keywords": "TCP,affidabile,connessione,flusso,congestione"
   },
   {
-    "id": 69,
+    "id": 70,
     "section_id": "M",
     "number": 42,
     "title": "Three-way handshake",
@@ -696,7 +704,7 @@ export const topics = [
     "keywords": "three-way handshake,SYN,SYN-ACK,ACK,connessione"
   },
   {
-    "id": 70,
+    "id": 71,
     "section_id": "M",
     "number": 43,
     "title": "Sequence e ACK number",
@@ -704,7 +712,7 @@ export const topics = [
     "keywords": "sequence number,acknowledgment,ritrasmissione,timeout"
   },
   {
-    "id": 71,
+    "id": 72,
     "section_id": "M",
     "number": 44,
     "title": "UDP in dettaglio",
@@ -712,7 +720,7 @@ export const topics = [
     "keywords": "UDP,connectionless,datagram,veloce,leggero"
   },
   {
-    "id": 72,
+    "id": 73,
     "section_id": "M",
     "number": 45,
     "title": "TCP vs UDP confronto",
@@ -720,7 +728,7 @@ export const topics = [
     "keywords": "TCP,UDP,confronto,affidabile,veloce"
   },
   {
-    "id": 73,
+    "id": 74,
     "section_id": "M",
     "number": 46,
     "title": "Porte",
@@ -728,7 +736,7 @@ export const topics = [
     "keywords": "porte,HTTP,HTTPS,80,443,well-known"
   },
   {
-    "id": 74,
+    "id": 75,
     "section_id": "M",
     "number": 47,
     "title": "Socket",
@@ -736,7 +744,7 @@ export const topics = [
     "keywords": "socket,IP,porta,endpoint,connessione"
   },
   {
-    "id": 75,
+    "id": 76,
     "section_id": "N",
     "number": 49,
     "title": "Scelta del protocollo",
@@ -744,7 +752,7 @@ export const topics = [
     "keywords": "TCP,UDP,scelta,web,streaming"
   },
   {
-    "id": 76,
+    "id": 77,
     "section_id": "N",
     "number": 50,
     "title": "Perdita vs ritardo",
@@ -752,7 +760,7 @@ export const topics = [
     "keywords": "perdita,ritardo,real-time,latenza,streaming"
   },
   {
-    "id": 77,
+    "id": 78,
     "section_id": "N",
     "number": 51,
     "title": "QUIC introduzione",
@@ -760,7 +768,7 @@ export const topics = [
     "keywords": "QUIC,Google,UDP,veloce,sicurezza,HTTP/3"
   },
   {
-    "id": 78,
+    "id": 79,
     "section_id": "N",
     "number": 52,
     "title": "QUIC vantaggi",
@@ -768,7 +776,7 @@ export const topics = [
     "keywords": "QUIC,vantaggi,0-RTT,TLS,connection migration,HTTP/3"
   },
   {
-    "id": 79,
+    "id": 80,
     "section_id": "O",
     "number": 53,
     "title": "Cos'è un Firewall",
@@ -776,7 +784,7 @@ export const topics = [
     "keywords": "firewall,filtraggio,sicurezza,protezione,ACL"
   },
   {
-    "id": 80,
+    "id": 81,
     "section_id": "O",
     "number": 54,
     "title": "Tipi di Firewall",
@@ -784,7 +792,7 @@ export const topics = [
     "keywords": "packet filter,stateful,proxy,NGFW,livelli OSI"
   },
   {
-    "id": 81,
+    "id": 82,
     "section_id": "O",
     "number": 55,
     "title": "Stateless vs Stateful",
@@ -792,7 +800,7 @@ export const topics = [
     "keywords": "stateless,stateful,state table,connessioni,pacchetto"
   },
   {
-    "id": 82,
+    "id": 83,
     "section_id": "O",
     "number": 56,
     "title": "ACL — Access Control List",
@@ -800,7 +808,7 @@ export const topics = [
     "keywords": "ACL,regole,permit,deny,filtraggio"
   },
   {
-    "id": 83,
+    "id": 84,
     "section_id": "O",
     "number": 57,
     "title": "DMZ — Zona Demilitarizzata",
@@ -808,7 +816,7 @@ export const topics = [
     "keywords": "DMZ,zona demilitarizzata,web server,sicurezza,doppio firewall"
   },
   {
-    "id": 84,
+    "id": 85,
     "section_id": "O",
     "number": 58,
     "title": "Firewall in pratica",
@@ -816,7 +824,7 @@ export const topics = [
     "keywords": "configurazione,policy,DROP,ACCEPT,whitelist"
   },
   {
-    "id": 85,
+    "id": 86,
     "section_id": "P",
     "number": 59,
     "title": "Introduzione alla Crittografia",
@@ -824,7 +832,7 @@ export const topics = [
     "keywords": "crittografia,cifratura,chiave,confidenzialità,integrità"
   },
   {
-    "id": 86,
+    "id": 87,
     "section_id": "P",
     "number": 60,
     "title": "Crittografia simmetrica",
@@ -832,7 +840,7 @@ export const topics = [
     "keywords": "simmetrica,AES,DES,chiave condivisa,veloce"
   },
   {
-    "id": 87,
+    "id": 88,
     "section_id": "P",
     "number": 61,
     "title": "Crittografia asimmetrica",
@@ -840,7 +848,7 @@ export const topics = [
     "keywords": "asimmetrica,chiave pubblica,chiave privata,RSA,Diffie-Hellman"
   },
   {
-    "id": 88,
+    "id": 89,
     "section_id": "P",
     "number": 62,
     "title": "Funzioni Hash",
@@ -848,7 +856,7 @@ export const topics = [
     "keywords": "hash,digest,SHA-256,integrità,irreversibile"
   },
   {
-    "id": 89,
+    "id": 90,
     "section_id": "P",
     "number": 63,
     "title": "Certificati digitali e PKI",
@@ -856,7 +864,7 @@ export const topics = [
     "keywords": "certificato digitale,CA,PKI,X.509,HTTPS"
   },
   {
-    "id": 90,
+    "id": 91,
     "section_id": "P",
     "number": 64,
     "title": "TLS e HTTPS",
@@ -864,7 +872,7 @@ export const topics = [
     "keywords": "TLS,SSL,HTTPS,handshake,cifratura"
   },
   {
-    "id": 91,
+    "id": 92,
     "section_id": "Q",
     "number": 65,
     "title": "Cos'è una VPN",
@@ -872,7 +880,7 @@ export const topics = [
     "keywords": "VPN,tunnel,cifratura,rete privata,sicurezza"
   },
   {
-    "id": 92,
+    "id": 93,
     "section_id": "Q",
     "number": 66,
     "title": "Tipi di VPN",
@@ -880,7 +888,7 @@ export const topics = [
     "keywords": "site-to-site,remote access,client VPN,smart working"
   },
   {
-    "id": 93,
+    "id": 94,
     "section_id": "Q",
     "number": 67,
     "title": "Tunneling",
@@ -888,7 +896,7 @@ export const topics = [
     "keywords": "tunneling,incapsulamento,cifratura,pacchetto,VPN"
   },
   {
-    "id": 94,
+    "id": 95,
     "section_id": "Q",
     "number": 68,
     "title": "Protocolli VPN",
@@ -896,7 +904,7 @@ export const topics = [
     "keywords": "IPsec,OpenVPN,WireGuard,L2TP,protocolli VPN"
   },
   {
-    "id": 95,
+    "id": 96,
     "section_id": "Q",
     "number": 69,
     "title": "VPN e sicurezza aziendale",
@@ -904,7 +912,7 @@ export const topics = [
     "keywords": "VPN aziendale,split tunneling,MFA,concentrator,sicurezza"
   },
   {
-    "id": 96,
+    "id": 97,
     "section_id": "R",
     "number": 70,
     "title": "Cos'è una VLAN",
@@ -912,7 +920,7 @@ export const topics = [
     "keywords": "VLAN,rete virtuale,segmentazione,broadcast,VLAN ID"
   },
   {
-    "id": 97,
+    "id": 98,
     "section_id": "R",
     "number": 71,
     "title": "VLAN basate su porte",
@@ -920,7 +928,7 @@ export const topics = [
     "keywords": "port-based,access port,assegnazione,switch,configurazione"
   },
   {
-    "id": 98,
+    "id": 99,
     "section_id": "R",
     "number": 72,
     "title": "Trunk e 802.1Q",
@@ -928,7 +936,7 @@ export const topics = [
     "keywords": "trunk,802.1Q,tag,VLAN ID,native VLAN"
   },
   {
-    "id": 99,
+    "id": 100,
     "section_id": "R",
     "number": 73,
     "title": "Inter-VLAN Routing",
@@ -936,7 +944,7 @@ export const topics = [
     "keywords": "inter-VLAN,router-on-a-stick,subinterface,SVI,Layer 3"
   },
   {
-    "id": 100,
+    "id": 101,
     "section_id": "R",
     "number": 74,
     "title": "Vantaggi delle VLAN",
@@ -944,7 +952,7 @@ export const topics = [
     "keywords": "vantaggi,sicurezza,broadcast,flessibilità,gestione"
   },
   {
-    "id": 101,
+    "id": 102,
     "section_id": "S",
     "number": 75,
     "title": "Cos'è il Malware",
@@ -952,7 +960,7 @@ export const topics = [
     "keywords": "malware,virus,worm,trojan,ransomware"
   },
   {
-    "id": 102,
+    "id": 103,
     "section_id": "S",
     "number": 76,
     "title": "Virus, Worm e Trojan",
@@ -960,7 +968,7 @@ export const topics = [
     "keywords": "virus,worm,trojan,backdoor,WannaCry"
   },
   {
-    "id": 103,
+    "id": 104,
     "section_id": "S",
     "number": 77,
     "title": "Ransomware e Spyware",
@@ -968,7 +976,7 @@ export const topics = [
     "keywords": "ransomware,spyware,keylogger,riscatto,WannaCry"
   },
   {
-    "id": 104,
+    "id": 105,
     "section_id": "S",
     "number": 78,
     "title": "Attacchi di rete",
@@ -976,7 +984,7 @@ export const topics = [
     "keywords": "phishing,MitM,DDoS,ARP spoofing,botnet"
   },
   {
-    "id": 105,
+    "id": 106,
     "section_id": "S",
     "number": 79,
     "title": "Social Engineering",
@@ -984,7 +992,7 @@ export const topics = [
     "keywords": "social engineering,phishing,pretexting,baiting,tailgating"
   },
   {
-    "id": 106,
+    "id": 107,
     "section_id": "S",
     "number": 80,
     "title": "Difese e prevenzione",
@@ -992,7 +1000,7 @@ export const topics = [
     "keywords": "antivirus,IDS,IPS,backup,patch,best practice"
   },
   {
-    "id": 107,
+    "id": 108,
     "section_id": "T",
     "number": 81,
     "title": "Cos'è Packet Tracer",
@@ -1000,7 +1008,7 @@ export const topics = [
     "keywords": "Packet Tracer,Cisco,simulatore,topologia,configurazione"
   },
   {
-    "id": 108,
+    "id": 109,
     "section_id": "T",
     "number": 82,
     "title": "L'interfaccia di Packet Tracer",
@@ -1008,7 +1016,7 @@ export const topics = [
     "keywords": "interfaccia,workspace,cavi,simulation,PDU"
   },
   {
-    "id": 109,
+    "id": 110,
     "section_id": "T",
     "number": 83,
     "title": "Configurazione base di un router",
@@ -1016,7 +1024,7 @@ export const topics = [
     "keywords": "CLI,router,configurazione,hostname,interfaccia"
   },
   {
-    "id": 110,
+    "id": 111,
     "section_id": "T",
     "number": 84,
     "title": "Configurazione base di uno switch",
@@ -1024,7 +1032,7 @@ export const topics = [
     "keywords": "switch,VLAN,trunk,access,configurazione"
   },
   {
-    "id": 111,
+    "id": 112,
     "section_id": "T",
     "number": 85,
     "title": "Configurare IP su PC e test di connettività",
@@ -1032,7 +1040,7 @@ export const topics = [
     "keywords": "IP,configurazione PC,ping,tracert,DHCP"
   },
   {
-    "id": 112,
+    "id": 113,
     "section_id": "T",
     "number": 86,
     "title": "Esercizio tipo maturità",
@@ -1040,7 +1048,7 @@ export const topics = [
     "keywords": "esercizio,maturità,VLSM,VLAN,progetto rete"
   },
   {
-    "id": 113,
+    "id": 114,
     "section_id": "T",
     "number": 87,
     "title": "Comandi show e debug",
