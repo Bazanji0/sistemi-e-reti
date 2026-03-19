@@ -521,6 +521,22 @@ export const topics = [
   },
   {
     "id": 48,
+    "section_id": "G",
+    "number": 88,
+    "title": "Esercizio FLSM — 8 sottoreti",
+    "content": "Facciamo un esercizio di subnetting FLSM **passo per passo**.\n\n### Traccia:\nHai la rete **172.16.0.0/16**. Devi creare **8 sottoreti** uguali.\n\n---\n\n### Passo 1 — Quanti bit servono?\nDobbiamo trovare quanti bit \"prendere in prestito\" dalla parte host.\n\nFormula: **2ⁿ ≥ numero sottoreti**\n- 2¹ = 2 → troppo pochi\n- 2² = 4 → troppo pochi\n- 2³ = **8** → perfetto! ✓\n\nServono **3 bit**.\n\n---\n\n### Passo 2 — Calcola la nuova mask\nLa mask originale è **/16** (255.255.0.0).\nAggiungiamo 3 bit: /16 + 3 = **/19**\n\nIn decimale: **255.255.224.0**\n\nCome si calcola? I 3 bit aggiunti nel terzo ottetto:\n`11100000` in binario = 128+64+32 = **224**\n\n---\n\n### Passo 3 — Quanti host per sottorete?\nBit host rimasti: 32 - 19 = **13 bit**\nHost utilizzabili: 2¹³ - 2 = **8190 host** per sottorete\n\n---\n\n### Passo 4 — Calcola il \"salto\"\nIl salto tra una sottorete e l'altra:\n256 - 224 = **32** (nel terzo ottetto)\n\nQuindi le sottoreti partono a intervalli di 32:\n0, 32, 64, 96, 128, 160, 192, 224\n\n---\n\n### Passo 5 — Tabella completa\n\n| # | Indirizzo di rete | Primo host | Ultimo host | Broadcast |\n|---|-------------------|------------|-------------|----------|\n| 1 | 172.16.0.0/19 | 172.16.0.1 | 172.16.31.254 | 172.16.31.255 |\n| 2 | 172.16.32.0/19 | 172.16.32.1 | 172.16.63.254 | 172.16.63.255 |\n| 3 | 172.16.64.0/19 | 172.16.64.1 | 172.16.95.254 | 172.16.95.255 |\n| 4 | 172.16.96.0/19 | 172.16.96.1 | 172.16.127.254 | 172.16.127.255 |\n| 5 | 172.16.128.0/19 | 172.16.128.1 | 172.16.159.254 | 172.16.159.255 |\n| 6 | 172.16.160.0/19 | 172.16.160.1 | 172.16.191.254 | 172.16.191.255 |\n| 7 | 172.16.192.0/19 | 172.16.192.1 | 172.16.223.254 | 172.16.223.255 |\n| 8 | 172.16.224.0/19 | 172.16.224.1 | 172.16.255.254 | 172.16.255.255 |\n\n### Come si calcolano primo host, ultimo host e broadcast?\n- **Primo host** = indirizzo di rete + 1\n- **Broadcast** = prossima sottorete - 1\n- **Ultimo host** = broadcast - 1",
+    "keywords": "esercizio,FLSM,sottoreti,passo passo,/19"
+  },
+  {
+    "id": 49,
+    "section_id": "G",
+    "number": 89,
+    "title": "Esercizio FLSM — da host richiesti",
+    "content": "Un altro tipo di esercizio: ti danno il **numero minimo di host** per sottorete.\n\n### Traccia:\nHai la rete **10.0.0.0/8**. Ogni sottorete deve avere **almeno 500 host**.\nQuante sottoreti puoi creare?\n\n---\n\n### Passo 1 — Quanti bit per gli host?\nFormula: **2ʰ - 2 ≥ 500**\n- 2⁸ - 2 = 254 → troppo pochi\n- 2⁹ - 2 = 510 → **basta!** ✓\n- 2¹⁰ - 2 = 1022 → più del necessario\n\nServono **9 bit** per la parte host.\n\n---\n\n### Passo 2 — Calcola la nuova mask\nSe servono 9 bit per gli host: 32 - 9 = **23 bit** per la rete.\nNuova mask: **/23** (255.255.254.0)\n\nCome si calcola il terzo ottetto?\n`11111110` in binario = **254**\n\n---\n\n### Passo 3 — Quante sottoreti?\nBit presi dalla parte host: 23 - 8 = **15 bit**\nSottoreti: 2¹⁵ = **32.768 sottoreti**!\nOgnuna con 510 host utilizzabili.\n\n---\n\n### Passo 4 — Prime sottoreti\nIl salto è 2 nel terzo ottetto (256 - 254 = 2):\n\n| # | Rete | Range host | Broadcast |\n|---|------|-----------|----------|\n| 1 | 10.0.0.0/23 | 10.0.0.1 — 10.0.1.254 | 10.0.1.255 |\n| 2 | 10.0.2.0/23 | 10.0.2.1 — 10.0.3.254 | 10.0.3.255 |\n| 3 | 10.0.4.0/23 | 10.0.4.1 — 10.0.5.254 | 10.0.5.255 |\n| ... | ... | ... | ... |\n\n### Trucco importante:\nQuando la mask \"cade\" nel terzo ottetto, il broadcast ha l'ottetto prima del salto. Es: /23 → il broadcast di 10.0.0.0 è 10.0.**1**.255 (non 10.0.0.255!).",
+    "keywords": "esercizio,FLSM,host,mask,calcolo"
+  },
+  {
+    "id": 50,
     "section_id": "H",
     "number": 17,
     "title": "VLSM",
@@ -528,7 +544,7 @@ export const topics = [
     "keywords": "VLSM,Variable Length,subnet mask diverse,efficienza"
   },
   {
-    "id": 49,
+    "id": 51,
     "section_id": "H",
     "number": 18,
     "title": "Efficienza VLSM",
@@ -536,7 +552,7 @@ export const topics = [
     "keywords": "efficienza,confronto,FLSM,spreco,risparmio"
   },
   {
-    "id": 50,
+    "id": 52,
     "section_id": "H",
     "number": 19,
     "title": "Metodo VLSM",
@@ -544,7 +560,7 @@ export const topics = [
     "keywords": "metodo,procedimento,ordinare,assegnare"
   },
   {
-    "id": 51,
+    "id": 53,
     "section_id": "H",
     "number": 20,
     "title": "Esempio VLSM",
@@ -552,7 +568,7 @@ export const topics = [
     "keywords": "esempio,VLSM,/25,/27,/28,assegnazione"
   },
   {
-    "id": 52,
+    "id": 54,
     "section_id": "H",
     "number": 21,
     "title": "Uso del VLSM",
@@ -560,7 +576,23 @@ export const topics = [
     "keywords": "aziendali,ISP,infrastrutture,CIDR,OSPF"
   },
   {
-    "id": 53,
+    "id": 55,
+    "section_id": "H",
+    "number": 90,
+    "title": "Esercizio VLSM — Azienda con 4 reparti",
+    "content": "Esercizio VLSM completo, passo per passo.\n\n### Traccia:\nRete disponibile: **192.168.50.0/24**\nDevi creare sottoreti per:\n- **Reparto A**: 60 host\n- **Reparto B**: 28 host\n- **Reparto C**: 12 host\n- **Link WAN** tra 2 router: 2 host\n\n---\n\n### Passo 1 — Ordina dal più grande al più piccolo\nSempre! Se non lo fai, rischi di \"bucare\" lo spazio indirizzi.\n\n| Sottorete | Host richiesti |\n|-----------|---------------|\n| Reparto A | 60 |\n| Reparto B | 28 |\n| Reparto C | 12 |\n| Link WAN | 2 |\n\n---\n\n### Passo 2 — Calcola la mask per ogni sottorete\nPer ogni sottorete, trova il più piccolo blocco che contiene abbastanza host:\n\n**Reparto A (60 host):**\n2⁶ - 2 = 62 ≥ 60 ✓ → **/26** (255.255.255.192)\n\n**Reparto B (28 host):**\n2⁵ - 2 = 30 ≥ 28 ✓ → **/27** (255.255.255.224)\n\n**Reparto C (12 host):**\n2⁴ - 2 = 14 ≥ 12 ✓ → **/28** (255.255.255.240)\n\n**Link WAN (2 host):**\n2² - 2 = 2 ≥ 2 ✓ → **/30** (255.255.255.252)\n\n---\n\n### Passo 3 — Assegna gli indirizzi in ordine\nParti sempre dal primo indirizzo disponibile:\n\n**Reparto A — /26 (blocco di 64 indirizzi):**\n- Rete: **192.168.50.0/26**\n- Primo host: 192.168.50.1\n- Ultimo host: 192.168.50.62\n- Broadcast: 192.168.50.63\n- Gateway: 192.168.50.1\n\nProssimo indirizzo disponibile: **192.168.50.64**\n\n**Reparto B — /27 (blocco di 32 indirizzi):**\n- Rete: **192.168.50.64/27**\n- Primo host: 192.168.50.65\n- Ultimo host: 192.168.50.94\n- Broadcast: 192.168.50.95\n- Gateway: 192.168.50.65\n\nProssimo disponibile: **192.168.50.96**\n\n**Reparto C — /28 (blocco di 16 indirizzi):**\n- Rete: **192.168.50.96/28**\n- Primo host: 192.168.50.97\n- Ultimo host: 192.168.50.110\n- Broadcast: 192.168.50.111\n- Gateway: 192.168.50.97\n\nProssimo disponibile: **192.168.50.112**\n\n**Link WAN — /30 (blocco di 4 indirizzi):**\n- Rete: **192.168.50.112/30**\n- Router 1: 192.168.50.113\n- Router 2: 192.168.50.114\n- Broadcast: 192.168.50.115\n\n---\n\n### Passo 4 — Tabella riassuntiva\n\n| Sottorete | Rete | Mask | Range host | Broadcast | Host |\n|-----------|------|------|-----------|-----------|------|\n| Reparto A | 192.168.50.0/26 | 255.255.255.192 | .1 — .62 | .63 | 62 |\n| Reparto B | 192.168.50.64/27 | 255.255.255.224 | .65 — .94 | .95 | 30 |\n| Reparto C | 192.168.50.96/28 | 255.255.255.240 | .97 — .110 | .111 | 14 |\n| Link WAN | 192.168.50.112/30 | 255.255.255.252 | .113 — .114 | .115 | 2 |\n\n**Spazio usato**: 116 indirizzi su 256 → rimangono .116 — .255 per espansioni future!",
+    "keywords": "esercizio,VLSM,passo passo,azienda,/26,/27,/28,/30"
+  },
+  {
+    "id": 56,
+    "section_id": "H",
+    "number": 91,
+    "title": "Esercizio VLSM — Scuola con 3 piani",
+    "content": "Un esercizio tipo maturità con VLSM.\n\n### Traccia:\nRete: **10.10.0.0/16**. Progetta le sottoreti per una scuola:\n- **Piano Terra** (Segreteria): 200 host\n- **Primo Piano** (Aule informatica): 100 host\n- **Secondo Piano** (Laboratori): 50 host\n- **Wi-Fi Studenti**: 400 host\n- **3 link WAN** tra i router dei piani: 2 host ciascuno\n\n---\n\n### Passo 1 — Ordina e calcola le mask\n\n| Sottorete | Host | Mask | Dimensione blocco |\n|-----------|------|------|------------------|\n| Wi-Fi Studenti | 400 | **/23** (2⁹-2=510) | 512 indirizzi |\n| Piano Terra | 200 | **/24** (2⁸-2=254) | 256 indirizzi |\n| Primo Piano | 100 | **/25** (2⁷-2=126) | 128 indirizzi |\n| Secondo Piano | 50 | **/26** (2⁶-2=62) | 64 indirizzi |\n| WAN 1 | 2 | **/30** (2²-2=2) | 4 indirizzi |\n| WAN 2 | 2 | **/30** | 4 indirizzi |\n| WAN 3 | 2 | **/30** | 4 indirizzi |\n\n---\n\n### Passo 2 — Assegna in ordine\n\n**Wi-Fi Studenti — /23 (512 indirizzi):**\n- Rete: 10.10.0.0/23\n- Host: 10.10.0.1 — 10.10.1.254\n- Broadcast: 10.10.1.255\n\n> Attenzione: con /23 il blocco copre **2 ottetti** (10.10.0.x e 10.10.1.x)!\n\n**Piano Terra — /24 (256 indirizzi):**\n- Rete: 10.10.2.0/24\n- Host: 10.10.2.1 — 10.10.2.254\n- Broadcast: 10.10.2.255\n\n**Primo Piano — /25 (128 indirizzi):**\n- Rete: 10.10.3.0/25\n- Host: 10.10.3.1 — 10.10.3.126\n- Broadcast: 10.10.3.127\n\n**Secondo Piano — /26 (64 indirizzi):**\n- Rete: 10.10.3.128/26\n- Host: 10.10.3.129 — 10.10.3.190\n- Broadcast: 10.10.3.191\n\n**WAN 1 — /30:**\n- Rete: 10.10.3.192/30\n- Host: .193, .194\n\n**WAN 2 — /30:**\n- Rete: 10.10.3.196/30\n- Host: .197, .198\n\n**WAN 3 — /30:**\n- Rete: 10.10.3.200/30\n- Host: .201, .202\n\n---\n\n### Tabella finale\n\n| Sottorete | Rete | Mask | Host disponibili |\n|-----------|------|------|------------------|\n| Wi-Fi | 10.10.0.0/23 | 255.255.254.0 | 510 |\n| Piano Terra | 10.10.2.0/24 | 255.255.255.0 | 254 |\n| 1° Piano | 10.10.3.0/25 | 255.255.255.128 | 126 |\n| 2° Piano | 10.10.3.128/26 | 255.255.255.192 | 62 |\n| WAN 1 | 10.10.3.192/30 | 255.255.255.252 | 2 |\n| WAN 2 | 10.10.3.196/30 | 255.255.255.252 | 2 |\n| WAN 3 | 10.10.3.200/30 | 255.255.255.252 | 2 |\n\n### Consigli per l'esame:\n- Scrivi **sempre** la tabella con rete, primo host, ultimo host e broadcast\n- Controlla che le sottoreti **non si sovrappongano**\n- Il link WAN tra router usa sempre **/30** (solo 2 host)\n- Ricorda: la rete Wi-Fi /23 occupa **due** valori del terzo ottetto",
+    "keywords": "esercizio,VLSM,scuola,maturità,passo passo"
+  },
+  {
+    "id": 57,
     "section_id": "I",
     "number": 22,
     "title": "Cos'è il routing",
@@ -568,7 +600,7 @@ export const topics = [
     "keywords": "routing,instradamento,percorso,router,livello 3"
   },
   {
-    "id": 54,
+    "id": 58,
     "section_id": "I",
     "number": 23,
     "title": "Tabella di routing",
@@ -576,7 +608,7 @@ export const topics = [
     "keywords": "tabella di routing,next hop,interfaccia,metrica,entry"
   },
   {
-    "id": 55,
+    "id": 59,
     "section_id": "I",
     "number": 24,
     "title": "Routing diretto vs indiretto",
@@ -584,7 +616,7 @@ export const topics = [
     "keywords": "diretto,indiretto,stessa rete,reti diverse,ARP"
   },
   {
-    "id": 56,
+    "id": 60,
     "section_id": "I",
     "number": 25,
     "title": "Longest prefix match",
@@ -592,7 +624,7 @@ export const topics = [
     "keywords": "longest prefix match,rotta più specifica,subnet mask"
   },
   {
-    "id": 57,
+    "id": 61,
     "section_id": "I",
     "number": 26,
     "title": "Router di default",
@@ -600,7 +632,7 @@ export const topics = [
     "keywords": "default route,0.0.0.0,rotta predefinita,Internet"
   },
   {
-    "id": 58,
+    "id": 62,
     "section_id": "J",
     "number": 27,
     "title": "Routing statico",
@@ -608,7 +640,7 @@ export const topics = [
     "keywords": "routing statico,manuale,configurazione,rotte"
   },
   {
-    "id": 59,
+    "id": 63,
     "section_id": "J",
     "number": 28,
     "title": "Vantaggi e svantaggi routing statico",
@@ -616,7 +648,7 @@ export const topics = [
     "keywords": "vantaggi,svantaggi,scalabilità,sicurezza,overhead"
   },
   {
-    "id": 60,
+    "id": 64,
     "section_id": "K",
     "number": 31,
     "title": "Rete come grafo",
@@ -624,7 +656,7 @@ export const topics = [
     "keywords": "grafo,nodi,archi,router,link"
   },
   {
-    "id": 61,
+    "id": 65,
     "section_id": "K",
     "number": 32,
     "title": "Elementi del grafo",
@@ -632,7 +664,7 @@ export const topics = [
     "keywords": "nodo,arco,cammino,costo,peso"
   },
   {
-    "id": 62,
+    "id": 66,
     "section_id": "K",
     "number": 33,
     "title": "Cammino minimo",
@@ -640,7 +672,7 @@ export const topics = [
     "keywords": "cammino minimo,shortest path,Dijkstra,Bellman-Ford,costo"
   },
   {
-    "id": 63,
+    "id": 67,
     "section_id": "L",
     "number": 34,
     "title": "Routing dinamico",
@@ -648,7 +680,7 @@ export const topics = [
     "keywords": "routing dinamico,automatico,scalabile,failover"
   },
   {
-    "id": 64,
+    "id": 68,
     "section_id": "L",
     "number": 35,
     "title": "RIP",
@@ -656,7 +688,7 @@ export const topics = [
     "keywords": "RIP,distance vector,hop count,15 hop,Bellman-Ford"
   },
   {
-    "id": 65,
+    "id": 69,
     "section_id": "L",
     "number": 36,
     "title": "OSPF",
@@ -664,7 +696,7 @@ export const topics = [
     "keywords": "OSPF,link state,Dijkstra,costo,gerarchico,LSA"
   },
   {
-    "id": 66,
+    "id": 70,
     "section_id": "L",
     "number": 37,
     "title": "RIP vs OSPF",
@@ -672,7 +704,7 @@ export const topics = [
     "keywords": "RIP,OSPF,confronto,distance vector,link state"
   },
   {
-    "id": 67,
+    "id": 71,
     "section_id": "M",
     "number": 39,
     "title": "Livello trasporto",
@@ -680,7 +712,7 @@ export const topics = [
     "keywords": "livello trasporto,end-to-end,multiplexing,segmentazione"
   },
   {
-    "id": 68,
+    "id": 72,
     "section_id": "M",
     "number": 40,
     "title": "TCP vs UDP overview",
@@ -688,7 +720,7 @@ export const topics = [
     "keywords": "TCP,UDP,affidabile,non affidabile"
   },
   {
-    "id": 69,
+    "id": 73,
     "section_id": "M",
     "number": 41,
     "title": "TCP in dettaglio",
@@ -696,7 +728,7 @@ export const topics = [
     "keywords": "TCP,affidabile,connessione,flusso,congestione"
   },
   {
-    "id": 70,
+    "id": 74,
     "section_id": "M",
     "number": 42,
     "title": "Three-way handshake",
@@ -704,7 +736,7 @@ export const topics = [
     "keywords": "three-way handshake,SYN,SYN-ACK,ACK,connessione"
   },
   {
-    "id": 71,
+    "id": 75,
     "section_id": "M",
     "number": 43,
     "title": "Sequence e ACK number",
@@ -712,7 +744,7 @@ export const topics = [
     "keywords": "sequence number,acknowledgment,ritrasmissione,timeout"
   },
   {
-    "id": 72,
+    "id": 76,
     "section_id": "M",
     "number": 44,
     "title": "UDP in dettaglio",
@@ -720,7 +752,7 @@ export const topics = [
     "keywords": "UDP,connectionless,datagram,veloce,leggero"
   },
   {
-    "id": 73,
+    "id": 77,
     "section_id": "M",
     "number": 45,
     "title": "TCP vs UDP confronto",
@@ -728,7 +760,7 @@ export const topics = [
     "keywords": "TCP,UDP,confronto,affidabile,veloce"
   },
   {
-    "id": 74,
+    "id": 78,
     "section_id": "M",
     "number": 46,
     "title": "Porte",
@@ -736,7 +768,7 @@ export const topics = [
     "keywords": "porte,HTTP,HTTPS,80,443,well-known"
   },
   {
-    "id": 75,
+    "id": 79,
     "section_id": "M",
     "number": 47,
     "title": "Socket",
@@ -744,7 +776,7 @@ export const topics = [
     "keywords": "socket,IP,porta,endpoint,connessione"
   },
   {
-    "id": 76,
+    "id": 80,
     "section_id": "N",
     "number": 49,
     "title": "Scelta del protocollo",
@@ -752,7 +784,7 @@ export const topics = [
     "keywords": "TCP,UDP,scelta,web,streaming"
   },
   {
-    "id": 77,
+    "id": 81,
     "section_id": "N",
     "number": 50,
     "title": "Perdita vs ritardo",
@@ -760,7 +792,7 @@ export const topics = [
     "keywords": "perdita,ritardo,real-time,latenza,streaming"
   },
   {
-    "id": 78,
+    "id": 82,
     "section_id": "N",
     "number": 51,
     "title": "QUIC introduzione",
@@ -768,7 +800,7 @@ export const topics = [
     "keywords": "QUIC,Google,UDP,veloce,sicurezza,HTTP/3"
   },
   {
-    "id": 79,
+    "id": 83,
     "section_id": "N",
     "number": 52,
     "title": "QUIC vantaggi",
@@ -776,7 +808,7 @@ export const topics = [
     "keywords": "QUIC,vantaggi,0-RTT,TLS,connection migration,HTTP/3"
   },
   {
-    "id": 80,
+    "id": 84,
     "section_id": "O",
     "number": 53,
     "title": "Cos'è un Firewall",
@@ -784,7 +816,7 @@ export const topics = [
     "keywords": "firewall,filtraggio,sicurezza,protezione,ACL"
   },
   {
-    "id": 81,
+    "id": 85,
     "section_id": "O",
     "number": 54,
     "title": "Tipi di Firewall",
@@ -792,7 +824,7 @@ export const topics = [
     "keywords": "packet filter,stateful,proxy,NGFW,livelli OSI"
   },
   {
-    "id": 82,
+    "id": 86,
     "section_id": "O",
     "number": 55,
     "title": "Stateless vs Stateful",
@@ -800,7 +832,7 @@ export const topics = [
     "keywords": "stateless,stateful,state table,connessioni,pacchetto"
   },
   {
-    "id": 83,
+    "id": 87,
     "section_id": "O",
     "number": 56,
     "title": "ACL — Access Control List",
@@ -808,7 +840,7 @@ export const topics = [
     "keywords": "ACL,regole,permit,deny,filtraggio"
   },
   {
-    "id": 84,
+    "id": 88,
     "section_id": "O",
     "number": 57,
     "title": "DMZ — Zona Demilitarizzata",
@@ -816,7 +848,7 @@ export const topics = [
     "keywords": "DMZ,zona demilitarizzata,web server,sicurezza,doppio firewall"
   },
   {
-    "id": 85,
+    "id": 89,
     "section_id": "O",
     "number": 58,
     "title": "Firewall in pratica",
@@ -824,7 +856,7 @@ export const topics = [
     "keywords": "configurazione,policy,DROP,ACCEPT,whitelist"
   },
   {
-    "id": 86,
+    "id": 90,
     "section_id": "P",
     "number": 59,
     "title": "Introduzione alla Crittografia",
@@ -832,7 +864,7 @@ export const topics = [
     "keywords": "crittografia,cifratura,chiave,confidenzialità,integrità"
   },
   {
-    "id": 87,
+    "id": 91,
     "section_id": "P",
     "number": 60,
     "title": "Crittografia simmetrica",
@@ -840,7 +872,7 @@ export const topics = [
     "keywords": "simmetrica,AES,DES,chiave condivisa,veloce"
   },
   {
-    "id": 88,
+    "id": 92,
     "section_id": "P",
     "number": 61,
     "title": "Crittografia asimmetrica",
@@ -848,7 +880,7 @@ export const topics = [
     "keywords": "asimmetrica,chiave pubblica,chiave privata,RSA,Diffie-Hellman"
   },
   {
-    "id": 89,
+    "id": 93,
     "section_id": "P",
     "number": 62,
     "title": "Funzioni Hash",
@@ -856,7 +888,7 @@ export const topics = [
     "keywords": "hash,digest,SHA-256,integrità,irreversibile"
   },
   {
-    "id": 90,
+    "id": 94,
     "section_id": "P",
     "number": 63,
     "title": "Certificati digitali e PKI",
@@ -864,7 +896,7 @@ export const topics = [
     "keywords": "certificato digitale,CA,PKI,X.509,HTTPS"
   },
   {
-    "id": 91,
+    "id": 95,
     "section_id": "P",
     "number": 64,
     "title": "TLS e HTTPS",
@@ -872,7 +904,7 @@ export const topics = [
     "keywords": "TLS,SSL,HTTPS,handshake,cifratura"
   },
   {
-    "id": 92,
+    "id": 96,
     "section_id": "Q",
     "number": 65,
     "title": "Cos'è una VPN",
@@ -880,7 +912,7 @@ export const topics = [
     "keywords": "VPN,tunnel,cifratura,rete privata,sicurezza"
   },
   {
-    "id": 93,
+    "id": 97,
     "section_id": "Q",
     "number": 66,
     "title": "Tipi di VPN",
@@ -888,7 +920,7 @@ export const topics = [
     "keywords": "site-to-site,remote access,client VPN,smart working"
   },
   {
-    "id": 94,
+    "id": 98,
     "section_id": "Q",
     "number": 67,
     "title": "Tunneling",
@@ -896,7 +928,7 @@ export const topics = [
     "keywords": "tunneling,incapsulamento,cifratura,pacchetto,VPN"
   },
   {
-    "id": 95,
+    "id": 99,
     "section_id": "Q",
     "number": 68,
     "title": "Protocolli VPN",
@@ -904,7 +936,7 @@ export const topics = [
     "keywords": "IPsec,OpenVPN,WireGuard,L2TP,protocolli VPN"
   },
   {
-    "id": 96,
+    "id": 100,
     "section_id": "Q",
     "number": 69,
     "title": "VPN e sicurezza aziendale",
@@ -912,7 +944,7 @@ export const topics = [
     "keywords": "VPN aziendale,split tunneling,MFA,concentrator,sicurezza"
   },
   {
-    "id": 97,
+    "id": 101,
     "section_id": "R",
     "number": 70,
     "title": "Cos'è una VLAN",
@@ -920,7 +952,7 @@ export const topics = [
     "keywords": "VLAN,rete virtuale,segmentazione,broadcast,VLAN ID"
   },
   {
-    "id": 98,
+    "id": 102,
     "section_id": "R",
     "number": 71,
     "title": "VLAN basate su porte",
@@ -928,7 +960,7 @@ export const topics = [
     "keywords": "port-based,access port,assegnazione,switch,configurazione"
   },
   {
-    "id": 99,
+    "id": 103,
     "section_id": "R",
     "number": 72,
     "title": "Trunk e 802.1Q",
@@ -936,7 +968,7 @@ export const topics = [
     "keywords": "trunk,802.1Q,tag,VLAN ID,native VLAN"
   },
   {
-    "id": 100,
+    "id": 104,
     "section_id": "R",
     "number": 73,
     "title": "Inter-VLAN Routing",
@@ -944,7 +976,7 @@ export const topics = [
     "keywords": "inter-VLAN,router-on-a-stick,subinterface,SVI,Layer 3"
   },
   {
-    "id": 101,
+    "id": 105,
     "section_id": "R",
     "number": 74,
     "title": "Vantaggi delle VLAN",
@@ -952,7 +984,7 @@ export const topics = [
     "keywords": "vantaggi,sicurezza,broadcast,flessibilità,gestione"
   },
   {
-    "id": 102,
+    "id": 106,
     "section_id": "S",
     "number": 75,
     "title": "Cos'è il Malware",
@@ -960,7 +992,7 @@ export const topics = [
     "keywords": "malware,virus,worm,trojan,ransomware"
   },
   {
-    "id": 103,
+    "id": 107,
     "section_id": "S",
     "number": 76,
     "title": "Virus, Worm e Trojan",
@@ -968,7 +1000,7 @@ export const topics = [
     "keywords": "virus,worm,trojan,backdoor,WannaCry"
   },
   {
-    "id": 104,
+    "id": 108,
     "section_id": "S",
     "number": 77,
     "title": "Ransomware e Spyware",
@@ -976,7 +1008,7 @@ export const topics = [
     "keywords": "ransomware,spyware,keylogger,riscatto,WannaCry"
   },
   {
-    "id": 105,
+    "id": 109,
     "section_id": "S",
     "number": 78,
     "title": "Attacchi di rete",
@@ -984,7 +1016,7 @@ export const topics = [
     "keywords": "phishing,MitM,DDoS,ARP spoofing,botnet"
   },
   {
-    "id": 106,
+    "id": 110,
     "section_id": "S",
     "number": 79,
     "title": "Social Engineering",
@@ -992,7 +1024,7 @@ export const topics = [
     "keywords": "social engineering,phishing,pretexting,baiting,tailgating"
   },
   {
-    "id": 107,
+    "id": 111,
     "section_id": "S",
     "number": 80,
     "title": "Difese e prevenzione",
@@ -1000,7 +1032,7 @@ export const topics = [
     "keywords": "antivirus,IDS,IPS,backup,patch,best practice"
   },
   {
-    "id": 108,
+    "id": 112,
     "section_id": "T",
     "number": 81,
     "title": "Cos'è Packet Tracer",
@@ -1008,7 +1040,7 @@ export const topics = [
     "keywords": "Packet Tracer,Cisco,simulatore,topologia,configurazione"
   },
   {
-    "id": 109,
+    "id": 113,
     "section_id": "T",
     "number": 82,
     "title": "L'interfaccia di Packet Tracer",
@@ -1016,7 +1048,7 @@ export const topics = [
     "keywords": "interfaccia,workspace,cavi,simulation,PDU"
   },
   {
-    "id": 110,
+    "id": 114,
     "section_id": "T",
     "number": 83,
     "title": "Configurazione base di un router",
@@ -1024,7 +1056,7 @@ export const topics = [
     "keywords": "CLI,router,configurazione,hostname,interfaccia"
   },
   {
-    "id": 111,
+    "id": 115,
     "section_id": "T",
     "number": 84,
     "title": "Configurazione base di uno switch",
@@ -1032,7 +1064,7 @@ export const topics = [
     "keywords": "switch,VLAN,trunk,access,configurazione"
   },
   {
-    "id": 112,
+    "id": 116,
     "section_id": "T",
     "number": 85,
     "title": "Configurare IP su PC e test di connettività",
@@ -1040,7 +1072,7 @@ export const topics = [
     "keywords": "IP,configurazione PC,ping,tracert,DHCP"
   },
   {
-    "id": 113,
+    "id": 117,
     "section_id": "T",
     "number": 86,
     "title": "Esercizio tipo maturità",
@@ -1048,7 +1080,7 @@ export const topics = [
     "keywords": "esercizio,maturità,VLSM,VLAN,progetto rete"
   },
   {
-    "id": 114,
+    "id": 118,
     "section_id": "T",
     "number": 87,
     "title": "Comandi show e debug",
