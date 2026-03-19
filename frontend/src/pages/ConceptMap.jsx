@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -6,10 +6,12 @@ import { useFetch } from '../hooks/useFetch';
 import { api } from '../lib/api';
 
 const nodeColors = {
-  A: '#a855f7', B: '#3b82f6', C: '#06b6d4', D: '#10b981',
-  E: '#f59e0b', F: '#ef4444', G: '#ec4899', H: '#8b5cf6',
-  I: '#14b8a6', J: '#f97316', K: '#6366f1', L: '#84cc16',
-  M: '#e11d48', N: '#0ea5e9',
+  A: '#a78bfa', B: '#60a5fa', C: '#22d3ee', D: '#34d399',
+  E: '#fbbf24', F: '#f87171', G: '#f472b6', H: '#a78bfa',
+  I: '#2dd4bf', J: '#fb923c', K: '#818cf8', L: '#a3e635',
+  M: '#fb7185', N: '#38bdf8', O: '#ef4444', P: '#8b5cf6',
+  Q: '#06b6d4', R: '#10b981', S: '#f59e0b',
+  T: '#14b8a6',
 };
 
 const connections = [
@@ -31,13 +33,40 @@ const connections = [
   ['K', 'L', 'Grafi → Algoritmi routing'],
   ['M', 'N', 'Trasporto → Applicazioni'],
   ['H', 'L', 'VLSM → OSPF'],
+  // Nuove sezioni
+  ['O', 'P', 'Firewall → Crittografia'],
+  ['O', 'Q', 'Firewall → VPN'],
+  ['O', 'R', 'Firewall → VLAN'],
+  ['O', 'S', 'Firewall → Difesa Malware'],
+  ['P', 'Q', 'Crittografia → VPN'],
+  ['P', 'N', 'Crittografia → TLS/QUIC'],
+  ['Q', 'F', 'VPN → Indirizzi IP'],
+  ['R', 'B', 'VLAN → Switch'],
+  ['R', 'D', 'VLAN → Ethernet 802.1Q'],
+  ['S', 'O', 'Malware → Firewall'],
+  ['T', 'R', 'Packet Tracer → VLAN'],
+  ['T', 'I', 'Packet Tracer → Routing'],
+  ['T', 'B', 'Packet Tracer → Apparati'],
 ];
+
+const staticEdges = connections.map(([from, to, label], i) => ({
+  id: `e${i}`,
+  source: from,
+  target: to,
+  label,
+  labelStyle: { fill: '#4b5563', fontSize: 9, fontWeight: 500 },
+  labelBgStyle: { fill: '#050508', fillOpacity: 0.9 },
+  labelBgPadding: [6, 3],
+  labelBgBorderRadius: 4,
+  style: { stroke: '#2a2a42', strokeWidth: 1.5 },
+  animated: false,
+}));
 
 export default function ConceptMap() {
   const { data: sections } = useFetch(() => api.getSections(), []);
   const navigate = useNavigate();
 
-  const initialNodes = useMemo(() => {
+  const computedNodes = useMemo(() => {
     if (!sections) return [];
     const cols = 4;
     return sections.map((s, i) => ({
@@ -48,47 +77,43 @@ export default function ConceptMap() {
       },
       data: { label: `${s.code} — ${s.name}` },
       style: {
-        background: `${nodeColors[s.id]}22`,
-        border: `2px solid ${nodeColors[s.id]}88`,
-        borderRadius: '12px',
-        padding: '12px 16px',
-        color: '#e5e7eb',
-        fontSize: '13px',
+        background: `${nodeColors[s.id]}10`,
+        border: `1.5px solid ${nodeColors[s.id]}40`,
+        borderRadius: '14px',
+        padding: '12px 18px',
+        color: nodeColors[s.id],
+        fontSize: '12px',
         fontWeight: '600',
         cursor: 'pointer',
         minWidth: '180px',
         textAlign: 'center',
+        backdropFilter: 'blur(8px)',
+        transition: 'all 0.2s ease',
       },
     }));
   }, [sections]);
 
-  const initialEdges = useMemo(() =>
-    connections.map(([from, to, label], i) => ({
-      id: `e${i}`,
-      source: from,
-      target: to,
-      label,
-      labelStyle: { fill: '#6b7280', fontSize: 9 },
-      style: { stroke: '#4b5563', strokeWidth: 1.5 },
-      animated: false,
-    })), []);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  const [nodes, , onNodesChange] = useNodesState(initialNodes);
-  const [edges, , onEdgesChange] = useEdgesState(initialEdges);
+  useEffect(() => {
+    if (computedNodes.length > 0) {
+      setNodes(computedNodes);
+      setEdges(staticEdges);
+    }
+  }, [computedNodes, setNodes, setEdges]);
 
   const onNodeClick = useCallback((_, node) => {
     navigate(`/study/${node.id}`);
   }, [navigate]);
 
-  if (!sections) return <div className="text-center text-gray-500 py-20">Caricamento mappa...</div>;
+  if (!sections) return <div className="text-center text-gray-600 py-20">Caricamento mappa...</div>;
 
   return (
     <div className="space-y-4">
       <div>
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-300 to-blue-300 bg-clip-text text-transparent">
-          Mappa Concettuale
-        </h1>
-        <p className="text-gray-500 mt-1">Clicca su un nodo per aprire la sezione</p>
+        <h1 className="page-title">Mappa Concettuale</h1>
+        <p className="page-subtitle">Clicca su un nodo per aprire la sezione</p>
       </div>
 
       <div className="card p-0 overflow-hidden" style={{ height: '70vh' }}>
@@ -100,17 +125,18 @@ export default function ConceptMap() {
           onNodeClick={onNodeClick}
           fitView
           attributionPosition="bottom-left"
+          proOptions={{ hideAttribution: true }}
         >
-          <Background color="#1e1e32" gap={20} />
+          <Background color="#18182d" gap={24} size={1} />
           <Controls
             style={{
-              button: { background: '#161625', color: '#a855f7', border: '1px solid #2a2a42' },
+              button: { background: '#10101e', color: '#7c3aed', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '10px' },
             }}
           />
           <MiniMap
-            nodeColor={(n) => nodeColors[n.id] || '#6b7280'}
-            maskColor="#0a0a0f99"
-            style={{ background: '#0f0f1a', border: '1px solid #2a2a42' }}
+            nodeColor={(n) => nodeColors[n.id] || '#4b5563'}
+            maskColor="rgba(5,5,8,0.7)"
+            style={{ background: '#0a0a12', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '12px' }}
           />
         </ReactFlow>
       </div>
