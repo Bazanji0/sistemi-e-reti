@@ -1,6 +1,6 @@
 # Sistemi e Reti — Studio Maturità
 
-Applicazione full-stack per studiare **Sistemi e Reti** per la maturità italiana.
+Applicazione full-stack per studiare **Sistemi e Reti** per la maturità.
 
 ## Tech Stack
 
