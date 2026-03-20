@@ -434,7 +434,7 @@ export const topics = [
   {
     "id": 37,
     "section_id": "F",
-    "number": 6,
+    "number": 1,
     "title": "Indirizzo IP",
     "content": "L'**indirizzo IP** è un identificatore numerico assegnato a ogni dispositivo (host) connesso a una rete.\n\n### Funzioni:\n- **Identifica** univocamente un host nella rete\n- Permette l'**instradamento** dei pacchetti verso la destinazione corretta\n- È l'equivalente dell'\"indirizzo postale\" nel mondo delle reti\n\n### Versioni:\n- **IPv4**: versione attuale più usata\n- **IPv6**: nuova versione con più indirizzi disponibili",
     "keywords": "indirizzo IP,host,instradamento,IPv4,IPv6"
@@ -442,7 +442,7 @@ export const topics = [
   {
     "id": 38,
     "section_id": "F",
-    "number": 7,
+    "number": 2,
     "title": "IPv4",
     "content": "**IPv4** (Internet Protocol versione 4):\n\n### Formato:\n- Lungo **32 bit** (4 byte)\n- Scritto in **4 ottetti** separati da punti\n- Esempio: `192.168.1.10`\n- Ogni ottetto va da 0 a 255\n\n### Struttura:\n- **Net ID** (parte rete): identifica la rete di appartenenza\n- **Host ID** (parte host): identifica il dispositivo nella rete\n\n### Spazio indirizzamento:\n- 2³² = circa **4,3 miliardi** di indirizzi\n- Oggi insufficienti → si usa NAT e IPv6",
     "keywords": "IPv4,32 bit,ottetti,Net ID,Host ID"
@@ -450,7 +450,7 @@ export const topics = [
   {
     "id": 39,
     "section_id": "F",
-    "number": 8,
+    "number": 3,
     "title": "Indirizzi speciali",
     "content": "Nella notazione IPv4 ci sono indirizzi con significato speciale:\n\n### Indirizzo di rete\n- Host ID tutto a **0** (es. `192.168.1.0`)\n- Identifica la **rete stessa**, non un host\n- Non assegnabile a nessun dispositivo\n\n### Indirizzo host\n- Qualsiasi indirizzo valido (es. `192.168.1.15`)\n- Assegnato a un dispositivo specifico\n\n### Indirizzo di broadcast\n- Host ID tutto a **1** / **255** (es. `192.168.1.255`)\n- Invia il pacchetto a **tutti gli host** della rete\n- Non assegnabile a nessun dispositivo",
     "keywords": "indirizzo di rete,host,broadcast,.0,.255"
@@ -458,7 +458,7 @@ export const topics = [
   {
     "id": 40,
     "section_id": "F",
-    "number": 9,
+    "number": 4,
     "title": "Subnet mask",
     "content": "La **subnet mask** (maschera di sottorete) separa la parte **rete** dalla parte **host** di un indirizzo IP.\n\n### Funzionamento:\n- I bit a **1** indicano la parte di **rete**\n- I bit a **0** indicano la parte **host**\n\n### Esempio:\n- Subnet mask: `255.255.255.0`\n- In binario: `11111111.11111111.11111111.00000000`\n- 24 bit per la rete, 8 bit per gli host\n\n### Operazione AND:\n- IP AND subnet mask = **indirizzo di rete**\n- `192.168.1.10 AND 255.255.255.0 = 192.168.1.0`",
     "keywords": "subnet mask,rete,host,AND,bit"
@@ -466,7 +466,7 @@ export const topics = [
   {
     "id": 41,
     "section_id": "F",
-    "number": 10,
+    "number": 5,
     "title": "Notazione CIDR",
     "content": "**CIDR** (Classless Inter-Domain Routing) è una notazione compatta per indicare la subnet mask.\n\n### Formato:\n- Si scrive dopo l'IP con uno **slash**: `192.168.1.0/24`\n- Il numero indica quanti bit sono dedicati alla **rete**\n\n### Esempi:\n| CIDR | Subnet Mask | Host disponibili |\n|------|-------------|------------------|\n| /8 | 255.0.0.0 | 16.777.214 |\n| /16 | 255.255.0.0 | 65.534 |\n| /24 | 255.255.255.0 | 254 |\n| /26 | 255.255.255.192 | 62 |\n| /28 | 255.255.255.240 | 14 |\n\nCIDR è più **flessibile** delle vecchie classi A, B, C.",
     "keywords": "CIDR,slash,notazione,flessibile,classi"
@@ -474,7 +474,7 @@ export const topics = [
   {
     "id": 42,
     "section_id": "F",
-    "number": 11,
+    "number": 6,
     "title": "Default gateway",
     "content": "Il **default gateway** è l'indirizzo del **router** che un host utilizza per raggiungere reti esterne alla propria.\n\n### Funzionamento:\n1. L'host vuole comunicare con un IP\n2. Confronta l'IP con la propria rete (tramite subnet mask)\n3. Se è nella **stessa rete**: comunicazione diretta\n4. Se è in una **rete diversa**: invia al default gateway\n5. Il router instrada verso la destinazione\n\n### Configurazione:\n- Deve essere un IP nella **stessa rete** dell'host\n- Tipicamente il **primo** (.1) o l'**ultimo** (.254) indirizzo utile",
     "keywords": "default gateway,router,rete esterna,instradamento"
@@ -482,7 +482,7 @@ export const topics = [
   {
     "id": 43,
     "section_id": "G",
-    "number": 12,
+    "number": 1,
     "title": "Cos'è il subnetting",
     "content": "Il **subnetting** è la tecnica di dividere una rete IP in **sottoreti** (subnet) più piccole.\n\n### Motivazioni:\n- **Gestione**: reti più piccole sono più facili da amministrare\n- **Traffico**: riduce il dominio di broadcast\n- **Sicurezza**: isola segmenti di rete\n- **Efficienza**: migliore utilizzo degli indirizzi IP\n\nSi realizza \"prendendo in prestito\" bit dalla parte host per creare la parte sottorete.",
     "keywords": "subnetting,sottoreti,gestione,sicurezza,broadcast"
@@ -490,7 +490,7 @@ export const topics = [
   {
     "id": 44,
     "section_id": "G",
-    "number": 13,
+    "number": 2,
     "title": "FLSM",
     "content": "**FLSM** (Fixed Length Subnet Mask) = tutte le sottoreti hanno la **stessa subnet mask**.\n\n### Caratteristiche:\n- Ogni sottorete ha lo **stesso numero** di host disponibili\n- Semplice da calcolare e configurare\n- Non ottimale per reti con esigenze diverse\n\n### Esempio:\n- Rete: `192.168.1.0/24`\n- Servono 4 sottoreti\n- Tutte avranno mask `/26` (255.255.255.192)\n- Ogni sottorete: 62 host disponibili",
     "keywords": "FLSM,Fixed Length,stessa mask,sottoreti"
@@ -498,7 +498,7 @@ export const topics = [
   {
     "id": 45,
     "section_id": "G",
-    "number": 14,
+    "number": 3,
     "title": "Procedimento FLSM",
     "content": "### Passi per il subnetting FLSM:\n\n1. **Determinare** il numero di sottoreti necessarie\n2. **Calcolare** i bit da prendere dalla parte host: 2ⁿ ≥ numero sottoreti\n3. **Nuova subnet mask**: aggiungere n bit alla mask originale\n4. **Calcolare** gli indirizzi per ogni sottorete:\n   - Indirizzo di rete\n   - Range host utilizzabili\n   - Indirizzo di broadcast\n   - Host disponibili = 2^(bit host rimanenti) - 2\n\n### Formula host:\n**Host utilizzabili = 2^h - 2** (si sottraggono rete e broadcast)",
     "keywords": "procedimento,FLSM,bit,calcolo,formula"
@@ -506,7 +506,7 @@ export const topics = [
   {
     "id": 46,
     "section_id": "G",
-    "number": 15,
+    "number": 4,
     "title": "Esempio FLSM",
     "content": "### Esempio pratico:\n\n**Rete**: `192.168.1.0/24` → servono **4 sottoreti**\n\n**Calcolo**: 2² = 4 → prendiamo **2 bit** → nuova mask: **/26** (255.255.255.192)\n\nHost per sottorete: 2⁶ - 2 = **62**\n\n| Sottorete | Rete | Primo host | Ultimo host | Broadcast |\n|-----------|------|------------|-------------|-----------|\n| 1 | 192.168.1.0/26 | .1 | .62 | .63 |\n| 2 | 192.168.1.64/26 | .65 | .126 | .127 |\n| 3 | 192.168.1.128/26 | .129 | .190 | .191 |\n| 4 | 192.168.1.192/26 | .193 | .254 | .255 |",
     "keywords": "esempio,FLSM,/26,sottoreti,calcolo"
@@ -514,7 +514,7 @@ export const topics = [
   {
     "id": 47,
     "section_id": "G",
-    "number": 16,
+    "number": 5,
     "title": "Limiti FLSM",
     "content": "### Svantaggi di FLSM:\n\n- **Spreco di indirizzi**: se una sottorete ha 10 host ma la mask ne prevede 62, si sprecano 52 indirizzi\n- **Poca flessibilità**: non si adatta a reti con esigenze diverse\n- **Non ottimale**: in reti reali le dimensioni delle sottoreti variano molto\n\n### Esempio di spreco:\n- Sottorete A: 100 host necessari\n- Sottorete B: 5 host necessari\n- Con FLSM entrambe avrebbero la stessa dimensione\n- → Si spreca spazio nella sottorete B\n\nPer risolvere questo problema si usa il **VLSM**.",
     "keywords": "limiti,spreco,flessibilità,VLSM"
@@ -522,7 +522,7 @@ export const topics = [
   {
     "id": 48,
     "section_id": "G",
-    "number": 88,
+    "number": 6,
     "title": "Esercizio FLSM — 8 sottoreti",
     "content": "Facciamo un esercizio di subnetting FLSM **passo per passo**.\n\n### Traccia:\nHai la rete **172.16.0.0/16**. Devi creare **8 sottoreti** uguali.\n\n---\n\n### Passo 1 — Quanti bit servono?\nDobbiamo trovare quanti bit \"prendere in prestito\" dalla parte host.\n\nFormula: **2ⁿ ≥ numero sottoreti**\n- 2¹ = 2 → troppo pochi\n- 2² = 4 → troppo pochi\n- 2³ = **8** → perfetto! ✓\n\nServono **3 bit**.\n\n---\n\n### Passo 2 — Calcola la nuova mask\nLa mask originale è **/16** (255.255.0.0).\nAggiungiamo 3 bit: /16 + 3 = **/19**\n\nIn decimale: **255.255.224.0**\n\nCome si calcola? I 3 bit aggiunti nel terzo ottetto:\n`11100000` in binario = 128+64+32 = **224**\n\n---\n\n### Passo 3 — Quanti host per sottorete?\nBit host rimasti: 32 - 19 = **13 bit**\nHost utilizzabili: 2¹³ - 2 = **8190 host** per sottorete\n\n---\n\n### Passo 4 — Calcola il \"salto\"\nIl salto tra una sottorete e l'altra:\n256 - 224 = **32** (nel terzo ottetto)\n\nQuindi le sottoreti partono a intervalli di 32:\n0, 32, 64, 96, 128, 160, 192, 224\n\n---\n\n### Passo 5 — Tabella completa\n\n| # | Indirizzo di rete | Primo host | Ultimo host | Broadcast |\n|---|-------------------|------------|-------------|----------|\n| 1 | 172.16.0.0/19 | 172.16.0.1 | 172.16.31.254 | 172.16.31.255 |\n| 2 | 172.16.32.0/19 | 172.16.32.1 | 172.16.63.254 | 172.16.63.255 |\n| 3 | 172.16.64.0/19 | 172.16.64.1 | 172.16.95.254 | 172.16.95.255 |\n| 4 | 172.16.96.0/19 | 172.16.96.1 | 172.16.127.254 | 172.16.127.255 |\n| 5 | 172.16.128.0/19 | 172.16.128.1 | 172.16.159.254 | 172.16.159.255 |\n| 6 | 172.16.160.0/19 | 172.16.160.1 | 172.16.191.254 | 172.16.191.255 |\n| 7 | 172.16.192.0/19 | 172.16.192.1 | 172.16.223.254 | 172.16.223.255 |\n| 8 | 172.16.224.0/19 | 172.16.224.1 | 172.16.255.254 | 172.16.255.255 |\n\n### Come si calcolano primo host, ultimo host e broadcast?\n- **Primo host** = indirizzo di rete + 1\n- **Broadcast** = prossima sottorete - 1\n- **Ultimo host** = broadcast - 1",
     "keywords": "esercizio,FLSM,sottoreti,passo passo,/19"
@@ -530,7 +530,7 @@ export const topics = [
   {
     "id": 49,
     "section_id": "G",
-    "number": 89,
+    "number": 7,
     "title": "Esercizio FLSM — da host richiesti",
     "content": "Un altro tipo di esercizio: ti danno il **numero minimo di host** per sottorete.\n\n### Traccia:\nHai la rete **10.0.0.0/8**. Ogni sottorete deve avere **almeno 500 host**.\nQuante sottoreti puoi creare?\n\n---\n\n### Passo 1 — Quanti bit per gli host?\nFormula: **2ʰ - 2 ≥ 500**\n- 2⁸ - 2 = 254 → troppo pochi\n- 2⁹ - 2 = 510 → **basta!** ✓\n- 2¹⁰ - 2 = 1022 → più del necessario\n\nServono **9 bit** per la parte host.\n\n---\n\n### Passo 2 — Calcola la nuova mask\nSe servono 9 bit per gli host: 32 - 9 = **23 bit** per la rete.\nNuova mask: **/23** (255.255.254.0)\n\nCome si calcola il terzo ottetto?\n`11111110` in binario = **254**\n\n---\n\n### Passo 3 — Quante sottoreti?\nBit presi dalla parte host: 23 - 8 = **15 bit**\nSottoreti: 2¹⁵ = **32.768 sottoreti**!\nOgnuna con 510 host utilizzabili.\n\n---\n\n### Passo 4 — Prime sottoreti\nIl salto è 2 nel terzo ottetto (256 - 254 = 2):\n\n| # | Rete | Range host | Broadcast |\n|---|------|-----------|----------|\n| 1 | 10.0.0.0/23 | 10.0.0.1 — 10.0.1.254 | 10.0.1.255 |\n| 2 | 10.0.2.0/23 | 10.0.2.1 — 10.0.3.254 | 10.0.3.255 |\n| 3 | 10.0.4.0/23 | 10.0.4.1 — 10.0.5.254 | 10.0.5.255 |\n| ... | ... | ... | ... |\n\n### Trucco importante:\nQuando la mask \"cade\" nel terzo ottetto, il broadcast ha l'ottetto prima del salto. Es: /23 → il broadcast di 10.0.0.0 è 10.0.**1**.255 (non 10.0.0.255!).",
     "keywords": "esercizio,FLSM,host,mask,calcolo"
@@ -538,7 +538,7 @@ export const topics = [
   {
     "id": 50,
     "section_id": "H",
-    "number": 17,
+    "number": 1,
     "title": "VLSM",
     "content": "**VLSM** (Variable Length Subnet Mask) permette di usare **subnet mask diverse** per ogni sottorete.\n\n### Vantaggi:\n- Ogni sottorete ha la dimensione **adatta** alle sue esigenze\n- **Efficienza** nell'uso degli indirizzi IP\n- Riduce drasticamente lo spreco\n\n### Differenza con FLSM:\n- FLSM: tutte le sottoreti uguali\n- VLSM: sottoreti di **dimensioni diverse**",
     "keywords": "VLSM,Variable Length,subnet mask diverse,efficienza"
@@ -546,7 +546,7 @@ export const topics = [
   {
     "id": 51,
     "section_id": "H",
-    "number": 18,
+    "number": 2,
     "title": "Efficienza VLSM",
     "content": "VLSM è più **efficiente** perché assegna solo gli indirizzi necessari.\n\n### Confronto:\n| Scenario | FLSM | VLSM |\n|----------|------|------|\n| LAN 100 host | /25 (126 host) | /25 (126 host) |\n| LAN 30 host | /25 (126 host) | /27 (30 host) |\n| LAN 10 host | /25 (126 host) | /28 (14 host) |\n| **Totale usati** | 378 | 170 |\n| **Sprecati** | 238 | 30 |\n\nVLSM risparmia **oltre l'80%** degli indirizzi sprecati!",
     "keywords": "efficienza,confronto,FLSM,spreco,risparmio"
@@ -554,7 +554,7 @@ export const topics = [
   {
     "id": 52,
     "section_id": "H",
-    "number": 19,
+    "number": 3,
     "title": "Metodo VLSM",
     "content": "### Procedimento VLSM:\n\n1. **Elencare** tutte le sottoreti necessarie con il numero di host\n2. **Ordinare** dalla più grande alla più piccola\n3. **Assegnare prima** le sottoreti più grandi\n4. Per ogni sottorete:\n   - Calcolare la mask adatta: 2^h - 2 ≥ host richiesti\n   - Assegnare il prossimo blocco disponibile\n5. **Verificare** che non ci siano sovrapposizioni\n\n### Regola fondamentale:\nSempre **partire dalla sottorete più grande** per evitare frammentazione dello spazio indirizzi.",
     "keywords": "metodo,procedimento,ordinare,assegnare"
@@ -562,7 +562,7 @@ export const topics = [
   {
     "id": 53,
     "section_id": "H",
-    "number": 20,
+    "number": 4,
     "title": "Esempio VLSM",
     "content": "### Esempio pratico:\n\n**Rete**: `192.168.10.0/24`\n\n| LAN | Host necessari | Mask | Host disponibili |\n|-----|---------------|------|------------------|\n| A | 100 | **/25** | 126 |\n| B | 30 | **/27** | 30 |\n| C | 10 | **/28** | 14 |\n\n### Assegnazione (dalla più grande):\n\n| LAN | Rete | Range | Broadcast |\n|-----|------|-------|-----------|\n| A | 192.168.10.0/25 | .1 - .126 | .127 |\n| B | 192.168.10.128/27 | .129 - .158 | .159 |\n| C | 192.168.10.160/28 | .161 - .174 | .175 |\n\nSpazio rimanente: .176 - .255 disponibile per future espansioni!",
     "keywords": "esempio,VLSM,/25,/27,/28,assegnazione"
@@ -570,7 +570,7 @@ export const topics = [
   {
     "id": 54,
     "section_id": "H",
-    "number": 21,
+    "number": 5,
     "title": "Uso del VLSM",
     "content": "### Dove si usa VLSM:\n\n- **Reti aziendali**: dipartimenti con dimensioni diverse\n- **ISP** (Internet Service Provider): assegnazione efficiente ai clienti\n- **Grandi infrastrutture**: data center, campus universitari\n- **Link punto-punto**: tra router bastano /30 (2 host)\n\n### Requisiti:\n- I router devono supportare **routing classless** (CIDR)\n- Protocolli di routing compatibili: **OSPF**, **EIGRP**, **RIPv2**\n- RIPv1 **non** supporta VLSM\n\nVLSM è lo standard nelle reti moderne.",
     "keywords": "aziendali,ISP,infrastrutture,CIDR,OSPF"
@@ -578,7 +578,7 @@ export const topics = [
   {
     "id": 55,
     "section_id": "H",
-    "number": 90,
+    "number": 6,
     "title": "Esercizio VLSM — Azienda con 4 reparti",
     "content": "Esercizio VLSM completo, passo per passo.\n\n### Traccia:\nRete disponibile: **192.168.50.0/24**\nDevi creare sottoreti per:\n- **Reparto A**: 60 host\n- **Reparto B**: 28 host\n- **Reparto C**: 12 host\n- **Link WAN** tra 2 router: 2 host\n\n---\n\n### Passo 1 — Ordina dal più grande al più piccolo\nSempre! Se non lo fai, rischi di \"bucare\" lo spazio indirizzi.\n\n| Sottorete | Host richiesti |\n|-----------|---------------|\n| Reparto A | 60 |\n| Reparto B | 28 |\n| Reparto C | 12 |\n| Link WAN | 2 |\n\n---\n\n### Passo 2 — Calcola la mask per ogni sottorete\nPer ogni sottorete, trova il più piccolo blocco che contiene abbastanza host:\n\n**Reparto A (60 host):**\n2⁶ - 2 = 62 ≥ 60 ✓ → **/26** (255.255.255.192)\n\n**Reparto B (28 host):**\n2⁵ - 2 = 30 ≥ 28 ✓ → **/27** (255.255.255.224)\n\n**Reparto C (12 host):**\n2⁴ - 2 = 14 ≥ 12 ✓ → **/28** (255.255.255.240)\n\n**Link WAN (2 host):**\n2² - 2 = 2 ≥ 2 ✓ → **/30** (255.255.255.252)\n\n---\n\n### Passo 3 — Assegna gli indirizzi in ordine\nParti sempre dal primo indirizzo disponibile:\n\n**Reparto A — /26 (blocco di 64 indirizzi):**\n- Rete: **192.168.50.0/26**\n- Primo host: 192.168.50.1\n- Ultimo host: 192.168.50.62\n- Broadcast: 192.168.50.63\n- Gateway: 192.168.50.1\n\nProssimo indirizzo disponibile: **192.168.50.64**\n\n**Reparto B — /27 (blocco di 32 indirizzi):**\n- Rete: **192.168.50.64/27**\n- Primo host: 192.168.50.65\n- Ultimo host: 192.168.50.94\n- Broadcast: 192.168.50.95\n- Gateway: 192.168.50.65\n\nProssimo disponibile: **192.168.50.96**\n\n**Reparto C — /28 (blocco di 16 indirizzi):**\n- Rete: **192.168.50.96/28**\n- Primo host: 192.168.50.97\n- Ultimo host: 192.168.50.110\n- Broadcast: 192.168.50.111\n- Gateway: 192.168.50.97\n\nProssimo disponibile: **192.168.50.112**\n\n**Link WAN — /30 (blocco di 4 indirizzi):**\n- Rete: **192.168.50.112/30**\n- Router 1: 192.168.50.113\n- Router 2: 192.168.50.114\n- Broadcast: 192.168.50.115\n\n---\n\n### Passo 4 — Tabella riassuntiva\n\n| Sottorete | Rete | Mask | Range host | Broadcast | Host |\n|-----------|------|------|-----------|-----------|------|\n| Reparto A | 192.168.50.0/26 | 255.255.255.192 | .1 — .62 | .63 | 62 |\n| Reparto B | 192.168.50.64/27 | 255.255.255.224 | .65 — .94 | .95 | 30 |\n| Reparto C | 192.168.50.96/28 | 255.255.255.240 | .97 — .110 | .111 | 14 |\n| Link WAN | 192.168.50.112/30 | 255.255.255.252 | .113 — .114 | .115 | 2 |\n\n**Spazio usato**: 116 indirizzi su 256 → rimangono .116 — .255 per espansioni future!",
     "keywords": "esercizio,VLSM,passo passo,azienda,/26,/27,/28,/30"
@@ -586,7 +586,7 @@ export const topics = [
   {
     "id": 56,
     "section_id": "H",
-    "number": 91,
+    "number": 7,
     "title": "Esercizio VLSM — Scuola con 3 piani",
     "content": "Un esercizio tipo maturità con VLSM.\n\n### Traccia:\nRete: **10.10.0.0/16**. Progetta le sottoreti per una scuola:\n- **Piano Terra** (Segreteria): 200 host\n- **Primo Piano** (Aule informatica): 100 host\n- **Secondo Piano** (Laboratori): 50 host\n- **Wi-Fi Studenti**: 400 host\n- **3 link WAN** tra i router dei piani: 2 host ciascuno\n\n---\n\n### Passo 1 — Ordina e calcola le mask\n\n| Sottorete | Host | Mask | Dimensione blocco |\n|-----------|------|------|------------------|\n| Wi-Fi Studenti | 400 | **/23** (2⁹-2=510) | 512 indirizzi |\n| Piano Terra | 200 | **/24** (2⁸-2=254) | 256 indirizzi |\n| Primo Piano | 100 | **/25** (2⁷-2=126) | 128 indirizzi |\n| Secondo Piano | 50 | **/26** (2⁶-2=62) | 64 indirizzi |\n| WAN 1 | 2 | **/30** (2²-2=2) | 4 indirizzi |\n| WAN 2 | 2 | **/30** | 4 indirizzi |\n| WAN 3 | 2 | **/30** | 4 indirizzi |\n\n---\n\n### Passo 2 — Assegna in ordine\n\n**Wi-Fi Studenti — /23 (512 indirizzi):**\n- Rete: 10.10.0.0/23\n- Host: 10.10.0.1 — 10.10.1.254\n- Broadcast: 10.10.1.255\n\n> Attenzione: con /23 il blocco copre **2 ottetti** (10.10.0.x e 10.10.1.x)!\n\n**Piano Terra — /24 (256 indirizzi):**\n- Rete: 10.10.2.0/24\n- Host: 10.10.2.1 — 10.10.2.254\n- Broadcast: 10.10.2.255\n\n**Primo Piano — /25 (128 indirizzi):**\n- Rete: 10.10.3.0/25\n- Host: 10.10.3.1 — 10.10.3.126\n- Broadcast: 10.10.3.127\n\n**Secondo Piano — /26 (64 indirizzi):**\n- Rete: 10.10.3.128/26\n- Host: 10.10.3.129 — 10.10.3.190\n- Broadcast: 10.10.3.191\n\n**WAN 1 — /30:**\n- Rete: 10.10.3.192/30\n- Host: .193, .194\n\n**WAN 2 — /30:**\n- Rete: 10.10.3.196/30\n- Host: .197, .198\n\n**WAN 3 — /30:**\n- Rete: 10.10.3.200/30\n- Host: .201, .202\n\n---\n\n### Tabella finale\n\n| Sottorete | Rete | Mask | Host disponibili |\n|-----------|------|------|------------------|\n| Wi-Fi | 10.10.0.0/23 | 255.255.254.0 | 510 |\n| Piano Terra | 10.10.2.0/24 | 255.255.255.0 | 254 |\n| 1° Piano | 10.10.3.0/25 | 255.255.255.128 | 126 |\n| 2° Piano | 10.10.3.128/26 | 255.255.255.192 | 62 |\n| WAN 1 | 10.10.3.192/30 | 255.255.255.252 | 2 |\n| WAN 2 | 10.10.3.196/30 | 255.255.255.252 | 2 |\n| WAN 3 | 10.10.3.200/30 | 255.255.255.252 | 2 |\n\n### Consigli per l'esame:\n- Scrivi **sempre** la tabella con rete, primo host, ultimo host e broadcast\n- Controlla che le sottoreti **non si sovrappongano**\n- Il link WAN tra router usa sempre **/30** (solo 2 host)\n- Ricorda: la rete Wi-Fi /23 occupa **due** valori del terzo ottetto",
     "keywords": "esercizio,VLSM,scuola,maturità,passo passo"
@@ -594,7 +594,7 @@ export const topics = [
   {
     "id": 57,
     "section_id": "I",
-    "number": 22,
+    "number": 1,
     "title": "Cos'è il routing",
     "content": "Il **routing** (instradamento) è il processo con cui un router determina il **percorso migliore** per inoltrare un pacchetto verso la destinazione.\n\n### Processo:\n1. Il router riceve un pacchetto\n2. Legge l'**IP di destinazione**\n3. Consulta la **tabella di routing**\n4. Determina l'**interfaccia di uscita** e il **next hop**\n5. Inoltra il pacchetto\n\nIl routing avviene al **livello 3** (Rete) del modello OSI.",
     "keywords": "routing,instradamento,percorso,router,livello 3"
@@ -602,7 +602,7 @@ export const topics = [
   {
     "id": 58,
     "section_id": "I",
-    "number": 23,
+    "number": 2,
     "title": "Tabella di routing",
     "content": "La **tabella di routing** è il database che il router consulta per prendere decisioni di instradamento.\n\n### Contenuto di ogni entry:\n- **Rete di destinazione**: la rete da raggiungere\n- **Subnet mask**: dimensione della rete\n- **Next hop**: IP del prossimo router\n- **Interfaccia di uscita**: porta da cui inviare il pacchetto\n- **Metrica**: costo del percorso\n- **Tipo**: come è stata appresa la rotta (statica, dinamica, direttamente connessa)\n\nIl router sceglie sempre la rotta **più specifica** (longest prefix match).",
     "keywords": "tabella di routing,next hop,interfaccia,metrica,entry"
@@ -610,7 +610,7 @@ export const topics = [
   {
     "id": 59,
     "section_id": "I",
-    "number": 24,
+    "number": 3,
     "title": "Routing diretto vs indiretto",
     "content": "### Routing diretto\n- Mittente e destinatario sono nella **stessa rete**\n- Il pacchetto viene consegnato **direttamente**\n- Non serve passare per un router\n- Si usa ARP per trovare il MAC del destinatario\n\n### Routing indiretto\n- Mittente e destinatario sono in **reti diverse**\n- Il pacchetto deve attraversare **uno o più router**\n- L'host invia al **default gateway**\n- Ogni router inoltra al next hop fino alla destinazione\n\nIl confronto IP + subnet mask determina se è diretto o indiretto.",
     "keywords": "diretto,indiretto,stessa rete,reti diverse,ARP"
@@ -618,7 +618,7 @@ export const topics = [
   {
     "id": 60,
     "section_id": "I",
-    "number": 25,
+    "number": 4,
     "title": "Longest prefix match",
     "content": "Il **longest prefix match** è la regola usata dal router per scegliere la rotta quando più entry corrispondono.\n\n### Principio:\n- Si sceglie la rotta con la **subnet mask più lunga** (più specifica)\n- Più bit nella mask = corrispondenza più precisa\n\n### Esempio:\nDestinazione: `10.1.1.100`\n\n| Rotta | Match? |\n|-------|--------|\n| 10.0.0.0/8 | Sì (generico) |\n| 10.1.0.0/16 | Sì (più specifico) |\n| 10.1.1.0/24 | Sì (**più specifico** ✓) |\n\nVince la rotta `/24` perché è la più specifica.",
     "keywords": "longest prefix match,rotta più specifica,subnet mask"
@@ -626,7 +626,7 @@ export const topics = [
   {
     "id": 61,
     "section_id": "I",
-    "number": 26,
+    "number": 5,
     "title": "Router di default",
     "content": "Il **router di default** (default route) è il percorso utilizzato quando **non esiste una rotta specifica** per la destinazione.\n\n### Caratteristiche:\n- Indicato come `0.0.0.0/0` nella tabella di routing\n- Corrisponde a **qualsiasi** destinazione\n- Ha la mask più corta possibile (/0)\n- Viene scelta **solo** se nessun'altra rotta è più specifica\n- Tipicamente punta verso il router di **uscita verso Internet**\n\n### Analogia:\nÈ come il cartello \"tutte le direzioni\" in un incrocio.",
     "keywords": "default route,0.0.0.0,rotta predefinita,Internet"
@@ -634,7 +634,7 @@ export const topics = [
   {
     "id": 62,
     "section_id": "J",
-    "number": 27,
+    "number": 1,
     "title": "Routing statico",
     "content": "Il **routing statico** prevede che i percorsi di rete vengano **configurati manualmente** dall'amministratore.\n\n### Caratteristiche:\n- Le rotte vengono inserite **a mano** nella tabella di routing\n- **Non si aggiornano automaticamente** in caso di cambiamenti\n- Il router segue sempre le rotte configurate\n- Se un link cade, la rotta statica rimane (e il traffico viene perso)\n\n### Comando tipico (Cisco):\n```\nip route [rete] [mask] [next-hop]\nip route 192.168.2.0 255.255.255.0 10.0.0.2\n```",
     "keywords": "routing statico,manuale,configurazione,rotte"
@@ -642,7 +642,7 @@ export const topics = [
   {
     "id": 63,
     "section_id": "J",
-    "number": 28,
+    "number": 2,
     "title": "Vantaggi e svantaggi routing statico",
     "content": "### Vantaggi:\n- **Semplice** da configurare in reti piccole\n- **Sicuro**: l'amministratore ha controllo totale\n- **Nessun overhead**: non genera traffico di routing\n- **Prevedibile**: il percorso è sempre noto\n- Basso consumo di CPU e memoria\n\n### Svantaggi:\n- **Non scalabile**: impraticabile con molte reti\n- **Gestione complessa**: ogni modifica va fatta manualmente su ogni router\n- **Nessun failover automatico**: se un link cade, serve intervento manuale\n- Non adatto a reti dinamiche e in evoluzione\n\n### Uso ideale:\nReti piccole, link punto-punto, default route.",
     "keywords": "vantaggi,svantaggi,scalabilità,sicurezza,overhead"
@@ -650,7 +650,7 @@ export const topics = [
   {
     "id": 64,
     "section_id": "K",
-    "number": 31,
+    "number": 1,
     "title": "Rete come grafo",
     "content": "Una rete può essere rappresentata come un **grafo matematico**.\n\n### Corrispondenze:\n- **Router** → **nodi** (vertici) del grafo\n- **Link** (collegamenti) → **archi** del grafo\n- **Costo del link** → **peso** dell'arco\n\n### Vantaggi della rappresentazione:\n- Permette di applicare **algoritmi** matematici\n- Calcolo del **percorso più efficiente**\n- Analisi della **topologia** di rete\n- Base per i protocolli di routing dinamico",
     "keywords": "grafo,nodi,archi,router,link"
@@ -658,7 +658,7 @@ export const topics = [
   {
     "id": 65,
     "section_id": "K",
-    "number": 32,
+    "number": 2,
     "title": "Elementi del grafo",
     "content": "### Terminologia dei grafi applicata alle reti:\n\n- **Nodo** (vertice): punto di interconnessione (router, switch)\n- **Arco** (edge): collegamento tra due nodi\n- **Cammino** (path): sequenza di nodi e archi che connette due punti\n- **Costo** (peso): valore numerico associato a un arco (banda, latenza, hop)\n\n### Tipi di grafo:\n- **Non orientato**: link bidirezionali (caso comune)\n- **Orientato**: link con direzione specifica\n- **Pesato**: archi con costi diversi\n- **Connesso**: ogni nodo è raggiungibile da ogni altro",
     "keywords": "nodo,arco,cammino,costo,peso"
@@ -666,7 +666,7 @@ export const topics = [
   {
     "id": 66,
     "section_id": "K",
-    "number": 33,
+    "number": 3,
     "title": "Cammino minimo",
     "content": "Il **cammino minimo** (shortest path) è il percorso tra due nodi con il **costo totale minore**.\n\n### Definizione:\n- Somma dei pesi degli archi attraversati\n- Non necessariamente il percorso con meno hop\n- Dipende dalla metrica usata (banda, latenza, costo)\n\n### Algoritmi:\n- **Dijkstra**: trova il cammino minimo da un nodo a tutti gli altri (usato da OSPF)\n- **Bellman-Ford**: approccio distribuito (usato da RIP)\n\n### Importanza:\nI protocolli di routing usano questi algoritmi per determinare il percorso migliore.",
     "keywords": "cammino minimo,shortest path,Dijkstra,Bellman-Ford,costo"
@@ -674,7 +674,7 @@ export const topics = [
   {
     "id": 67,
     "section_id": "L",
-    "number": 34,
+    "number": 1,
     "title": "Routing dinamico",
     "content": "Il **routing dinamico** permette ai router di **scambiarsi informazioni** e aggiornare automaticamente le tabelle di routing.\n\n### Vantaggi rispetto allo statico:\n- **Adattamento automatico** a cambiamenti di topologia\n- **Scalabile**: funziona con reti grandi e complesse\n- **Failover**: ricalcola percorsi se un link cade\n- **Meno errori**: riduce configurazione manuale\n\n### Categorie:\n- **Distance Vector**: RIP, EIGRP\n- **Link State**: OSPF, IS-IS\n- **Path Vector**: BGP (inter-AS)",
     "keywords": "routing dinamico,automatico,scalabile,failover"
@@ -682,7 +682,7 @@ export const topics = [
   {
     "id": 68,
     "section_id": "L",
-    "number": 35,
+    "number": 2,
     "title": "RIP",
     "content": "**RIP** (Routing Information Protocol) è un protocollo di tipo **distance vector**.\n\n### Caratteristiche:\n- Metrica: **hop count** (numero di router attraversati)\n- Massimo **15 hop** (16 = irraggiungibile)\n- Aggiornamenti ogni **30 secondi** (broadcast/multicast)\n- Convergenza **lenta**\n- Versioni: RIPv1 (classful), RIPv2 (classless, supporta VLSM)\n\n### Algoritmo:\n- Basato su **Bellman-Ford**\n- Ogni router invia la sua tabella ai vicini\n- I vicini aggiornano le proprie tabelle\n\n### Uso: reti **piccole e semplici**",
     "keywords": "RIP,distance vector,hop count,15 hop,Bellman-Ford"
@@ -690,7 +690,7 @@ export const topics = [
   {
     "id": 69,
     "section_id": "L",
-    "number": 36,
+    "number": 3,
     "title": "OSPF",
     "content": "**OSPF** (Open Shortest Path First) è un protocollo di tipo **link state**.\n\n### Caratteristiche:\n- Usa l'algoritmo di **Dijkstra** (SPF)\n- Metrica: **costo** basato sulla banda del link\n- Convergenza **veloce**\n- Struttura **gerarchica** con aree (Area 0 = backbone)\n- Ogni router ha una **mappa completa** della topologia\n\n### Funzionamento:\n1. Ogni router invia **LSA** (Link State Advertisement) ai vicini\n2. Tutti costruiscono un **database topologico** identico\n3. Ogni router calcola l'albero dei cammini minimi\n\n### Uso: reti **medie e grandi**",
     "keywords": "OSPF,link state,Dijkstra,costo,gerarchico,LSA"
@@ -698,7 +698,7 @@ export const topics = [
   {
     "id": 70,
     "section_id": "L",
-    "number": 37,
+    "number": 4,
     "title": "RIP vs OSPF",
     "content": "### Confronto:\n\n| Caratteristica | RIP | OSPF |\n|---------------|-----|------|\n| Tipo | Distance Vector | Link State |\n| Algoritmo | Bellman-Ford | Dijkstra |\n| Metrica | Hop count | Costo (banda) |\n| Limite | 15 hop | Nessuno |\n| Convergenza | Lenta | Veloce |\n| Complessità | Semplice | Complesso |\n| Scalabilità | Bassa | Alta |\n| Uso risorse | Basso | Alto (CPU/RAM) |\n| Ideale per | Reti piccole | Reti grandi |\n\n### Regola pratica:\n- Poche reti, pochi router → **RIP**\n- Rete aziendale/enterprise → **OSPF**",
     "keywords": "RIP,OSPF,confronto,distance vector,link state"
@@ -706,7 +706,7 @@ export const topics = [
   {
     "id": 71,
     "section_id": "M",
-    "number": 39,
+    "number": 1,
     "title": "Livello trasporto",
     "content": "Il **livello trasporto** (livello 4 OSI / livello 3 TCP/IP) gestisce la comunicazione **end-to-end** tra applicazioni.\n\n### Funzioni:\n- **Multiplexing**: più applicazioni usano la rete contemporaneamente (tramite porte)\n- **Segmentazione**: divide i dati in segmenti\n- **Riassemblaggio**: ricostruisce i dati in ordine\n- Due protocolli principali: **TCP** e **UDP**",
     "keywords": "livello trasporto,end-to-end,multiplexing,segmentazione"
@@ -714,7 +714,7 @@ export const topics = [
   {
     "id": 72,
     "section_id": "M",
-    "number": 40,
+    "number": 2,
     "title": "TCP vs UDP overview",
     "content": "### Due approcci diversi:\n\n**TCP** (Transmission Control Protocol):\n- **Affidabile**: garantisce consegna e ordine\n- Connection-oriented: richiede connessione prima dell'invio\n- Più lento ma sicuro\n\n**UDP** (User Datagram Protocol):\n- **Non affidabile**: nessuna garanzia di consegna\n- Connectionless: invia senza stabilire connessione\n- Più veloce ma senza garanzie\n\nLa scelta dipende dall'applicazione.",
     "keywords": "TCP,UDP,affidabile,non affidabile"
@@ -722,7 +722,7 @@ export const topics = [
   {
     "id": 73,
     "section_id": "M",
-    "number": 41,
+    "number": 3,
     "title": "TCP in dettaglio",
     "content": "**TCP** fornisce un trasporto **affidabile** e orientato alla connessione.\n\n### Caratteristiche:\n- **Connection-oriented**: stabilisce connessione prima di trasmettere\n- **Affidabilità**: conferma ricezione di ogni segmento\n- **Ordinamento**: riordina pacchetti arrivati fuori sequenza\n- **Controllo di flusso**: adatta la velocità al ricevitore\n- **Controllo di congestione**: riduce velocità se la rete è congestionata\n- **Full-duplex**: comunicazione bidirezionale simultanea\n\n### Uso:\n- Web (HTTP/HTTPS), email (SMTP), file transfer (FTP), SSH",
     "keywords": "TCP,affidabile,connessione,flusso,congestione"
@@ -730,7 +730,7 @@ export const topics = [
   {
     "id": 74,
     "section_id": "M",
-    "number": 42,
+    "number": 4,
     "title": "Three-way handshake",
     "content": "Il **three-way handshake** è il processo con cui TCP stabilisce una connessione.\n\n### I tre passi:\n\n```\nClient                    Server\n  |                         |\n  |──── SYN ───────────────>|  1. \"Voglio connettermi\"\n  |                         |\n  |<──── SYN-ACK ──────────|  2. \"Ok, accetto\"\n  |                         |\n  |──── ACK ───────────────>|  3. \"Confermo, iniziamo\"\n  |                         |\n  |<════ CONNESSIONE ══════>|\n```\n\n### Dettagli:\n- **SYN**: client invia numero di sequenza iniziale\n- **SYN-ACK**: server conferma e invia il suo numero\n- **ACK**: client conferma, connessione stabilita\n\nLa chiusura usa un processo simile con **FIN**.",
     "keywords": "three-way handshake,SYN,SYN-ACK,ACK,connessione"
@@ -738,7 +738,7 @@ export const topics = [
   {
     "id": 75,
     "section_id": "M",
-    "number": 43,
+    "number": 5,
     "title": "Sequence e ACK number",
     "content": "I numeri di **sequenza** e **acknowledgment** garantiscono ordine e affidabilità.\n\n### Sequence Number:\n- Identifica la **posizione** di ogni byte nel flusso dati\n- Permette al ricevitore di **riordinare** i segmenti\n\n### Acknowledgment Number:\n- Indica il **prossimo byte atteso** dal ricevitore\n- Conferma tutti i byte precedenti (acknowledgment cumulativo)\n\n### Rilevamento perdite:\n- Se un ACK non arriva entro il **timeout** → ritrasmissione\n- **ACK duplicati**: 3 ACK uguali → fast retransmit\n\nQuesto meccanismo rende TCP resistente a perdite e disordine.",
     "keywords": "sequence number,acknowledgment,ritrasmissione,timeout"
@@ -746,7 +746,7 @@ export const topics = [
   {
     "id": 76,
     "section_id": "M",
-    "number": 44,
+    "number": 6,
     "title": "UDP in dettaglio",
     "content": "**UDP** (User Datagram Protocol) è un protocollo di trasporto **semplice e veloce**.\n\n### Caratteristiche:\n- **Connectionless**: nessuna connessione preliminare\n- **Nessuna garanzia** di consegna, ordine o integrità\n- **Header minimo**: solo 8 byte (vs 20+ di TCP)\n- **Nessun controllo** di flusso o congestione\n- Ogni messaggio è un **datagram** indipendente\n\n### Vantaggi:\n- **Veloce**: nessun overhead di connessione\n- **Leggero**: meno elaborazione\n- **Real-time**: adatto a dati sensibili al ritardo\n\n### Uso:\n- DNS, streaming, VoIP, gaming online",
     "keywords": "UDP,connectionless,datagram,veloce,leggero"
@@ -754,7 +754,7 @@ export const topics = [
   {
     "id": 77,
     "section_id": "M",
-    "number": 45,
+    "number": 7,
     "title": "TCP vs UDP confronto",
     "content": "### Tabella comparativa:\n\n| Caratteristica | TCP | UDP |\n|---------------|-----|-----|\n| Connessione | Sì (3-way handshake) | No |\n| Affidabilità | Sì (ACK, ritrasmissione) | No |\n| Ordinamento | Sì (sequence number) | No |\n| Controllo flusso | Sì | No |\n| Velocità | Più lento | Più veloce |\n| Header | 20+ byte | 8 byte |\n| Uso tipico | Web, email, file | Streaming, DNS, VoIP |\n\n### Regola:\n- Servono **dati corretti** → TCP\n- Serve **velocità** → UDP",
     "keywords": "TCP,UDP,confronto,affidabile,veloce"
@@ -762,7 +762,7 @@ export const topics = [
   {
     "id": 78,
     "section_id": "M",
-    "number": 46,
+    "number": 8,
     "title": "Porte",
     "content": "Le **porte** identificano le applicazioni specifiche su un host.\n\n### Porte note (well-known):\n| Porta | Protocollo | Servizio |\n|-------|-----------|----------|\n| 20-21 | TCP | FTP |\n| 22 | TCP | SSH |\n| 25 | TCP | SMTP (email) |\n| 53 | TCP/UDP | DNS |\n| 80 | TCP | **HTTP** |\n| 443 | TCP | **HTTPS** |\n\n### Range porte:\n- **0-1023**: Well-known (servizi standard)\n- **1024-49151**: Registered (applicazioni)\n- **49152-65535**: Dynamic/Private (temporanee)",
     "keywords": "porte,HTTP,HTTPS,80,443,well-known"
@@ -770,7 +770,7 @@ export const topics = [
   {
     "id": 79,
     "section_id": "M",
-    "number": 47,
+    "number": 9,
     "title": "Socket",
     "content": "Un **socket** è la combinazione di **indirizzo IP + numero di porta**.\n\n### Formato:\n`IP:porta` → es. `192.168.1.10:443`\n\n### Funzione:\n- Identifica univocamente un **endpoint** di comunicazione\n- Permette a più applicazioni di comunicare contemporaneamente\n\n### Connessione TCP:\nDefinita da una **coppia di socket**:\n- Socket sorgente: `192.168.1.10:52431`\n- Socket destinazione: `93.184.216.34:443`\n\nQuesta coppia identifica univocamente la connessione nella rete.",
     "keywords": "socket,IP,porta,endpoint,connessione"
@@ -778,7 +778,7 @@ export const topics = [
   {
     "id": 80,
     "section_id": "N",
-    "number": 49,
+    "number": 1,
     "title": "Scelta del protocollo",
     "content": "### Quando usare TCP o UDP:\n\n**TCP** (dati corretti > velocità):\n- **Web** (HTTP/HTTPS): pagine devono arrivare complete\n- **File transfer** (FTP): nessun byte può mancare\n- **Email** (SMTP/IMAP): messaggi integri\n- **Database**: transazioni affidabili\n\n**UDP** (velocità > completezza):\n- **Streaming video/audio**: perdere un frame è ok\n- **Videoconferenza**: ritardo è peggio di perdita\n- **Gaming online**: stato aggiornato in tempo reale\n- **DNS**: query/risposta veloci\n- **VoIP**: conversazione fluida",
     "keywords": "TCP,UDP,scelta,web,streaming"
@@ -786,7 +786,7 @@ export const topics = [
   {
     "id": 81,
     "section_id": "N",
-    "number": 50,
+    "number": 2,
     "title": "Perdita vs ritardo",
     "content": "### Perché lo streaming usa UDP:\n\nIn applicazioni real-time come le **videochiamate**:\n\n- **Perdere qualche dato** → piccolo glitch visivo/audio, quasi impercettibile\n- **Ritardare i dati** (per ritrasmettere) → conversazione a singhiozzo, inutilizzabile\n\n### Principio:\n> È meglio **perdere** qualche dato che **ritardare** tutto il flusso\n\n### Perché:\n- TCP ritrasmette i pacchetti persi → introduce **latenza**\n- Il dato ritrasmesso arriva **troppo tardi** per essere utile\n- UDP ignora la perdita e va avanti → esperienza più **fluida**",
     "keywords": "perdita,ritardo,real-time,latenza,streaming"
@@ -794,7 +794,7 @@ export const topics = [
   {
     "id": 82,
     "section_id": "N",
-    "number": 51,
+    "number": 3,
     "title": "QUIC introduzione",
     "content": "**QUIC** (Quick UDP Internet Connections) è un protocollo sviluppato da **Google**.\n\n### Caratteristiche principali:\n- Basato su **UDP** (non TCP)\n- **Connessione veloce**: 0-RTT o 1-RTT (vs 3-RTT di TCP+TLS)\n- **Sicurezza integrata**: TLS 1.3 incluso nel protocollo\n- **Multiplexing** senza head-of-line blocking\n- Usato da **HTTP/3**\n\n### Motivazione:\n- TCP è lento nell'handshake (specialmente con TLS)\n- TCP soffre di head-of-line blocking\n- QUIC combina il meglio di TCP (affidabilità) e UDP (velocità)",
     "keywords": "QUIC,Google,UDP,veloce,sicurezza,HTTP/3"
@@ -802,7 +802,7 @@ export const topics = [
   {
     "id": 83,
     "section_id": "N",
-    "number": 52,
+    "number": 4,
     "title": "QUIC vantaggi",
     "content": "### Vantaggi di QUIC:\n\n1. **Connessione rapida**:\n   - TCP+TLS: 3 RTT prima di inviare dati\n   - QUIC: 1 RTT (o 0 se già connesso prima)\n\n2. **Sicurezza integrata**:\n   - Crittografia TLS 1.3 di default\n   - Non è possibile comunicare in chiaro\n\n3. **Migliore su reti instabili**:\n   - Gestisce meglio cambio di rete (es. Wi-Fi → 4G)\n   - Connection migration: la connessione sopravvive al cambio IP\n\n4. **Caricamento web rapido**:\n   - Riduce latenza percepita\n   - Già usato da Google, YouTube, Gmail\n   - Base di **HTTP/3**",
     "keywords": "QUIC,vantaggi,0-RTT,TLS,connection migration,HTTP/3"
@@ -810,7 +810,7 @@ export const topics = [
   {
     "id": 84,
     "section_id": "O",
-    "number": 53,
+    "number": 1,
     "title": "Cos'è un Firewall",
     "content": "Il **firewall** è un sistema di sicurezza che **controlla e filtra il traffico** di rete in entrata e in uscita in base a regole predefinite.\n\n### Funzioni principali:\n- **Protezione** della rete interna da accessi non autorizzati\n- **Filtraggio** dei pacchetti secondo regole (ACL)\n- **Monitoraggio** del traffico di rete\n- **Blocco** di connessioni sospette o pericolose\n\n### Posizionamento:\n- Tra la rete **interna** (trusted) e **Internet** (untrusted)\n- Può essere **hardware** (appliance dedicata) o **software** (installato su un host)\n\n### Principio base:\n> **Default deny**: tutto ciò che non è esplicitamente permesso viene bloccato.",
     "keywords": "firewall,filtraggio,sicurezza,protezione,ACL"
@@ -818,7 +818,7 @@ export const topics = [
   {
     "id": 85,
     "section_id": "O",
-    "number": 54,
+    "number": 2,
     "title": "Tipi di Firewall",
     "content": "Esistono diversi tipi di firewall in base al livello OSI a cui operano:\n\n### Packet Filter (Livello 3-4)\n- Filtra pacchetti in base a **IP sorgente/destinazione**, **porta**, **protocollo**\n- Veloce ma limitato: non analizza il contenuto\n- Esempio: ACL su un router Cisco\n\n### Stateful Inspection (Livello 3-4)\n- Tiene traccia dello **stato delle connessioni**\n- Riconosce pacchetti appartenenti a connessioni già stabilite\n- Più sicuro del packet filter\n\n### Application Gateway / Proxy (Livello 7)\n- Analizza il **contenuto** dei pacchetti\n- Può filtrare URL, parole chiave, tipi di file\n- Più lento ma molto più preciso\n\n### Next-Generation Firewall (NGFW)\n- Combina tutte le funzionalità precedenti\n- Aggiunge **IPS**, analisi SSL, controllo applicazioni",
     "keywords": "packet filter,stateful,proxy,NGFW,livelli OSI"
@@ -826,7 +826,7 @@ export const topics = [
   {
     "id": 86,
     "section_id": "O",
-    "number": 55,
+    "number": 3,
     "title": "Stateless vs Stateful",
     "content": "### Firewall Stateless (Packet Filter)\n- Analizza **ogni pacchetto singolarmente**\n- Non ricorda le connessioni precedenti\n- Regole basate solo su: IP, porta, protocollo\n- **Veloce** ma facilmente aggirabile\n- Non distingue una risposta legittima da un attacco\n\n### Firewall Stateful\n- Mantiene una **tabella delle connessioni attive** (state table)\n- Traccia lo stato: NEW, ESTABLISHED, RELATED\n- Permette automaticamente i pacchetti di **risposta** a connessioni già autorizzate\n- **Più sicuro**: riconosce il contesto\n\n### Esempio:\n```\n1. PC invia richiesta HTTP → firewall registra connessione\n2. Server risponde → firewall riconosce la risposta → la lascia passare\n3. Pacchetto non richiesto dall'esterno → BLOCCATO\n```",
     "keywords": "stateless,stateful,state table,connessioni,pacchetto"
@@ -834,7 +834,7 @@ export const topics = [
   {
     "id": 87,
     "section_id": "O",
-    "number": 56,
+    "number": 4,
     "title": "ACL — Access Control List",
     "content": "Le **ACL** sono liste di regole che il firewall usa per decidere se **permettere o bloccare** il traffico.\n\n### Struttura di una regola ACL:\n```\n[AZIONE] [PROTOCOLLO] [IP SORGENTE] [IP DESTINAZIONE] [PORTA]\n```\n\n### Esempio:\n```\npermit tcp 192.168.1.0/24 any eq 443     → permetti HTTPS dalla LAN\npermit tcp 192.168.1.0/24 any eq 80      → permetti HTTP dalla LAN\ndeny   tcp any 192.168.1.0/24 eq 22       → blocca SSH dall'esterno\npermit udp any any eq 53                   → permetti DNS\ndeny   ip any any                          → blocca tutto il resto\n```\n\n### Regole importanti:\n- Le regole sono valutate **dall'alto verso il basso**\n- La **prima regola** che corrisponde viene applicata\n- L'ultima regola è sempre un **deny all** implicito\n- L'ordine delle regole è **fondamentale**",
     "keywords": "ACL,regole,permit,deny,filtraggio"
@@ -842,7 +842,7 @@ export const topics = [
   {
     "id": 88,
     "section_id": "O",
-    "number": 57,
+    "number": 5,
     "title": "DMZ — Zona Demilitarizzata",
     "content": "La **DMZ** è una sottorete isolata che ospita servizi accessibili da Internet, proteggendo la rete interna.\n\n### Architettura:\n```\nInternet ←→ [Firewall esterno] ←→ DMZ ←→ [Firewall interno] ←→ LAN\n```\n\n### Nella DMZ si collocano:\n- **Web server** pubblici\n- **Mail server**\n- **DNS server** pubblico\n- **Proxy server**\n\n### Vantaggi:\n- Se un server nella DMZ viene compromesso, l'attaccante **non accede alla LAN**\n- Doppio livello di protezione con due firewall\n- I server interni restano invisibili dall'esterno\n\n### Regole tipiche:\n- Internet → DMZ: permesso solo su porte specifiche (80, 443)\n- DMZ → LAN: molto limitato\n- LAN → DMZ: permesso\n- LAN → Internet: permesso con restrizioni",
     "keywords": "DMZ,zona demilitarizzata,web server,sicurezza,doppio firewall"
@@ -850,7 +850,7 @@ export const topics = [
   {
     "id": 89,
     "section_id": "O",
-    "number": 58,
+    "number": 6,
     "title": "Firewall in pratica",
     "content": "### Configurazione base di un firewall:\n\n**1. Policy di default:**\n- Input: **DROP** (blocca tutto in ingresso)\n- Output: **ACCEPT** (permetti uscita)\n- Forward: **DROP** (blocca attraversamento)\n\n**2. Regole specifiche (whitelist):**\n- Permetti HTTP/HTTPS in uscita\n- Permetti DNS in uscita\n- Permetti risposte a connessioni stabilite\n- Permetti SSH solo dalla rete di gestione\n\n### Firewall personale vs aziendale:\n| Caratteristica | Personale | Aziendale |\n|---|---|---|\n| Tipo | Software | Hardware/Appliance |\n| Utenti | 1 | Centinaia/migliaia |\n| Gestione | Automatica | Amministratore |\n| Costo | Gratuito/incluso | Elevato |\n| Esempi | Windows Firewall, iptables | Cisco ASA, Fortinet, pfSense |",
     "keywords": "configurazione,policy,DROP,ACCEPT,whitelist"
@@ -858,7 +858,7 @@ export const topics = [
   {
     "id": 90,
     "section_id": "P",
-    "number": 59,
+    "number": 1,
     "title": "Introduzione alla Crittografia",
     "content": "La **crittografia** è la scienza che studia le tecniche per rendere un messaggio **incomprensibile** a chi non possiede la chiave per decifrarlo.\n\n### Terminologia:\n- **Testo in chiaro** (plaintext): il messaggio originale\n- **Testo cifrato** (ciphertext): il messaggio crittografato\n- **Cifratura** (encryption): plaintext → ciphertext\n- **Decifratura** (decryption): ciphertext → plaintext\n- **Chiave**: parametro segreto usato per cifrare/decifrare\n\n### Obiettivi della crittografia:\n- **Confidenzialità**: solo il destinatario legge il messaggio\n- **Integrità**: il messaggio non è stato alterato\n- **Autenticazione**: il mittente è chi dice di essere\n- **Non ripudio**: il mittente non può negare di aver inviato il messaggio",
     "keywords": "crittografia,cifratura,chiave,confidenzialità,integrità"
@@ -866,7 +866,7 @@ export const topics = [
   {
     "id": 91,
     "section_id": "P",
-    "number": 60,
+    "number": 2,
     "title": "Crittografia simmetrica",
     "content": "Nella crittografia **simmetrica** si usa la **stessa chiave** per cifrare e decifrare.\n\n### Come funziona:\n```\nAlice: plaintext + chiave K → ciphertext\nBob:   ciphertext + chiave K → plaintext\n```\n\n### Algoritmi principali:\n| Algoritmo | Lunghezza chiave | Note |\n|-----------|-----------------|------|\n| **AES** | 128/192/256 bit | Standard attuale, molto sicuro |\n| DES | 56 bit | Obsoleto, chiave troppo corta |\n| 3DES | 168 bit | DES applicato 3 volte, lento |\n| ChaCha20 | 256 bit | Veloce su dispositivi mobili |\n\n### Vantaggi:\n- **Veloce**: ideale per cifrare grandi quantità di dati\n- Algoritmi efficienti\n\n### Svantaggi:\n- **Problema della distribuzione della chiave**: come inviare la chiave in modo sicuro?\n- Con N utenti servono N×(N-1)/2 chiavi",
     "keywords": "simmetrica,AES,DES,chiave condivisa,veloce"
@@ -874,7 +874,7 @@ export const topics = [
   {
     "id": 92,
     "section_id": "P",
-    "number": 61,
+    "number": 3,
     "title": "Crittografia asimmetrica",
     "content": "Nella crittografia **asimmetrica** si usano **due chiavi diverse**: una **pubblica** e una **privata**.\n\n### Come funziona:\n- **Chiave pubblica**: nota a tutti, usata per **cifrare**\n- **Chiave privata**: segreta, usata per **decifrare**\n- Ciò che viene cifrato con la pubblica si decifra SOLO con la privata\n\n### Esempio:\n```\nAlice vuole inviare un messaggio a Bob:\n1. Alice cifra con la chiave PUBBLICA di Bob\n2. Solo Bob può decifrare con la sua chiave PRIVATA\n```\n\n### Algoritmi principali:\n- **RSA**: il più diffuso, basato su fattorizzazione di numeri primi\n- **Diffie-Hellman**: scambio sicuro di chiavi\n- **ECC** (Elliptic Curve): chiavi più corte, stessa sicurezza\n\n### Vantaggi:\n- Risolve il problema della distribuzione delle chiavi\n- Permette la **firma digitale**\n\n### Svantaggi:\n- **Molto più lenta** della simmetrica (100-1000x)\n\n### In pratica: si usa la crittografia **ibrida** (asimmetrica per scambiare la chiave, simmetrica per i dati).",
     "keywords": "asimmetrica,chiave pubblica,chiave privata,RSA,Diffie-Hellman"
@@ -882,7 +882,7 @@ export const topics = [
   {
     "id": 93,
     "section_id": "P",
-    "number": 62,
+    "number": 4,
     "title": "Funzioni Hash",
     "content": "Una **funzione hash** produce un'impronta digitale (**digest**) di lunghezza fissa da un input di qualsiasi dimensione.\n\n### Proprietà:\n- **Deterministica**: stesso input → stesso output\n- **Irreversibile**: dal digest non si risale all'input\n- **Effetto valanga**: minima modifica → output completamente diverso\n- **Resistenza alle collisioni**: difficile trovare due input con lo stesso hash\n\n### Algoritmi:\n| Algoritmo | Output | Sicurezza |\n|-----------|--------|----------|\n| MD5 | 128 bit | ❌ Non sicuro |\n| SHA-1 | 160 bit | ❌ Deprecato |\n| **SHA-256** | 256 bit | ✅ Standard attuale |\n| SHA-3 | Variabile | ✅ Più recente |\n\n### Usi:\n- **Verifica integrità** dei file (checksum)\n- **Archiviazione password** (hash + salt)\n- **Firma digitale**: si firma l'hash del documento\n- **Blockchain**: catena di hash",
     "keywords": "hash,digest,SHA-256,integrità,irreversibile"
@@ -890,7 +890,7 @@ export const topics = [
   {
     "id": 94,
     "section_id": "P",
-    "number": 63,
+    "number": 5,
     "title": "Certificati digitali e PKI",
     "content": "Un **certificato digitale** associa una chiave pubblica all'identità del suo proprietario.\n\n### Contenuto di un certificato X.509:\n- **Nome** del proprietario (Common Name)\n- **Chiave pubblica** del proprietario\n- **Firma digitale** della CA (Certification Authority)\n- **Validità** (date di inizio e fine)\n- **Numero seriale** univoco\n\n### PKI (Public Key Infrastructure):\nSistema di gestione dei certificati:\n- **CA** (Certification Authority): emette e firma i certificati\n- **RA** (Registration Authority): verifica le identità\n- **CRL** (Certificate Revocation List): lista certificati revocati\n\n### Come funziona HTTPS:\n```\n1. Browser richiede il certificato al server\n2. Browser verifica la firma della CA\n3. Browser estrae la chiave pubblica del server\n4. Scambio chiave simmetrica (TLS handshake)\n5. Comunicazione cifrata con chiave simmetrica\n```",
     "keywords": "certificato digitale,CA,PKI,X.509,HTTPS"
@@ -898,7 +898,7 @@ export const topics = [
   {
     "id": 95,
     "section_id": "P",
-    "number": 64,
+    "number": 6,
     "title": "TLS e HTTPS",
     "content": "**TLS** (Transport Layer Security) è il protocollo che protegge le comunicazioni su Internet (HTTPS = HTTP + TLS).\n\n### TLS Handshake (semplificato):\n```\nClient                         Server\n  |── ClientHello ────────────>|  (versione TLS, cipher supportati)\n  |<── ServerHello ────────────|  (cipher scelto, certificato)\n  |── Verifica certificato     |\n  |── Scambio chiave ────────->|  (con crittografia asimmetrica)\n  |<════ Dati cifrati ════════>|  (con crittografia simmetrica)\n```\n\n### Versioni:\n- SSL 2.0/3.0: **obsoleto**, vulnerabile\n- TLS 1.0/1.1: **deprecato**\n- TLS 1.2: ancora usato, sicuro\n- **TLS 1.3**: versione attuale, più veloce (1-RTT)\n\n### Cosa protegge:\n- **Confidenzialità**: dati cifrati (AES)\n- **Integrità**: HMAC verifica le alterazioni\n- **Autenticazione**: certificato del server\n\nIl lucchetto nel browser indica una connessione HTTPS con TLS.",
     "keywords": "TLS,SSL,HTTPS,handshake,cifratura"
@@ -906,7 +906,7 @@ export const topics = [
   {
     "id": 96,
     "section_id": "Q",
-    "number": 65,
+    "number": 1,
     "title": "Cos'è una VPN",
     "content": "Una **VPN** (Virtual Private Network) è una rete privata virtuale che crea un **tunnel cifrato** attraverso una rete pubblica (Internet).\n\n### Funzioni:\n- **Riservatezza**: i dati viaggiano cifrati, nessuno può leggerli\n- **Autenticazione**: verifica l'identità degli endpoint\n- **Integrità**: i dati non possono essere alterati\n\n### Analogia:\n> La VPN è come un **tubo sigillato** dentro un fiume pubblico: l'acqua (dati) scorre protetta, invisibile a chi è fuori.\n\n### Usi comuni:\n- **Lavoro remoto**: dipendenti accedono alla rete aziendale da casa\n- **Collegamento sedi**: unire filiali di un'azienda\n- **Privacy**: nascondere il traffico dal proprio ISP\n- **Geolocalizzazione**: apparire da un'altra nazione",
     "keywords": "VPN,tunnel,cifratura,rete privata,sicurezza"
@@ -914,7 +914,7 @@ export const topics = [
   {
     "id": 97,
     "section_id": "Q",
-    "number": 66,
+    "number": 2,
     "title": "Tipi di VPN",
     "content": "### VPN Site-to-Site\n- Collega **due reti** (es. sede centrale e filiale)\n- Configurata sui **router/firewall** ai bordi delle reti\n- Sempre attiva (tunnel permanente)\n- Trasparente per gli utenti\n\n### VPN Remote Access (Client-to-Site)\n- Un **singolo utente** si collega alla rete aziendale\n- Richiede un **client VPN** sul dispositivo\n- Attivata on-demand dall'utente\n- Usata per **smart working**\n\n### Confronto:\n| Caratteristica | Site-to-Site | Remote Access |\n|---|---|---|\n| Endpoint | Router ↔ Router | Client ↔ Router |\n| Utenti | Intere reti | Singolo utente |\n| Connessione | Permanente | On-demand |\n| Esempio | Sede ↔ Filiale | Dipendente da casa |",
     "keywords": "site-to-site,remote access,client VPN,smart working"
@@ -922,7 +922,7 @@ export const topics = [
   {
     "id": 98,
     "section_id": "Q",
-    "number": 67,
+    "number": 3,
     "title": "Tunneling",
     "content": "Il **tunneling** è la tecnica con cui la VPN incapsula i pacchetti originali dentro nuovi pacchetti cifrati.\n\n### Come funziona:\n```\n[Pacchetto originale: IP_LAN | Dati]\n         ↓ cifratura + incapsulamento\n[Nuovo pacchetto: IP_pubblico | Header VPN | ██ Dati cifrati ██]\n```\n\n### Il pacchetto originale:\n- Mantiene gli **indirizzi IP privati** della LAN\n- Viene **cifrato** completamente\n- Viene **incapsulato** in un nuovo pacchetto con IP pubblici\n\n### Fasi:\n1. **Incapsulamento**: il pacchetto originale diventa il payload del nuovo pacchetto\n2. **Cifratura**: il payload viene cifrato\n3. **Trasporto**: il nuovo pacchetto viaggia su Internet\n4. **Decifratura**: l'endpoint VPN decifra e recupera il pacchetto originale\n5. **De-incapsulamento**: il pacchetto originale viene consegnato alla LAN",
     "keywords": "tunneling,incapsulamento,cifratura,pacchetto,VPN"
@@ -930,7 +930,7 @@ export const topics = [
   {
     "id": 99,
     "section_id": "Q",
-    "number": 68,
+    "number": 4,
     "title": "Protocolli VPN",
     "content": "### IPsec (Internet Protocol Security)\n- Opera a **livello 3** (Rete)\n- Due modalità: **Transport** (cifra solo payload) e **Tunnel** (cifra tutto)\n- Usa **AH** (autenticazione) e **ESP** (cifratura + autenticazione)\n- Standard per VPN **site-to-site**\n- Integrato in molti router\n\n### OpenVPN\n- Basato su **TLS/SSL**\n- Open source e molto configurabile\n- Opera su **TCP o UDP** (tipicamente porta 1194)\n- Molto usato per **remote access**\n\n### WireGuard\n- Protocollo **moderno e leggero**\n- Codice molto piccolo (~4000 righe vs 100.000+ di OpenVPN)\n- Prestazioni eccellenti\n- Usa crittografia moderna (ChaCha20, Curve25519)\n\n### L2TP/IPsec\n- **L2TP** per il tunnel + **IPsec** per la cifratura\n- Supportato nativamente da molti SO\n- Meno performante di WireGuard",
     "keywords": "IPsec,OpenVPN,WireGuard,L2TP,protocolli VPN"
@@ -938,7 +938,7 @@ export const topics = [
   {
     "id": 100,
     "section_id": "Q",
-    "number": 69,
+    "number": 5,
     "title": "VPN e sicurezza aziendale",
     "content": "### Architettura VPN aziendale:\n```\nDipendente remoto\n    ↓ [Client VPN]\n    ↓ tunnel cifrato su Internet\n    ↓\n[VPN Gateway / Concentrator] → Rete aziendale\n```\n\n### Split tunneling vs Full tunneling:\n- **Full tunneling**: TUTTO il traffico passa dalla VPN → più sicuro\n- **Split tunneling**: solo il traffico aziendale passa dalla VPN → più veloce\n\n### Autenticazione VPN:\n- **Username + Password**\n- **Certificati digitali**\n- **Multi-Factor Authentication (MFA)**: password + codice OTP\n- **Token hardware**: chiavette con codici\n\n### VPN e firewall:\n- Il firewall protegge la rete, la VPN protegge il **canale**\n- Spesso il VPN gateway è integrato nel firewall\n- Le regole ACL si applicano anche al traffico VPN",
     "keywords": "VPN aziendale,split tunneling,MFA,concentrator,sicurezza"
@@ -946,7 +946,7 @@ export const topics = [
   {
     "id": 101,
     "section_id": "R",
-    "number": 70,
+    "number": 1,
     "title": "Cos'è una VLAN",
     "content": "Una **VLAN** (Virtual Local Area Network) è una rete locale **virtuale** che permette di segmentare una rete fisica in più reti logiche **indipendenti**.\n\n### Senza VLAN:\n- Tutti i dispositivi collegati allo stesso switch sono nella **stessa rete**\n- Il traffico broadcast raggiunge **tutti** i dispositivi\n\n### Con VLAN:\n- I dispositivi sullo stesso switch possono appartenere a **reti diverse**\n- Il traffico broadcast è **limitato** alla propria VLAN\n- Le VLAN sono **isolate**: non comunicano tra loro senza un router\n\n### Analogia:\n> È come avere **più switch virtuali** dentro un unico switch fisico.\n\n### Identificazione:\n- Ogni VLAN ha un **VLAN ID** (1-4094)\n- VLAN 1 è la VLAN **di default**",
     "keywords": "VLAN,rete virtuale,segmentazione,broadcast,VLAN ID"
@@ -954,7 +954,7 @@ export const topics = [
   {
     "id": 102,
     "section_id": "R",
-    "number": 71,
+    "number": 2,
     "title": "VLAN basate su porte",
     "content": "Il tipo più comune di VLAN è quella **basata su porte** (port-based).\n\n### Come funziona:\n- L'amministratore **assegna** ogni porta dello switch a una VLAN\n- Tutto il traffico su quella porta appartiene a quella VLAN\n\n### Esempio:\n```\nSwitch 24 porte:\n├─ Porte 1-8:   VLAN 10 (Ufficio amministrazione)\n├─ Porte 9-16:  VLAN 20 (Ufficio tecnico)\n└─ Porte 17-24: VLAN 30 (Ospiti/Wi-Fi)\n```\n\n### Tipi di VLAN:\n| Tipo | Assegnazione | Uso |\n|------|-------------|-----|\n| **Port-based** | Porta fisica | Più comune |\n| MAC-based | Indirizzo MAC | Mobilità |\n| Protocol-based | Protocollo (IP, IPX) | Legacy |\n| Policy-based | Regole complesse | Avanzato |\n\n### Porte Access:\n- Una porta **access** appartiene a **una sola VLAN**\n- Il dispositivo collegato non sa di essere in una VLAN",
     "keywords": "port-based,access port,assegnazione,switch,configurazione"
@@ -962,7 +962,7 @@ export const topics = [
   {
     "id": 103,
     "section_id": "R",
-    "number": 72,
+    "number": 3,
     "title": "Trunk e 802.1Q",
     "content": "Un **trunk** è un collegamento che trasporta traffico di **più VLAN** contemporaneamente tra switch.\n\n### Problema:\n- Se ho la stessa VLAN su **due switch diversi**, come collego i dispositivi?\n- Servirebbero tanti cavi quante VLAN → spreco!\n\n### Soluzione: trunk\n- Un **singolo cavo** trasporta traffico di **tutte le VLAN**\n- Usa il protocollo **IEEE 802.1Q** per identificare la VLAN\n\n### Come funziona 802.1Q:\n```\nFrame Ethernet normale:\n[MAC dst | MAC src | Tipo | Payload | CRC]\n\nFrame con tag 802.1Q:\n[MAC dst | MAC src | Tag 802.1Q | Tipo | Payload | CRC]\n                      ↑\n                 4 byte aggiunti\n                 contiene VLAN ID\n```\n\n### Il tag 802.1Q contiene:\n- **TPID**: identificatore del tag (0x8100)\n- **VLAN ID**: numero della VLAN (12 bit → 1-4094)\n- **Priority**: priorità del frame (QoS)\n\n### Native VLAN:\n- I frame della native VLAN viaggiano **senza tag** sul trunk\n- Di default è la VLAN 1",
     "keywords": "trunk,802.1Q,tag,VLAN ID,native VLAN"
@@ -970,7 +970,7 @@ export const topics = [
   {
     "id": 104,
     "section_id": "R",
-    "number": 73,
+    "number": 4,
     "title": "Inter-VLAN Routing",
     "content": "Le VLAN sono **isolate** tra loro. Per farle comunicare serve un **router** (inter-VLAN routing).\n\n### Metodo 1: Router-on-a-Stick\n- Un singolo collegamento **trunk** tra switch e router\n- Il router crea **subinterface** virtuali, una per VLAN\n- Ogni subinterface ha un IP che funge da **gateway** per la VLAN\n\n```\nSwitch (trunk) ←→ Router\n                   ├─ subint .10 → 192.168.10.1 (VLAN 10)\n                   ├─ subint .20 → 192.168.20.1 (VLAN 20)\n                   └─ subint .30 → 192.168.30.1 (VLAN 30)\n```\n\n### Metodo 2: Switch Layer 3\n- Uno switch **multilayer** (livello 3) fa anche routing\n- Più veloce del router-on-a-stick\n- Crea **SVI** (Switch Virtual Interface) per ogni VLAN\n- Usato nelle reti aziendali moderne\n\n### Ogni VLAN ha la propria sottorete IP:\n- VLAN 10 → 192.168.10.0/24\n- VLAN 20 → 192.168.20.0/24\n- VLAN 30 → 192.168.30.0/24",
     "keywords": "inter-VLAN,router-on-a-stick,subinterface,SVI,Layer 3"
@@ -978,7 +978,7 @@ export const topics = [
   {
     "id": 105,
     "section_id": "R",
-    "number": 74,
+    "number": 5,
     "title": "Vantaggi delle VLAN",
     "content": "### Perché usare le VLAN?\n\n**1. Sicurezza:**\n- Separazione del traffico tra dipartimenti\n- I dati sensibili (contabilità, HR) sono isolati\n- Si possono applicare ACL tra VLAN\n\n**2. Riduzione broadcast:**\n- Il broadcast è limitato alla propria VLAN\n- Meno traffico inutile → migliori prestazioni\n\n**3. Flessibilità:**\n- Spostare un utente di reparto = cambiare VLAN sulla porta\n- Non serve ricablare fisicamente\n\n**4. Gestione semplificata:**\n- Politiche di rete per gruppi logici\n- QoS differenziata per VLAN (es. priorità al VoIP)\n\n### Esempio aziendale:\n```\nVLAN 10: Amministrazione (192.168.10.0/24)\nVLAN 20: Sviluppo        (192.168.20.0/24)\nVLAN 30: Ospiti          (192.168.30.0/24) → solo Internet\nVLAN 40: VoIP            (192.168.40.0/24) → priorità QoS\nVLAN 99: Management      (192.168.99.0/24) → gestione switch\n```",
     "keywords": "vantaggi,sicurezza,broadcast,flessibilità,gestione"
@@ -986,7 +986,7 @@ export const topics = [
   {
     "id": 106,
     "section_id": "S",
-    "number": 75,
+    "number": 1,
     "title": "Cos'è il Malware",
     "content": "Il **malware** (malicious software) è qualsiasi software creato con l'intento di **danneggiare**, **rubare dati** o **compromettere** un sistema informatico.\n\n### Categorie principali:\n- **Virus**: si replica allegandosi ad altri file\n- **Worm**: si replica autonomamente via rete\n- **Trojan**: si maschera da programma legittimo\n- **Ransomware**: cifra i dati e chiede un riscatto\n- **Spyware**: spia le attività dell'utente\n- **Adware**: mostra pubblicità indesiderata\n- **Rootkit**: si nasconde nel sistema operativo\n- **Keylogger**: registra i tasti premuti\n\n### Vettori di infezione:\n- **Email** con allegati malevoli\n- **Download** da siti non sicuri\n- **USB** infette\n- **Vulnerabilità** software non aggiornato\n- **Social engineering**",
     "keywords": "malware,virus,worm,trojan,ransomware"
@@ -994,7 +994,7 @@ export const topics = [
   {
     "id": 107,
     "section_id": "S",
-    "number": 76,
+    "number": 2,
     "title": "Virus, Worm e Trojan",
     "content": "### Virus\n- **Si attacca** a un file eseguibile o documento\n- Si replica quando l'utente **esegue il file** infetto\n- Richiede un'**azione umana** per diffondersi\n- Può corrompere file, rallentare il sistema\n\n### Worm\n- Si replica **autonomamente** attraverso la rete\n- **Non ha bisogno** di un file ospite\n- Sfrutta **vulnerabilità** di rete per propagarsi\n- Può consumare banda e risorse\n- Esempio famoso: **WannaCry** (2017)\n\n### Trojan (Cavallo di Troia)\n- Si presenta come un **programma utile** o legittimo\n- Una volta installato, esegue azioni **malevole** in background\n- **Non si replica** da solo\n- Può aprire una **backdoor** per l'attaccante\n- Spesso distribuito tramite download ingannevoli\n\n### Confronto:\n| | Replica | Azione umana | File ospite |\n|---|---|---|---|\n| Virus | Sì | Sì | Sì |\n| Worm | Sì | No | No |\n| Trojan | No | Sì | No |",
     "keywords": "virus,worm,trojan,backdoor,WannaCry"
@@ -1002,7 +1002,7 @@ export const topics = [
   {
     "id": 108,
     "section_id": "S",
-    "number": 77,
+    "number": 3,
     "title": "Ransomware e Spyware",
     "content": "### Ransomware\nMalware che **cifra i file** della vittima e chiede un **riscatto** (ransom) per la chiave di decifratura.\n\n#### Come funziona:\n1. Infetta il sistema (email, vulnerabilità)\n2. **Cifra** tutti i file importanti con crittografia forte\n3. Mostra un messaggio di riscatto (spesso in Bitcoin)\n4. Se si paga, *forse* si riceve la chiave\n\n#### Esempi noti:\n- **WannaCry** (2017): sfruttava vulnerabilità Windows, colpì ospedali e aziende mondiali\n- **NotPetya** (2017): mascherato da ransomware, in realtà distruttivo\n\n#### Difesa: **backup regolari** su dispositivi scollegati\n\n### Spyware\nSoftware che **spia** le attività dell'utente senza consenso.\n\n#### Cosa raccoglie:\n- **Cronologia** di navigazione\n- **Credenziali** e password\n- **Dati bancari**\n- Screenshot e registrazioni\n\n#### Keylogger:\nTipo di spyware che **registra ogni tasto premuto** sulla tastiera.",
     "keywords": "ransomware,spyware,keylogger,riscatto,WannaCry"
@@ -1010,7 +1010,7 @@ export const topics = [
   {
     "id": 109,
     "section_id": "S",
-    "number": 78,
+    "number": 4,
     "title": "Attacchi di rete",
     "content": "### Attacchi comuni nelle reti:\n\n**1. Phishing:**\n- Email/siti web **falsi** che imitano quelli legittimi\n- Scopo: rubare credenziali o dati personali\n- Varianti: **spear phishing** (mirato), **whaling** (dirigenti)\n\n**2. Man-in-the-Middle (MitM):**\n- L'attaccante si inserisce **tra due comunicanti**\n- Intercetta e può modificare i dati\n- Difesa: **HTTPS** e certificati TLS\n\n**3. DDoS (Distributed Denial of Service):**\n- **Inondare** un server con traffico per renderlo inaccessibile\n- Usa una rete di dispositivi infetti (**botnet**)\n- Difesa: CDN, firewall, servizi anti-DDoS\n\n**4. ARP Spoofing:**\n- Falsifica le risposte **ARP** nella rete locale\n- Permette MitM in LAN\n- Difesa: ARP statico, port security\n\n**5. DNS Spoofing:**\n- Falsifica le risposte DNS\n- Reindirizza verso siti malevoli\n- Difesa: DNSSEC",
     "keywords": "phishing,MitM,DDoS,ARP spoofing,botnet"
@@ -1018,7 +1018,7 @@ export const topics = [
   {
     "id": 110,
     "section_id": "S",
-    "number": 79,
+    "number": 5,
     "title": "Social Engineering",
     "content": "Il **social engineering** sfrutta la **psicologia umana** per ottenere informazioni o accesso ai sistemi.\n\n### Tecniche principali:\n\n**1. Phishing** (già visto):\n- Email fraudolente\n- Siti web clonati\n\n**2. Pretexting:**\n- L'attaccante **inventa una storia** credibile\n- Es: finge di essere il supporto IT e chiede la password\n\n**3. Baiting:**\n- Lascia una **USB infetta** in un luogo frequentato\n- La curiosità spinge qualcuno a inserirla nel PC\n\n**4. Tailgating/Piggybacking:**\n- Seguire qualcuno attraverso una **porta protetta** senza badge\n- Accesso fisico non autorizzato\n\n**5. Quid pro quo:**\n- Offre qualcosa in cambio di informazioni\n- Es: \"assistenza tecnica gratuita\" in cambio di credenziali\n\n### Difesa:\n- **Formazione** e consapevolezza degli utenti\n- Verificare sempre l'identità di chi chiede informazioni\n- Non cliccare link sospetti\n- Politiche aziendali di sicurezza",
     "keywords": "social engineering,phishing,pretexting,baiting,tailgating"
@@ -1026,7 +1026,7 @@ export const topics = [
   {
     "id": 111,
     "section_id": "S",
-    "number": 80,
+    "number": 6,
     "title": "Difese e prevenzione",
     "content": "### Strumenti di difesa:\n\n**1. Antivirus/Antimalware:**\n- Scansiona file alla ricerca di **firme** note di malware\n- Protezione in tempo reale\n- Richiede **aggiornamenti** costanti delle definizioni\n\n**2. Firewall** (vedi sezione dedicata):\n- Filtra il traffico di rete\n- Blocca connessioni sospette\n\n**3. IDS/IPS:**\n- **IDS** (Intrusion Detection System): **rileva** intrusioni e avvisa\n- **IPS** (Intrusion Prevention System): rileva e **blocca** automaticamente\n\n**4. Aggiornamenti (Patch):**\n- Applicare sempre gli aggiornamenti di sicurezza\n- Le vulnerabilità note sono le più sfruttate\n\n**5. Backup:**\n- Regola **3-2-1**: 3 copie, 2 supporti diversi, 1 off-site\n- Unica vera difesa contro il ransomware\n\n### Best practice:\n- **Password forti** e uniche\n- **MFA** (Multi-Factor Authentication)\n- **Principio del minimo privilegio**: ogni utente ha solo i permessi necessari\n- **Formazione** continua del personale\n- **Segmentazione** della rete (VLAN)",
     "keywords": "antivirus,IDS,IPS,backup,patch,best practice"
@@ -1034,7 +1034,7 @@ export const topics = [
   {
     "id": 112,
     "section_id": "T",
-    "number": 81,
+    "number": 1,
     "title": "Cos'è Packet Tracer",
     "content": "**Cisco Packet Tracer** è un simulatore di rete gratuito sviluppato da **Cisco Systems** per scopi didattici.\n\n### Cosa permette di fare:\n- **Progettare** topologie di rete virtuali\n- **Configurare** router, switch, PC e altri dispositivi\n- **Simulare** il traffico di rete e verificarne il funzionamento\n- **Testare** configurazioni prima di applicarle su reti reali\n\n### Caratteristiche:\n- Interfaccia grafica **drag-and-drop** per posizionare dispositivi\n- Due modalità: **Realtime** (tempo reale) e **Simulation** (passo passo)\n- Supporta protocolli reali: IP, DHCP, DNS, HTTP, OSPF, RIP, ecc.\n- Include dispositivi Cisco: router, switch L2/L3, access point\n\n### Perché è importante:\n- Usato nei corsi **Cisco Networking Academy**\n- Strumento fondamentale per l'esame di **maturità** in Sistemi e Reti\n- Permette di sperimentare senza hardware fisico",
     "keywords": "Packet Tracer,Cisco,simulatore,topologia,configurazione"
@@ -1042,7 +1042,7 @@ export const topics = [
   {
     "id": 113,
     "section_id": "T",
-    "number": 82,
+    "number": 2,
     "title": "L'interfaccia di Packet Tracer",
     "content": "### Area di lavoro:\n- **Logical workspace**: vista logica della rete (default)\n- **Physical workspace**: vista fisica con edifici e rack\n\n### Pannello dispositivi (in basso):\n| Categoria | Dispositivi |\n|-----------|------------|\n| Network Devices | Router, Switch, Hub |\n| End Devices | PC, Laptop, Server, Printer |\n| Connections | Cavo rame, fibra, seriale, console |\n| Wireless | Access Point |\n\n### Tipi di cavo:\n- **Cavo dritto** (straight-through): PC ↔ Switch, Router ↔ Switch\n- **Cavo incrociato** (crossover): Switch ↔ Switch, PC ↔ PC\n- **Cavo console** (azzurro): PC ↔ porta Console del router/switch\n- **Cavo seriale** (DCE/DTE): Router ↔ Router (WAN)\n\n### Modalità Simulation:\n- Permette di vedere i **pacchetti** che viaggiano nella rete\n- Si può analizzare ogni **PDU** (Protocol Data Unit) livello per livello\n- Utile per capire il funzionamento dei protocolli",
     "keywords": "interfaccia,workspace,cavi,simulation,PDU"
@@ -1050,7 +1050,7 @@ export const topics = [
   {
     "id": 114,
     "section_id": "T",
-    "number": 83,
+    "number": 3,
     "title": "Configurazione base di un router",
     "content": "### Accesso alla CLI:\n- Click sul router → scheda **CLI** (Command Line Interface)\n\n### Modalità CLI:\n```\nRouter>                    ← User EXEC mode (limitato)\nRouter> enable\nRouter#                    ← Privileged EXEC mode\nRouter# configure terminal\nRouter(config)#            ← Global Configuration mode\nRouter(config-if)#         ← Interface Configuration mode\n```\n\n### Comandi essenziali:\n```\n! Impostare hostname\nRouter(config)# hostname R1\n\n! Configurare un'interfaccia\nR1(config)# interface GigabitEthernet0/0\nR1(config-if)# ip address 192.168.1.1 255.255.255.0\nR1(config-if)# no shutdown\n\n! Salvare la configurazione\nR1# copy running-config startup-config\n\n! Mostrare configurazione attuale\nR1# show running-config\n\n! Mostrare tabella di routing\nR1# show ip route\n\n! Mostrare interfacce\nR1# show ip interface brief\n```",
     "keywords": "CLI,router,configurazione,hostname,interfaccia"
@@ -1058,7 +1058,7 @@ export const topics = [
   {
     "id": 115,
     "section_id": "T",
-    "number": 84,
+    "number": 4,
     "title": "Configurazione base di uno switch",
     "content": "### Lo switch Cisco in Packet Tracer:\n\n### Comandi base (simili al router):\n```\nSwitch> enable\nSwitch# configure terminal\n\n! Impostare hostname\nSwitch(config)# hostname SW1\n\n! Configurare VLAN\nSW1(config)# vlan 10\nSW1(config-vlan)# name Ufficio\n\n! Assegnare porta a VLAN\nSW1(config)# interface FastEthernet0/1\nSW1(config-if)# switchport mode access\nSW1(config-if)# switchport access vlan 10\n\n! Configurare trunk\nSW1(config)# interface GigabitEthernet0/1\nSW1(config-if)# switchport mode trunk\n\n! Mostrare VLAN\nSW1# show vlan brief\n\n! Mostrare tabella MAC\nSW1# show mac-address-table\n```\n\n### Differenza da router:\n- Lo switch opera a **livello 2** (MAC)\n- Ha porte **access** (1 VLAN) e **trunk** (più VLAN)\n- Non ha interfacce IP di default (solo SVI per gestione)",
     "keywords": "switch,VLAN,trunk,access,configurazione"
@@ -1066,7 +1066,7 @@ export const topics = [
   {
     "id": 116,
     "section_id": "T",
-    "number": 85,
+    "number": 5,
     "title": "Configurare IP su PC e test di connettività",
     "content": "### Configurare IP su un PC:\n1. Click sul PC → scheda **Desktop** → **IP Configuration**\n2. Inserire:\n   - **IP Address**: es. 192.168.1.10\n   - **Subnet Mask**: es. 255.255.255.0\n   - **Default Gateway**: es. 192.168.1.1 (IP del router)\n   - **DNS Server**: es. 8.8.8.8 (opzionale)\n\n### Oppure via DHCP:\n- Selezionare **DHCP** invece di Static\n- Il PC ottiene automaticamente IP dal server DHCP\n\n### Test di connettività:\n```\n! Da PC Desktop → Command Prompt\n\n! Ping: verifica raggiungibilità\nC:\\> ping 192.168.1.1\n\n! Tracert: mostra il percorso dei pacchetti\nC:\\> tracert 192.168.2.10\n\n! Ipconfig: mostra configurazione IP\nC:\\> ipconfig\n```\n\n### Icona busta (PDU):\n- Nella toolbar, selezionare la **busta** (Simple PDU)\n- Click sul PC sorgente, poi sul PC destinazione\n- In basso appare: **Successful** ✓ o **Failed** ✗",
     "keywords": "IP,configurazione PC,ping,tracert,DHCP"
@@ -1074,7 +1074,7 @@ export const topics = [
   {
     "id": 117,
     "section_id": "T",
-    "number": 86,
+    "number": 6,
     "title": "Esercizio tipo maturità",
     "content": "### Esempio di esercizio classico:\n\n**Traccia**: Progettare una rete per un'azienda con 3 reparti.\n\n### Requisiti:\n- Reparto A: 50 host\n- Reparto B: 25 host\n- Reparto C: 10 host\n- Ogni reparto in una VLAN separata\n- Accesso a Internet tramite un router\n\n### Procedura:\n\n**1. Indirizzamento (VLSM):**\n- Rete: 192.168.10.0/24\n- Reparto A: 192.168.10.0/26 (62 host) → VLAN 10\n- Reparto B: 192.168.10.64/27 (30 host) → VLAN 20\n- Reparto C: 192.168.10.96/28 (14 host) → VLAN 30\n\n**2. In Packet Tracer:**\n- Posizionare: 1 router, 1 switch L2, PC per ogni reparto\n- Creare VLAN 10, 20, 30 sullo switch\n- Configurare trunk tra switch e router\n- Router-on-a-stick con subinterface\n- Assegnare IP ai PC con gateway corretto\n\n**3. Verifica:**\n- Ping tra PC della stessa VLAN ✓\n- Ping tra VLAN diverse (tramite router) ✓\n- `show vlan brief`, `show ip route`\n\n### Consigli per l'esame:\n- Disegnare la topologia **prima** di configurare\n- Calcolare gli indirizzi su carta\n- Testare la connettività con **ping** dopo ogni configurazione",
     "keywords": "esercizio,maturità,VLSM,VLAN,progetto rete"
@@ -1082,7 +1082,7 @@ export const topics = [
   {
     "id": 118,
     "section_id": "T",
-    "number": 87,
+    "number": 7,
     "title": "Comandi show e debug",
     "content": "### Comandi `show` più importanti:\n\n```\n! Mostra configurazione attiva\nshow running-config\n\n! Mostra configurazione salvata\nshow startup-config\n\n! Mostra stato delle interfacce\nshow ip interface brief\n\n! Mostra tabella di routing\nshow ip route\n\n! Mostra VLAN configurate (switch)\nshow vlan brief\n\n! Mostra tabella MAC (switch)\nshow mac-address-table\n\n! Mostra vicini CDP\nshow cdp neighbors\n\n! Mostra protocolli di routing attivi\nshow ip protocols\n\n! Mostra dettagli OSPF\nshow ip ospf neighbor\n```\n\n### Comandi di verifica da PC:\n```\nping <IP>            → verifica raggiungibilità\ntracert <IP>         → mostra percorso\nipconfig             → mostra IP del PC\nipconfig /all        → mostra dettagli completi\nnslookup <dominio>   → risoluzione DNS\n```\n\n### Trucchi utili:\n- **Tab**: completa il comando\n- **?**: mostra comandi disponibili\n- **do show**: esegue show da config mode",
     "keywords": "show,comandi,running-config,ip route,verifica"
@@ -1090,7 +1090,7 @@ export const topics = [
   {
     "id": 119,
     "section_id": "T",
-    "number": 119,
+    "number": 8,
     "title": "Configurare un server DNS in Packet Tracer",
     "content": "### Cos'è il DNS?\nIl **DNS** (Domain Name System) traduce i nomi di dominio (es. `www.azienda.com`) in indirizzi IP (es. `192.168.1.100`). Senza DNS dovremmo ricordare a memoria tutti gli IP!\n\n### Topologia necessaria:\n- 1 **Server** (farà da DNS server)\n- 1 o più **PC** client\n- 1 **Switch** per collegarli\n- Cavi dritti (straight-through)\n\n### Passo 1 — Configurare gli IP:\n| Dispositivo | IP | Subnet Mask | Gateway | DNS Server |\n|---|---|---|---|---|\n| Server DNS | 192.168.1.2 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n| PC0 | 192.168.1.10 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n| PC1 | 192.168.1.11 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n\n> **Importante**: nei PC il campo **DNS Server** deve puntare all'IP del server DNS (192.168.1.2).\n\n### Passo 2 — Configurare il servizio DNS sul Server:\n1. Click sul Server → scheda **Services** → **DNS**\n2. Attivare il servizio: **ON**\n3. Aggiungere i record:\n\n| Name | Type | Address |\n|---|---|---|\n| www.azienda.com | A Record | 192.168.1.100 |\n| www.scuola.it | A Record | 192.168.1.101 |\n| mail.azienda.com | A Record | 192.168.1.50 |\n\n4. Per ogni record: compilare **Name**, scegliere **Type** = A Record, inserire l'**Address** e premere **Add**\n\n### Passo 3 — Verifica dal PC:\nAprire **Desktop** → **Command Prompt** sul PC:\n```\nC:\\> nslookup www.azienda.com\nServer: 192.168.1.2\nAddress: 192.168.1.100\n```\n\nSe hai anche un server HTTP attivo all'IP 192.168.1.100, puoi aprire il **Web Browser** dal Desktop del PC e digitare `www.azienda.com` → vedrai la pagina web!\n\n### Errori comuni:\n- ❌ Dimenticare di mettere il DNS Server nell'IP Configuration dei PC\n- ❌ Non attivare il servizio DNS (lasciarlo su OFF)\n- ❌ Sbagliare l'IP nel record A (deve corrispondere al server di destinazione)",
     "keywords": "DNS,server,risoluzione nomi,A Record,nslookup"
@@ -1098,7 +1098,7 @@ export const topics = [
   {
     "id": 120,
     "section_id": "T",
-    "number": 120,
+    "number": 9,
     "title": "Configurare un server Email (SMTP/POP3) in Packet Tracer",
     "content": "### Come funziona la posta in Packet Tracer?\nPacket Tracer simula un sistema di posta completo con:\n- **SMTP** (Simple Mail Transfer Protocol) — per **inviare** le email\n- **POP3** (Post Office Protocol v3) — per **ricevere/scaricare** le email\n\nIl server email gestisce entrambi i protocolli e contiene le **caselle di posta** degli utenti.\n\n### Topologia necessaria:\n- 1 **Server** (mail server)\n- 1 **Server DNS** (per risolvere il dominio di posta)\n- 2+ **PC** (utenti che si scrivono)\n- 1 **Switch**\n- Cavi dritti\n\n### Passo 1 — Indirizzi IP:\n| Dispositivo | IP | DNS Server |\n|---|---|---|\n| Server Mail | 192.168.1.50 | 192.168.1.2 |\n| Server DNS | 192.168.1.2 | 192.168.1.2 |\n| PC-Mario | 192.168.1.10 | 192.168.1.2 |\n| PC-Luigi | 192.168.1.11 | 192.168.1.2 |\n\n(Tutti con Subnet 255.255.255.0 e Gateway 192.168.1.1)\n\n### Passo 2 — Configurare il DNS:\n1. Sul Server DNS → **Services** → **DNS** → ON\n2. Aggiungere il record:\n   - **Name**: `mail.azienda.com`\n   - **Type**: A Record\n   - **Address**: `192.168.1.50`\n   - Click **Add**\n\n> Questo è fondamentale: i PC useranno il nome `mail.azienda.com` come server di posta, e il DNS deve saperlo tradurre!\n\n### Passo 3 — Configurare il servizio Email sul Server:\n1. Click sul Server Mail → **Services** → **EMAIL**\n2. Impostare:\n   - **Domain Name**: `azienda.com`\n   - **SMTP Service**: ON\n   - **POP3 Service**: ON\n3. Creare gli utenti:\n\n| User | Password |\n|---|---|\n| mario | mario123 |\n| luigi | luigi123 |\n\n4. Per ogni utente: inserire **User**, **Password** e premere il pulsante **+** (Add User)\n\n### Passo 4 — Configurare il client email su ogni PC:\n1. Click sul PC → **Desktop** → **Email**\n2. Configurare (esempio per Mario):\n\n| Campo | Valore |\n|---|---|\n| Your Name | Mario |\n| Email Address | mario@azienda.com |\n| Incoming Mail Server (POP3) | mail.azienda.com |\n| Outgoing Mail Server (SMTP) | mail.azienda.com |\n| User Name | mario |\n| Password | mario123 |\n\n3. Click **Save** per salvare la configurazione\n4. Ripetere per Luigi con i suoi dati\n\n### Passo 5 — Inviare e ricevere email:\n1. Sul PC di Mario: click **Compose**\n   - **To**: `luigi@azienda.com`\n   - **Subject**: `Ciao Luigi`\n   - **Body**: `Questo è un test!`\n   - Click **Send**\n2. Sul PC di Luigi: click **Receive**\n   - Appare l'email di Mario nella inbox!\n\n### Schema riassuntivo del flusso:\n```\nMario (SMTP) → Server Mail → Luigi (POP3)\n     invio          casella       scarica\n```\n\n### Errori comuni:\n- ❌ Non configurare il DNS → il PC non trova `mail.azienda.com`\n- ❌ Sbagliare il domain name sul server (deve corrispondere a `@azienda.com`)\n- ❌ Non creare l'utente sul server prima di configurare il client\n- ❌ Dimenticare di premere **Receive** sul PC destinatario",
     "keywords": "Email,SMTP,POP3,posta,mail server,configurazione"
@@ -1106,7 +1106,31 @@ export const topics = [
   {
     "id": 121,
     "section_id": "T",
-    "number": 121,
+    "number": 10,
+    "title": "Configurare NAT in Packet Tracer",
+    "content": "### Cos'è il NAT?\nIl **NAT** (Network Address Translation) traduce gli indirizzi IP **privati** della LAN in un indirizzo IP **pubblico** per uscire su Internet.\n\n### Perché serve?\n- Gli IP privati (192.168.x.x, 10.x.x.x) **non sono raggiungibili** da Internet\n- Il NAT permette a tanti dispositivi interni di **condividere un unico IP pubblico**\n- È presente su ogni router domestico e aziendale\n\n### Topologia in Packet Tracer:\n```\n[PC0] ──┐\n        ├── [Switch] ── [Router] ── [Server Internet]\n[PC1] ──┘\n     LAN privata        WAN pubblica\n     192.168.1.0/24     200.0.0.0/30\n```\n\nDispositivi necessari:\n- 2 **PC** (rete interna)\n- 1 **Switch** (2960)\n- 1 **Router** (1941 o 2911)\n- 1 **Server** (simula Internet)\n- Cavi dritti\n\n### Passo 1 — Indirizzi IP (tramite interfaccia grafica):\n\n**PC0 e PC1** (Desktop → IP Configuration):\n| Campo | Valore |\n|---|---|\n| IP Address | 192.168.1.10 / .11 |\n| Subnet Mask | 255.255.255.0 |\n| Default Gateway | 192.168.1.1 |\n\n**Server Internet** (Desktop → IP Configuration):\n| Campo | Valore |\n|---|---|\n| IP Address | 200.0.0.2 |\n| Subnet Mask | 255.255.255.252 |\n| Default Gateway | 200.0.0.1 |\n\n### Passo 2 — Configurare le interfacce del Router:\nClick sul Router → scheda **Config**:\n\n**Interfaccia GigabitEthernet0/0** (lato LAN):\n- **IPv4 Address**: `192.168.1.1`\n- **Subnet Mask**: `255.255.255.0`\n- **Port Status**: ✅ ON\n\n**Interfaccia GigabitEthernet0/1** (lato WAN/Internet):\n- **IPv4 Address**: `200.0.0.1`\n- **Subnet Mask**: `255.255.255.252`\n- **Port Status**: ✅ ON\n\n### Passo 3 — Configurare il NAT (dalla CLI del router):\nClick sul Router → scheda **CLI**:\n```\nenable\nconfigure terminal\n\n! Definire le interfacce inside/outside\ninterface GigabitEthernet0/0\n ip nat inside\n exit\n\ninterface GigabitEthernet0/1\n ip nat outside\n exit\n\n! Creare la lista degli IP che possono uscire\naccess-list 1 permit 192.168.1.0 0.0.0.255\n\n! Attivare il NAT\nip nat inside source list 1 interface GigabitEthernet0/1 overload\n\nexit\ncopy running-config startup-config\n```\n\n### Passo 4 — Verifica:\nDal PC0 → **Desktop** → **Command Prompt**:\n```\nC:\\> ping 200.0.0.2\n```\nSe risponde → il NAT funziona! I PC con IP privato riescono a raggiungere il server \"Internet\".\n\nDal router:\n```\nR1# show ip nat translations\n```\nVedrai le traduzioni attive: IP privato → IP pubblico.\n\n### Riepilogo:\n| Rete | IP Range | Tipo |\n|---|---|---|\n| LAN (inside) | 192.168.1.0/24 | Privato |\n| WAN (outside) | 200.0.0.0/30 | Pubblico |\n| NAT | 192.168.1.x → 200.0.0.1 | Traduzione |\n\n### Errori comuni:\n- ❌ Dimenticare `ip nat inside` o `ip nat outside` sulle interfacce\n- ❌ Sbagliare la wildcard mask nella access-list (0.0.0.255, NON 255.255.255.0)\n- ❌ Non mettere il Default Gateway sui PC",
+    "keywords": "NAT,traduzione indirizzi,inside,outside,overload,IP pubblico"
+  },
+  {
+    "id": 122,
+    "section_id": "T",
+    "number": 11,
+    "title": "Configurare DHCP in Packet Tracer",
+    "content": "### Cos'è il DHCP?\nIl **DHCP** (Dynamic Host Configuration Protocol) assegna **automaticamente** gli indirizzi IP ai dispositivi della rete.\n\n### Senza DHCP:\n- Devi configurare **a mano** IP, subnet mask, gateway e DNS su ogni PC\n- Errori facili (IP duplicati, gateway sbagliato)\n\n### Con DHCP:\n- I PC selezionano \"DHCP\" e ricevono **tutto automaticamente**\n- Il server gestisce un **pool** di indirizzi\n\n### Metodo 1 — DHCP su un Server in Packet Tracer:\n\n### Topologia:\n```\n[PC0] ── [Switch] ── [Server DHCP]\n[PC1] ──┘          └── [Router] (gateway)\n```\n\n### Passo 1 — IP del Server e del Router:\n\n**Server DHCP** (Desktop → IP Configuration → Static):\n| Campo | Valore |\n|---|---|\n| IP Address | 192.168.1.2 |\n| Subnet Mask | 255.255.255.0 |\n| Default Gateway | 192.168.1.1 |\n\n**Router** (Config → GigabitEthernet0/0):\n- IP: `192.168.1.1`, Mask: `255.255.255.0`, Port Status: ON\n\n### Passo 2 — Configurare il servizio DHCP sul Server:\n1. Click sul Server → **Services** → **DHCP**\n2. Impostare:\n\n| Campo | Valore | Significato |\n|---|---|---|\n| Service | ON | Attiva il DHCP |\n| Pool Name | serverPool | Nome del pool |\n| Default Gateway | 192.168.1.1 | Gateway per i PC |\n| DNS Server | 192.168.1.2 | Server DNS (opzionale) |\n| Start IP Address | 192.168.1.100 | Primo IP da assegnare |\n| Subnet Mask | 255.255.255.0 | Mask della rete |\n| Max Users | 50 | Numero massimo di IP |\n\n3. Click **Save** per salvare il pool\n\n### Passo 3 — Configurare i PC per DHCP:\n1. Click sul PC → **Desktop** → **IP Configuration**\n2. Selezionare **DHCP** (invece di Static)\n3. Dopo qualche secondo il PC riceve automaticamente:\n   - IP Address (es. 192.168.1.100)\n   - Subnet Mask (255.255.255.0)\n   - Default Gateway (192.168.1.1)\n   - DNS Server (192.168.1.2)\n\n### Passo 4 — Verifica:\nSul PC → **Desktop** → **Command Prompt**:\n```\nC:\\> ipconfig\n\nIP Address: 192.168.1.100\nSubnet Mask: 255.255.255.0\nDefault Gateway: 192.168.1.1\n```\n\n### Metodo 2 — DHCP direttamente sul Router (CLI):\nSe non hai un server dedicato, il router può fare da DHCP:\n```\nRouter(config)# ip dhcp pool LAN\nRouter(dhcp-config)# network 192.168.1.0 255.255.255.0\nRouter(dhcp-config)# default-router 192.168.1.1\nRouter(dhcp-config)# dns-server 8.8.8.8\nRouter(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10\n```\nL'ultimo comando esclude gli IP da .1 a .10 (riservati a server e router).\n\n### Errori comuni:\n- ❌ Dimenticare di mettere il Default Gateway nel pool DHCP\n- ❌ Lasciare i PC su \"Static\" invece di selezionare \"DHCP\"\n- ❌ Il server DHCP non è nella stessa rete dei PC (serve DHCP relay)\n- ❌ Start IP Address che parte dalla stessa rete del server",
+    "keywords": "DHCP,assegnazione automatica,pool,gateway,DNS,IP Configuration"
+  },
+  {
+    "id": 123,
+    "section_id": "T",
+    "number": 12,
+    "title": "Sicurezza dello Switch in Packet Tracer",
+    "content": "### Perché proteggere lo switch?\nLo switch è un bersaglio di attacchi perché è il punto centrale della rete LAN:\n- **MAC Flooding**: l'attaccante inonda la tabella MAC facendo diventare lo switch un hub\n- **DHCP Spoofing**: un server DHCP falso assegna gateway/DNS malevoli\n- **Accesso non autorizzato**: qualcuno collega un dispositivo a una porta libera\n\n### 1. Port Security — Limitare i MAC per porta\n\nLa **Port Security** limita quanti (e quali) indirizzi MAC possono usare una porta.\n\n#### Configurazione in Packet Tracer (CLI dello switch):\n```\nSW1(config)# interface FastEthernet0/1\nSW1(config-if)# switchport mode access\nSW1(config-if)# switchport port-security\nSW1(config-if)# switchport port-security maximum 1\nSW1(config-if)# switchport port-security mac-address sticky\nSW1(config-if)# switchport port-security violation shutdown\n```\n\n#### Cosa significa ogni comando:\n| Comando | Effetto |\n|---|---|\n| `port-security` | Attiva la sicurezza sulla porta |\n| `maximum 1` | Solo **1 MAC** ammesso sulla porta |\n| `mac-address sticky` | Impara il primo MAC e lo salva nella configurazione |\n| `violation shutdown` | Se un MAC diverso prova a collegarsi → **la porta si spegne** |\n\n#### Modalità di violazione:\n| Modalità | Comportamento |\n|---|---|\n| **shutdown** | Disattiva la porta (err-disabled). Va riattivata a mano |\n| **restrict** | Scarta i frame del MAC non autorizzato e logga l'evento |\n| **protect** | Scarta silenziosamente i frame del MAC non autorizzato |\n\n#### Verificare la port security:\n```\nSW1# show port-security interface FastEthernet0/1\n```\n\n#### Riattivare una porta in err-disabled:\n```\nSW1(config)# interface FastEthernet0/1\nSW1(config-if)# shutdown\nSW1(config-if)# no shutdown\n```\n\n### 2. Disabilitare le porte non utilizzate\nLe porte libere sono un rischio: chiunque può collegare un dispositivo.\n```\nSW1(config)# interface range FastEthernet0/10 - 24\nSW1(config-if-range)# shutdown\n```\nQuesto spegne le porte dalla 10 alla 24 se non sono in uso.\n\n### 3. DHCP Snooping\nProtegge dalla presenza di **server DHCP falsi** nella rete.\n\n#### Concetto:\n- Le porte sono divise in **trusted** (dove sta il DHCP vero) e **untrusted** (tutte le altre)\n- I pacchetti DHCP Offer/Reply sono permessi **solo dalle porte trusted**\n\n```\nSW1(config)# ip dhcp snooping\nSW1(config)# ip dhcp snooping vlan 1\nSW1(config)# interface GigabitEthernet0/1\nSW1(config-if)# ip dhcp snooping trust\n```\n\n### 4. Password sullo switch\nProteggere l'accesso alla CLI:\n```\nSW1(config)# enable secret CiscoPassword\nSW1(config)# line console 0\nSW1(config-line)# password ConPass\nSW1(config-line)# login\nSW1(config)# line vty 0 15\nSW1(config-line)# password VtyPass\nSW1(config-line)# login\n```\n\n### Riepilogo difese:\n| Minaccia | Difesa |\n|---|---|\n| MAC Flooding | Port Security (max MAC) |\n| Dispositivo non autorizzato | Port Security + shutdown porte libere |\n| DHCP falso | DHCP Snooping |\n| Accesso non autorizzato alla CLI | Password enable + console + vty |\n\n### Errori comuni:\n- ❌ Non mettere `switchport mode access` prima di `port-security`\n- ❌ Dimenticare di salvare con `copy running-config startup-config`\n- ❌ Non riattivare la porta dopo un err-disabled (sembra \"rotta\" ma è solo bloccata)",
+    "keywords": "port security,MAC flooding,DHCP snooping,shutdown,sicurezza switch"
+  },
+  {
+    "id": 124,
+    "section_id": "T",
+    "number": 13,
     "title": "Configurare un server FTP in Packet Tracer",
     "content": "### Cos'è FTP?\n**FTP** (File Transfer Protocol) permette di trasferire file tra client e server. È usato per:\n- **Upload**: caricare file dal PC al server\n- **Download**: scaricare file dal server al PC\n- Gestire backup, aggiornamenti firmware, configurazioni\n\nFTP usa **due porte**:\n- Porta **21**: canale di controllo (comandi)\n- Porta **20**: canale dati (trasferimento file)\n\n### Topologia necessaria:\n- 1 **Server** (FTP server)\n- 1+ **PC** client\n- 1 **Switch**\n- Cavi dritti\n\n### Passo 1 — Indirizzi IP:\n| Dispositivo | IP | Subnet Mask |\n|---|---|---|\n| Server FTP | 192.168.1.100 | 255.255.255.0 |\n| PC0 | 192.168.1.10 | 255.255.255.0 |\n\n### Passo 2 — Configurare il servizio FTP sul Server:\n1. Click sul Server → **Services** → **FTP**\n2. Il servizio è attivo di default (ON)\n3. Creare un account utente:\n\n| Campo | Valore |\n|---|---|\n| Username | admin |\n| Password | admin123 |\n| Write | ✅ (spuntare) |\n| Read | ✅ (spuntare) |\n| Delete | ✅ (spuntare) |\n| Rename | ✅ (spuntare) |\n| List | ✅ (spuntare) |\n\n4. Click **Add** per aggiungere l'utente\n\n> I permessi determinano cosa può fare l'utente: **Read** = scaricare, **Write** = caricare, **Delete** = cancellare file, ecc.\n\n### Passo 3 — Accesso FTP dal PC (Command Prompt):\nDal PC → **Desktop** → **Command Prompt**:\n```\nC:\\> ftp 192.168.1.100\nUsername: admin\nPassword: admin123\n\nftp> dir                    ← mostra i file sul server\nftp> get sampleFile.txt     ← scarica un file\nftp> put nuovoFile.txt      ← carica un file\nftp> quit                   ← esce dalla sessione FTP\n```\n\n### Comandi FTP principali:\n| Comando | Descrizione |\n|---|---|\n| `dir` | Elenca i file sul server |\n| `get <file>` | Scarica un file dal server |\n| `put <file>` | Carica un file sul server |\n| `delete <file>` | Elimina un file dal server |\n| `rename <old> <new>` | Rinomina un file |\n| `quit` | Chiude la connessione |\n\n### Passo 4 — Accesso FTP dal browser (GUI):\n1. Sul PC → **Desktop** → **Web Browser**\n2. Nella barra URL digitare: `ftp://admin:admin123@192.168.1.100`\n3. Si aprirà l'interfaccia con i file, si possono scaricare con un click\n\n### Caso pratico — Backup configurazione router via FTP:\nDal router, si può salvare la configurazione sul server FTP:\n```\nR1# copy running-config ftp:\nAddress of remote host []: 192.168.1.100\nDestination filename [R1-confg]: backup-config.txt\n```\n\n### Errori comuni:\n- ❌ Non creare l'utente FTP sul server\n- ❌ Non dare i permessi giusti (es. Write mancante → non si può fare upload)\n- ❌ Sbagliare IP del server nel comando `ftp`\n- ❌ Dimenticare username/password al login",
     "keywords": "FTP,file transfer,upload,download,porta 21,backup"
@@ -2745,6 +2769,78 @@ export const quizQuestions = [
     "option_d": "CLI → mail setup",
     "correct_answer": "B",
     "explanation": "La configurazione del client email si trova in Desktop → Email sul PC in Packet Tracer."
+  },
+  {
+    "id": 137,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Il NAT traduce:",
+    "option_a": "MAC in IP",
+    "option_b": "IP privati in IP pubblici",
+    "option_c": "DNS in IP",
+    "option_d": "VLAN in sottoreti",
+    "correct_answer": "B",
+    "explanation": "Il NAT (Network Address Translation) traduce gli indirizzi IP privati della LAN in IP pubblici per uscire su Internet."
+  },
+  {
+    "id": 138,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Nel NAT, l'interfaccia lato LAN è configurata come:",
+    "option_a": "ip nat outside",
+    "option_b": "ip nat inside",
+    "option_c": "ip nat private",
+    "option_d": "ip nat local",
+    "correct_answer": "B",
+    "explanation": "L'interfaccia verso la rete interna è configurata come ip nat inside, quella verso Internet come ip nat outside."
+  },
+  {
+    "id": 139,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Il DHCP assegna automaticamente ai PC:",
+    "option_a": "Solo l'IP",
+    "option_b": "IP, subnet mask, gateway e DNS",
+    "option_c": "Solo il gateway",
+    "option_d": "Solo il MAC",
+    "correct_answer": "B",
+    "explanation": "Il DHCP assegna automaticamente IP Address, Subnet Mask, Default Gateway e DNS Server."
+  },
+  {
+    "id": 140,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "In Packet Tracer, per attivare DHCP su un PC si va in:",
+    "option_a": "CLI → dhcp enable",
+    "option_b": "Desktop → IP Configuration → DHCP",
+    "option_c": "Services → DHCP",
+    "option_d": "Config → DHCP",
+    "correct_answer": "B",
+    "explanation": "Sul PC si va in Desktop → IP Configuration e si seleziona DHCP al posto di Static."
+  },
+  {
+    "id": 141,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "La Port Security sullo switch serve a:",
+    "option_a": "Velocizzare le porte",
+    "option_b": "Limitare i MAC ammessi su una porta",
+    "option_c": "Cifrare il traffico",
+    "option_d": "Configurare le VLAN",
+    "correct_answer": "B",
+    "explanation": "La Port Security limita quanti e quali indirizzi MAC possono utilizzare una porta dello switch."
+  },
+  {
+    "id": 142,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Con violation shutdown, se un MAC non autorizzato si collega:",
+    "option_a": "La porta rallenta",
+    "option_b": "La porta si spegne (err-disabled)",
+    "option_c": "Il frame viene ignorato",
+    "option_d": "Lo switch si riavvia",
+    "correct_answer": "B",
+    "explanation": "In modalità shutdown, la porta va in stato err-disabled e deve essere riattivata manualmente."
   }
 ];
 
@@ -3161,6 +3257,27 @@ export const flashcards = [
     "topic_id": null,
     "front": "Come si configura FTP in Packet Tracer?",
     "back": "Server → Services → FTP: creare utente con permessi (Read, Write, Delete, List). Dal PC: Command Prompt → ftp <IP>, login, poi dir/get/put/quit. Porta 21 (controllo), porta 20 (dati)."
+  },
+  {
+    "id": 60,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Come si configura il NAT in Packet Tracer?",
+    "back": "Router: interfaccia LAN = ip nat inside, interfaccia WAN = ip nat outside. Access-list 1 permit rete. ip nat inside source list 1 interface <WAN> overload. Traduce IP privati in IP pubblico del router."
+  },
+  {
+    "id": 61,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Come si configura il DHCP in Packet Tracer?",
+    "back": "Server → Services → DHCP: ON, gateway, DNS, start IP, mask. PC → Desktop → IP Configuration → selezionare DHCP. Oppure dal router: ip dhcp pool, network, default-router, dns-server."
+  },
+  {
+    "id": 62,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Cos'è la Port Security sullo switch?",
+    "back": "Limita i MAC ammessi per porta. Comandi: switchport port-security, maximum 1, mac-address sticky, violation shutdown. Se un MAC diverso si collega → porta in err-disabled. Protegge da MAC flooding."
   }
 ];
 
@@ -3550,495 +3667,510 @@ export const glossary = [
   {
     "id": 39,
     "term": "DHCP",
-    "definition": "Dynamic Host Configuration Protocol - assegna automaticamente indirizzi IP ai dispositivi."
+    "definition": "Dynamic Host Configuration Protocol - assegna automaticamente indirizzi IP, subnet mask, gateway e DNS ai dispositivi."
   },
   {
     "id": 40,
+    "term": "DHCP Snooping",
+    "definition": "Funzione di sicurezza dello switch che filtra i pacchetti DHCP da porte non autorizzate (untrusted)."
+  },
+  {
+    "id": 41,
     "term": "Diafonia",
     "definition": "Interferenza tra cavi adiacenti (crosstalk), ridotta dall'intreccio nel doppino."
   },
   {
-    "id": 41,
+    "id": 42,
     "term": "Dijkstra",
     "definition": "Algoritmo per il cammino minimo usato dal protocollo OSPF."
   },
   {
-    "id": 42,
+    "id": 43,
     "term": "Doppino intrecciato",
     "definition": "Cavo di rete con due fili di rame intrecciati, usa connettore RJ45."
   },
   {
-    "id": 43,
+    "id": 44,
     "term": "ESP",
     "definition": "Encapsulating Security Payload - componente IPsec che fornisce cifratura e autenticazione."
   },
   {
-    "id": 44,
+    "id": 45,
     "term": "Ethernet",
     "definition": "Tecnologia LAN più diffusa, standard IEEE 802.3, opera al livello 2 OSI."
   },
   {
-    "id": 45,
+    "id": 46,
     "term": "Fibra ottica",
     "definition": "Mezzo trasmissivo che usa impulsi luminosi, immune a interferenze EM."
   },
   {
-    "id": 46,
+    "id": 47,
     "term": "Firewall",
     "definition": "Sistema di sicurezza che controlla e filtra il traffico di rete in base a regole."
   },
   {
-    "id": 47,
+    "id": 48,
     "term": "Firma digitale",
     "definition": "Meccanismo crittografico che garantisce autenticità e integrità di un documento."
   },
   {
-    "id": 48,
+    "id": 49,
     "term": "FLSM",
     "definition": "Fixed Length Subnet Mask - subnetting con la stessa mask per tutte le sottoreti."
   },
   {
-    "id": 49,
+    "id": 50,
     "term": "Flooding",
     "definition": "Invio di un frame a tutte le porte quando il MAC di destinazione non è in tabella."
   },
   {
-    "id": 50,
+    "id": 51,
     "term": "FTP",
     "definition": "File Transfer Protocol - protocollo per il trasferimento file. Porta 21 (controllo), porta 20 (dati). Comandi: get, put, dir."
   },
   {
-    "id": 51,
+    "id": 52,
     "term": "Frame",
     "definition": "Unità dati del livello 2 (Data Link), contiene MAC sorgente, destinazione, payload e CRC."
   },
   {
-    "id": 52,
+    "id": 53,
     "term": "Full-duplex",
     "definition": "Comunicazione bidirezionale simultanea su un collegamento."
   },
   {
-    "id": 53,
+    "id": 54,
     "term": "Grafo",
     "definition": "Struttura matematica con nodi e archi, usata per rappresentare reti."
   },
   {
-    "id": 54,
+    "id": 55,
     "term": "Hash",
     "definition": "Impronta digitale (digest) di lunghezza fissa prodotta da una funzione hash irreversibile."
   },
   {
-    "id": 55,
+    "id": 56,
     "term": "Hop count",
     "definition": "Metrica di RIP: numero di router attraversati per raggiungere la destinazione."
   },
   {
-    "id": 56,
+    "id": 57,
     "term": "HTTP",
     "definition": "HyperText Transfer Protocol - protocollo web, porta 80."
   },
   {
-    "id": 57,
+    "id": 58,
     "term": "HTTPS",
     "definition": "HTTP Secure - versione crittografata di HTTP con TLS, porta 443."
   },
   {
-    "id": 58,
+    "id": 59,
     "term": "Hub",
     "definition": "Apparato di rete livello 1 che ripete il segnale a tutte le porte (obsoleto)."
   },
   {
-    "id": 59,
+    "id": 60,
     "term": "IDS",
     "definition": "Intrusion Detection System - rileva intrusioni e attività sospette nella rete."
   },
   {
-    "id": 60,
+    "id": 61,
     "term": "IEEE 802.1Q",
     "definition": "Standard per il tagging VLAN sui trunk, aggiunge 4 byte al frame Ethernet."
   },
   {
-    "id": 61,
+    "id": 62,
     "term": "IEEE 802.3",
     "definition": "Standard che definisce Ethernet."
   },
   {
-    "id": 62,
+    "id": 63,
     "term": "Inter-VLAN routing",
     "definition": "Routing tra VLAN diverse tramite router-on-a-stick o switch Layer 3."
   },
   {
-    "id": 63,
+    "id": 64,
     "term": "IP",
     "definition": "Internet Protocol - protocollo di livello 3 per l'indirizzamento e instradamento."
   },
   {
-    "id": 64,
+    "id": 65,
     "term": "IPS",
     "definition": "Intrusion Prevention System - rileva e blocca automaticamente intrusioni nella rete."
   },
   {
-    "id": 65,
+    "id": 66,
     "term": "IPsec",
     "definition": "Internet Protocol Security - suite di protocolli per cifratura e autenticazione a livello 3."
   },
   {
-    "id": 66,
+    "id": 67,
     "term": "IPv4",
     "definition": "Internet Protocol versione 4 - indirizzi a 32 bit (4 ottetti)."
   },
   {
-    "id": 67,
+    "id": 68,
     "term": "ISO/OSI",
     "definition": "Modello di riferimento a 7 livelli per le reti di comunicazione."
   },
   {
-    "id": 68,
+    "id": 69,
     "term": "Keylogger",
     "definition": "Spyware che registra ogni tasto premuto sulla tastiera per rubare credenziali."
   },
   {
-    "id": 69,
+    "id": 70,
     "term": "LAN",
     "definition": "Local Area Network - rete locale che copre un'area limitata."
   },
   {
-    "id": 70,
+    "id": 71,
     "term": "Link State",
     "definition": "Tipo di protocollo di routing dove ogni router ha la mappa completa della topologia."
   },
   {
-    "id": 71,
+    "id": 72,
     "term": "Longest prefix match",
     "definition": "Regola di routing: si sceglie la rotta con la subnet mask più lunga."
   },
   {
-    "id": 72,
+    "id": 73,
     "term": "LSA",
     "definition": "Link State Advertisement - messaggio OSPF con informazioni sulla topologia."
   },
   {
-    "id": 73,
+    "id": 74,
     "term": "MAC address",
     "definition": "Media Access Control address - identificatore univoco a 48 bit della scheda di rete."
   },
   {
-    "id": 74,
+    "id": 75,
+    "term": "MAC Flooding",
+    "definition": "Attacco che inonda la tabella MAC dello switch per farlo comportare come un hub."
+  },
+  {
+    "id": 76,
     "term": "Malware",
     "definition": "Malicious software - software malevolo creato per danneggiare o compromettere sistemi."
   },
   {
-    "id": 75,
+    "id": 77,
     "term": "Man-in-the-Middle",
     "definition": "Attacco in cui l'attaccante si inserisce tra due comunicanti per intercettare i dati."
   },
   {
-    "id": 76,
+    "id": 78,
     "term": "MFA",
     "definition": "Multi-Factor Authentication - autenticazione con più fattori (password + OTP/token)."
   },
   {
-    "id": 77,
+    "id": 79,
     "term": "Modem",
     "definition": "Modulatore/demodulatore - converte segnale digitale in analogico per la linea del provider."
   },
   {
-    "id": 78,
+    "id": 80,
     "term": "NAT",
     "definition": "Network Address Translation - traduce indirizzi IP privati in pubblici."
   },
   {
-    "id": 79,
+    "id": 81,
     "term": "Native VLAN",
     "definition": "VLAN i cui frame viaggiano senza tag 802.1Q sul trunk (default: VLAN 1)."
   },
   {
-    "id": 80,
+    "id": 82,
     "term": "NGFW",
     "definition": "Next-Generation Firewall - firewall avanzato con IPS, analisi SSL e controllo applicazioni."
   },
   {
-    "id": 81,
+    "id": 83,
     "term": "NIC",
     "definition": "Network Interface Card - scheda di rete di un dispositivo."
   },
   {
-    "id": 82,
+    "id": 84,
     "term": "OpenVPN",
     "definition": "Protocollo VPN open source basato su TLS/SSL, flessibile e molto diffuso."
   },
   {
-    "id": 83,
+    "id": 85,
     "term": "OSPF",
     "definition": "Open Shortest Path First - protocollo di routing link state basato su Dijkstra."
   },
   {
-    "id": 84,
+    "id": 86,
     "term": "Ottetto",
     "definition": "Gruppo di 8 bit, un byte. Un indirizzo IPv4 ha 4 ottetti."
   },
   {
-    "id": 85,
+    "id": 87,
     "term": "Packet Tracer",
     "definition": "Simulatore di rete gratuito di Cisco per progettare e configurare reti virtuali."
   },
   {
-    "id": 86,
+    "id": 88,
     "term": "OUI",
     "definition": "Organizationally Unique Identifier - primi 3 byte del MAC, identificano il produttore."
   },
   {
-    "id": 87,
+    "id": 89,
     "term": "Pacchetto",
     "definition": "Unità dati del livello 3 (Rete), contiene indirizzi IP."
   },
   {
-    "id": 88,
+    "id": 90,
     "term": "Patch cord",
     "definition": "Cavo corto per collegare dispositivi a prese di rete o patch panel a switch."
   },
   {
-    "id": 89,
+    "id": 91,
     "term": "Patch panel",
     "definition": "Pannello di permutazione dove terminano i cavi dagli uffici."
   },
   {
-    "id": 90,
+    "id": 92,
     "term": "Payload",
     "definition": "Dati utili trasportati all'interno di un frame o pacchetto."
   },
   {
-    "id": 91,
+    "id": 93,
     "term": "Phishing",
     "definition": "Attacco che usa email/siti falsi per rubare credenziali. Varianti: spear phishing, whaling."
   },
   {
-    "id": 92,
+    "id": 94,
     "term": "POP3",
     "definition": "Post Office Protocol v3 - protocollo per scaricare email dal server al client. Porta 110."
   },
   {
-    "id": 93,
+    "id": 95,
     "term": "PKI",
     "definition": "Public Key Infrastructure - sistema di gestione dei certificati digitali (CA, RA, CRL)."
   },
   {
-    "id": 94,
+    "id": 96,
     "term": "Plaintext",
     "definition": "Testo in chiaro, messaggio originale prima della cifratura."
   },
   {
-    "id": 95,
+    "id": 97,
     "term": "PDU",
     "definition": "Protocol Data Unit - unità dati di un protocollo, visibile nella modalità Simulation di Packet Tracer."
   },
   {
-    "id": 96,
+    "id": 98,
+    "term": "Port Security",
+    "definition": "Funzione di sicurezza dello switch che limita i MAC address ammessi su una porta."
+  },
+  {
+    "id": 99,
     "term": "Porta (networking)",
     "definition": "Numero che identifica un'applicazione specifica su un host (0-65535)."
   },
   {
-    "id": 97,
+    "id": 100,
     "term": "QUIC",
     "definition": "Quick UDP Internet Connections - protocollo Google su UDP, base di HTTP/3."
   },
   {
-    "id": 98,
+    "id": 101,
     "term": "Ransomware",
     "definition": "Malware che cifra i file e chiede un riscatto per la chiave di decifratura."
   },
   {
-    "id": 99,
+    "id": 102,
     "term": "RIP",
     "definition": "Routing Information Protocol - protocollo distance vector con metrica hop count."
   },
   {
-    "id": 100,
+    "id": 103,
     "term": "RJ45",
     "definition": "Connettore standard per cavi Ethernet (doppino intrecciato)."
   },
   {
-    "id": 101,
+    "id": 104,
     "term": "Rootkit",
     "definition": "Malware che si nasconde nel sistema operativo per mantenere accesso privilegiato."
   },
   {
-    "id": 102,
+    "id": 105,
     "term": "Router",
     "definition": "Apparato di rete livello 3 che collega reti diverse e instrada pacchetti IP."
   },
   {
-    "id": 103,
+    "id": 106,
     "term": "Router-on-a-stick",
     "definition": "Tecnica inter-VLAN routing con un trunk e subinterface virtuali sul router."
   },
   {
-    "id": 104,
+    "id": 107,
     "term": "Routing",
     "definition": "Processo di determinazione del percorso migliore per i pacchetti."
   },
   {
-    "id": 105,
+    "id": 108,
     "term": "Routing statico",
     "definition": "Routing con percorsi configurati manualmente dall'amministratore."
   },
   {
-    "id": 106,
+    "id": 109,
     "term": "Routing dinamico",
     "definition": "Routing con aggiornamento automatico delle rotte tramite protocolli."
   },
   {
-    "id": 107,
+    "id": 110,
     "term": "RSA",
     "definition": "Algoritmo di crittografia asimmetrica basato sulla fattorizzazione di numeri primi."
   },
   {
-    "id": 108,
+    "id": 111,
     "term": "Segmento",
     "definition": "Unità dati del livello 4 (Trasporto) in TCP."
   },
   {
-    "id": 109,
+    "id": 112,
     "term": "SHA-256",
     "definition": "Secure Hash Algorithm a 256 bit - funzione hash crittografica standard attuale."
   },
   {
-    "id": 110,
+    "id": 113,
     "term": "SMTP",
     "definition": "Simple Mail Transfer Protocol - protocollo per l'invio di email. Porta 25 (o 587 con TLS)."
   },
   {
-    "id": 111,
+    "id": 114,
     "term": "Social engineering",
     "definition": "Tecniche che sfruttano la psicologia umana per ottenere informazioni o accesso ai sistemi."
   },
   {
-    "id": 112,
+    "id": 115,
     "term": "Socket",
     "definition": "Combinazione di indirizzo IP e porta che identifica un endpoint di comunicazione."
   },
   {
-    "id": 113,
+    "id": 116,
     "term": "Spyware",
     "definition": "Malware che spia le attività dell'utente e raccoglie dati senza consenso."
   },
   {
-    "id": 114,
+    "id": 117,
     "term": "Stateful firewall",
     "definition": "Firewall che tiene traccia delle connessioni attive per decisioni di filtraggio più intelligenti."
   },
   {
-    "id": 115,
+    "id": 118,
     "term": "STP (cavo)",
     "definition": "Shielded Twisted Pair - doppino con schermatura metallica."
   },
   {
-    "id": 116,
+    "id": 119,
     "term": "Subnet mask",
     "definition": "Maschera che separa la parte rete dalla parte host di un indirizzo IP."
   },
   {
-    "id": 117,
+    "id": 120,
     "term": "Subnetting",
     "definition": "Tecnica di divisione di una rete in sottoreti più piccole."
   },
   {
-    "id": 118,
+    "id": 121,
     "term": "Switch",
     "definition": "Apparato di rete livello 2 che commuta frame usando la tabella MAC."
   },
   {
-    "id": 119,
+    "id": 122,
     "term": "SYN",
     "definition": "Synchronize - primo messaggio del three-way handshake TCP."
   },
   {
-    "id": 120,
+    "id": 123,
     "term": "Tabella di routing",
     "definition": "Database del router con le rotte verso le reti di destinazione."
   },
   {
-    "id": 121,
+    "id": 124,
     "term": "Tabella MAC",
     "definition": "Database dello switch con associazioni MAC address - porta fisica."
   },
   {
-    "id": 122,
+    "id": 125,
     "term": "TCP",
     "definition": "Transmission Control Protocol - protocollo di trasporto affidabile e orientato alla connessione."
   },
   {
-    "id": 123,
+    "id": 126,
     "term": "TCP/IP",
     "definition": "Modello di rete a 4 livelli usato da Internet."
   },
   {
-    "id": 124,
+    "id": 127,
     "term": "Three-way handshake",
     "definition": "Processo in 3 passi (SYN, SYN-ACK, ACK) per stabilire una connessione TCP."
   },
   {
-    "id": 125,
+    "id": 128,
     "term": "TLS",
     "definition": "Transport Layer Security - protocollo di crittografia per comunicazioni sicure."
   },
   {
-    "id": 126,
+    "id": 129,
     "term": "Topologia a stella",
     "definition": "Configurazione in cui tutti i dispositivi sono collegati a un nodo centrale (switch)."
   },
   {
-    "id": 127,
+    "id": 130,
     "term": "Trojan",
     "definition": "Malware mascherato da programma legittimo che esegue azioni malevole in background."
   },
   {
-    "id": 128,
+    "id": 131,
     "term": "Trunk",
     "definition": "Collegamento tra switch che trasporta traffico di più VLAN con tagging 802.1Q."
   },
   {
-    "id": 129,
+    "id": 132,
     "term": "Tunneling",
     "definition": "Tecnica VPN che incapsula e cifra pacchetti originali dentro nuovi pacchetti."
   },
   {
-    "id": 130,
+    "id": 133,
     "term": "UDP",
     "definition": "User Datagram Protocol - protocollo di trasporto veloce senza garanzie di consegna."
   },
   {
-    "id": 131,
+    "id": 134,
     "term": "UTP",
     "definition": "Unshielded Twisted Pair - doppino senza schermatura, economico."
   },
   {
-    "id": 132,
+    "id": 135,
     "term": "VLAN",
     "definition": "Virtual LAN - rete locale virtuale per segmentare logicamente una rete fisica."
   },
   {
-    "id": 133,
+    "id": 136,
     "term": "VLSM",
     "definition": "Variable Length Subnet Mask - subnetting con mask diverse per ogni sottorete."
   },
   {
-    "id": 134,
+    "id": 137,
     "term": "VPN",
     "definition": "Virtual Private Network - tunnel cifrato su rete pubblica per connessioni sicure."
   },
   {
-    "id": 135,
+    "id": 138,
     "term": "Wi-Fi",
     "definition": "Tecnologia wireless per reti locali basata su standard IEEE 802.11."
   },
   {
-    "id": 136,
+    "id": 139,
     "term": "WireGuard",
     "definition": "Protocollo VPN moderno con codice minimale e prestazioni elevate."
   },
   {
-    "id": 137,
+    "id": 140,
     "term": "Worm",
     "definition": "Malware che si replica autonomamente attraverso la rete senza azione umana."
   }
