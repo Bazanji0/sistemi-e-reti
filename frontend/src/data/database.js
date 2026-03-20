@@ -1086,6 +1086,30 @@ export const topics = [
     "title": "Comandi show e debug",
     "content": "### Comandi `show` più importanti:\n\n```\n! Mostra configurazione attiva\nshow running-config\n\n! Mostra configurazione salvata\nshow startup-config\n\n! Mostra stato delle interfacce\nshow ip interface brief\n\n! Mostra tabella di routing\nshow ip route\n\n! Mostra VLAN configurate (switch)\nshow vlan brief\n\n! Mostra tabella MAC (switch)\nshow mac-address-table\n\n! Mostra vicini CDP\nshow cdp neighbors\n\n! Mostra protocolli di routing attivi\nshow ip protocols\n\n! Mostra dettagli OSPF\nshow ip ospf neighbor\n```\n\n### Comandi di verifica da PC:\n```\nping <IP>            → verifica raggiungibilità\ntracert <IP>         → mostra percorso\nipconfig             → mostra IP del PC\nipconfig /all        → mostra dettagli completi\nnslookup <dominio>   → risoluzione DNS\n```\n\n### Trucchi utili:\n- **Tab**: completa il comando\n- **?**: mostra comandi disponibili\n- **do show**: esegue show da config mode",
     "keywords": "show,comandi,running-config,ip route,verifica"
+  },
+  {
+    "id": 119,
+    "section_id": "T",
+    "number": 119,
+    "title": "Configurare un server DNS in Packet Tracer",
+    "content": "### Cos'è il DNS?\nIl **DNS** (Domain Name System) traduce i nomi di dominio (es. `www.azienda.com`) in indirizzi IP (es. `192.168.1.100`). Senza DNS dovremmo ricordare a memoria tutti gli IP!\n\n### Topologia necessaria:\n- 1 **Server** (farà da DNS server)\n- 1 o più **PC** client\n- 1 **Switch** per collegarli\n- Cavi dritti (straight-through)\n\n### Passo 1 — Configurare gli IP:\n| Dispositivo | IP | Subnet Mask | Gateway | DNS Server |\n|---|---|---|---|---|\n| Server DNS | 192.168.1.2 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n| PC0 | 192.168.1.10 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n| PC1 | 192.168.1.11 | 255.255.255.0 | 192.168.1.1 | 192.168.1.2 |\n\n> **Importante**: nei PC il campo **DNS Server** deve puntare all'IP del server DNS (192.168.1.2).\n\n### Passo 2 — Configurare il servizio DNS sul Server:\n1. Click sul Server → scheda **Services** → **DNS**\n2. Attivare il servizio: **ON**\n3. Aggiungere i record:\n\n| Name | Type | Address |\n|---|---|---|\n| www.azienda.com | A Record | 192.168.1.100 |\n| www.scuola.it | A Record | 192.168.1.101 |\n| mail.azienda.com | A Record | 192.168.1.50 |\n\n4. Per ogni record: compilare **Name**, scegliere **Type** = A Record, inserire l'**Address** e premere **Add**\n\n### Passo 3 — Verifica dal PC:\nAprire **Desktop** → **Command Prompt** sul PC:\n```\nC:\\> nslookup www.azienda.com\nServer: 192.168.1.2\nAddress: 192.168.1.100\n```\n\nSe hai anche un server HTTP attivo all'IP 192.168.1.100, puoi aprire il **Web Browser** dal Desktop del PC e digitare `www.azienda.com` → vedrai la pagina web!\n\n### Errori comuni:\n- ❌ Dimenticare di mettere il DNS Server nell'IP Configuration dei PC\n- ❌ Non attivare il servizio DNS (lasciarlo su OFF)\n- ❌ Sbagliare l'IP nel record A (deve corrispondere al server di destinazione)",
+    "keywords": "DNS,server,risoluzione nomi,A Record,nslookup"
+  },
+  {
+    "id": 120,
+    "section_id": "T",
+    "number": 120,
+    "title": "Configurare un server Email (SMTP/POP3) in Packet Tracer",
+    "content": "### Come funziona la posta in Packet Tracer?\nPacket Tracer simula un sistema di posta completo con:\n- **SMTP** (Simple Mail Transfer Protocol) — per **inviare** le email\n- **POP3** (Post Office Protocol v3) — per **ricevere/scaricare** le email\n\nIl server email gestisce entrambi i protocolli e contiene le **caselle di posta** degli utenti.\n\n### Topologia necessaria:\n- 1 **Server** (mail server)\n- 1 **Server DNS** (per risolvere il dominio di posta)\n- 2+ **PC** (utenti che si scrivono)\n- 1 **Switch**\n- Cavi dritti\n\n### Passo 1 — Indirizzi IP:\n| Dispositivo | IP | DNS Server |\n|---|---|---|\n| Server Mail | 192.168.1.50 | 192.168.1.2 |\n| Server DNS | 192.168.1.2 | 192.168.1.2 |\n| PC-Mario | 192.168.1.10 | 192.168.1.2 |\n| PC-Luigi | 192.168.1.11 | 192.168.1.2 |\n\n(Tutti con Subnet 255.255.255.0 e Gateway 192.168.1.1)\n\n### Passo 2 — Configurare il DNS:\n1. Sul Server DNS → **Services** → **DNS** → ON\n2. Aggiungere il record:\n   - **Name**: `mail.azienda.com`\n   - **Type**: A Record\n   - **Address**: `192.168.1.50`\n   - Click **Add**\n\n> Questo è fondamentale: i PC useranno il nome `mail.azienda.com` come server di posta, e il DNS deve saperlo tradurre!\n\n### Passo 3 — Configurare il servizio Email sul Server:\n1. Click sul Server Mail → **Services** → **EMAIL**\n2. Impostare:\n   - **Domain Name**: `azienda.com`\n   - **SMTP Service**: ON\n   - **POP3 Service**: ON\n3. Creare gli utenti:\n\n| User | Password |\n|---|---|\n| mario | mario123 |\n| luigi | luigi123 |\n\n4. Per ogni utente: inserire **User**, **Password** e premere il pulsante **+** (Add User)\n\n### Passo 4 — Configurare il client email su ogni PC:\n1. Click sul PC → **Desktop** → **Email**\n2. Configurare (esempio per Mario):\n\n| Campo | Valore |\n|---|---|\n| Your Name | Mario |\n| Email Address | mario@azienda.com |\n| Incoming Mail Server (POP3) | mail.azienda.com |\n| Outgoing Mail Server (SMTP) | mail.azienda.com |\n| User Name | mario |\n| Password | mario123 |\n\n3. Click **Save** per salvare la configurazione\n4. Ripetere per Luigi con i suoi dati\n\n### Passo 5 — Inviare e ricevere email:\n1. Sul PC di Mario: click **Compose**\n   - **To**: `luigi@azienda.com`\n   - **Subject**: `Ciao Luigi`\n   - **Body**: `Questo è un test!`\n   - Click **Send**\n2. Sul PC di Luigi: click **Receive**\n   - Appare l'email di Mario nella inbox!\n\n### Schema riassuntivo del flusso:\n```\nMario (SMTP) → Server Mail → Luigi (POP3)\n     invio          casella       scarica\n```\n\n### Errori comuni:\n- ❌ Non configurare il DNS → il PC non trova `mail.azienda.com`\n- ❌ Sbagliare il domain name sul server (deve corrispondere a `@azienda.com`)\n- ❌ Non creare l'utente sul server prima di configurare il client\n- ❌ Dimenticare di premere **Receive** sul PC destinatario",
+    "keywords": "Email,SMTP,POP3,posta,mail server,configurazione"
+  },
+  {
+    "id": 121,
+    "section_id": "T",
+    "number": 121,
+    "title": "Configurare un server FTP in Packet Tracer",
+    "content": "### Cos'è FTP?\n**FTP** (File Transfer Protocol) permette di trasferire file tra client e server. È usato per:\n- **Upload**: caricare file dal PC al server\n- **Download**: scaricare file dal server al PC\n- Gestire backup, aggiornamenti firmware, configurazioni\n\nFTP usa **due porte**:\n- Porta **21**: canale di controllo (comandi)\n- Porta **20**: canale dati (trasferimento file)\n\n### Topologia necessaria:\n- 1 **Server** (FTP server)\n- 1+ **PC** client\n- 1 **Switch**\n- Cavi dritti\n\n### Passo 1 — Indirizzi IP:\n| Dispositivo | IP | Subnet Mask |\n|---|---|---|\n| Server FTP | 192.168.1.100 | 255.255.255.0 |\n| PC0 | 192.168.1.10 | 255.255.255.0 |\n\n### Passo 2 — Configurare il servizio FTP sul Server:\n1. Click sul Server → **Services** → **FTP**\n2. Il servizio è attivo di default (ON)\n3. Creare un account utente:\n\n| Campo | Valore |\n|---|---|\n| Username | admin |\n| Password | admin123 |\n| Write | ✅ (spuntare) |\n| Read | ✅ (spuntare) |\n| Delete | ✅ (spuntare) |\n| Rename | ✅ (spuntare) |\n| List | ✅ (spuntare) |\n\n4. Click **Add** per aggiungere l'utente\n\n> I permessi determinano cosa può fare l'utente: **Read** = scaricare, **Write** = caricare, **Delete** = cancellare file, ecc.\n\n### Passo 3 — Accesso FTP dal PC (Command Prompt):\nDal PC → **Desktop** → **Command Prompt**:\n```\nC:\\> ftp 192.168.1.100\nUsername: admin\nPassword: admin123\n\nftp> dir                    ← mostra i file sul server\nftp> get sampleFile.txt     ← scarica un file\nftp> put nuovoFile.txt      ← carica un file\nftp> quit                   ← esce dalla sessione FTP\n```\n\n### Comandi FTP principali:\n| Comando | Descrizione |\n|---|---|\n| `dir` | Elenca i file sul server |\n| `get <file>` | Scarica un file dal server |\n| `put <file>` | Carica un file sul server |\n| `delete <file>` | Elimina un file dal server |\n| `rename <old> <new>` | Rinomina un file |\n| `quit` | Chiude la connessione |\n\n### Passo 4 — Accesso FTP dal browser (GUI):\n1. Sul PC → **Desktop** → **Web Browser**\n2. Nella barra URL digitare: `ftp://admin:admin123@192.168.1.100`\n3. Si aprirà l'interfaccia con i file, si possono scaricare con un click\n\n### Caso pratico — Backup configurazione router via FTP:\nDal router, si può salvare la configurazione sul server FTP:\n```\nR1# copy running-config ftp:\nAddress of remote host []: 192.168.1.100\nDestination filename [R1-confg]: backup-config.txt\n```\n\n### Errori comuni:\n- ❌ Non creare l'utente FTP sul server\n- ❌ Non dare i permessi giusti (es. Write mancante → non si può fare upload)\n- ❌ Sbagliare IP del server nel comando `ftp`\n- ❌ Dimenticare username/password al login",
+    "keywords": "FTP,file transfer,upload,download,porta 21,backup"
   }
 ];
 
@@ -2625,6 +2649,102 @@ export const quizQuestions = [
     "option_d": "show vlan",
     "correct_answer": "C",
     "explanation": "Il comando ping verifica la raggiungibilità di un host inviando pacchetti ICMP."
+  },
+  {
+    "id": 129,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Quale tipo di record DNS mappa un nome a un indirizzo IP?",
+    "option_a": "MX Record",
+    "option_b": "A Record",
+    "option_c": "CNAME",
+    "option_d": "PTR Record",
+    "correct_answer": "B",
+    "explanation": "Il record A (Address) associa un nome di dominio al suo indirizzo IPv4."
+  },
+  {
+    "id": 130,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Per verificare la risoluzione DNS da un PC si usa il comando:",
+    "option_a": "ping",
+    "option_b": "tracert",
+    "option_c": "nslookup",
+    "option_d": "ipconfig",
+    "correct_answer": "C",
+    "explanation": "Il comando nslookup interroga il server DNS e mostra l'IP associato a un nome."
+  },
+  {
+    "id": 131,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Quale protocollo si usa per INVIARE email?",
+    "option_a": "POP3",
+    "option_b": "IMAP",
+    "option_c": "SMTP",
+    "option_d": "FTP",
+    "correct_answer": "C",
+    "explanation": "SMTP (Simple Mail Transfer Protocol) è il protocollo standard per l'invio delle email."
+  },
+  {
+    "id": 132,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Quale protocollo si usa per SCARICARE email dal server?",
+    "option_a": "SMTP",
+    "option_b": "HTTP",
+    "option_c": "DNS",
+    "option_d": "POP3",
+    "correct_answer": "D",
+    "explanation": "POP3 (Post Office Protocol v3) permette al client di scaricare le email dal server di posta."
+  },
+  {
+    "id": 133,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "In Packet Tracer, dove si configura il servizio DNS sul server?",
+    "option_a": "Desktop → IP Configuration",
+    "option_b": "CLI → configure terminal",
+    "option_c": "Services → DNS",
+    "option_d": "Physical → Modules",
+    "correct_answer": "C",
+    "explanation": "Il servizio DNS si configura dalla scheda Services → DNS del server in Packet Tracer."
+  },
+  {
+    "id": 134,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "FTP utilizza quale porta per il canale di controllo?",
+    "option_a": "Porta 20",
+    "option_b": "Porta 21",
+    "option_c": "Porta 25",
+    "option_d": "Porta 80",
+    "correct_answer": "B",
+    "explanation": "FTP usa la porta 21 per il canale di controllo (comandi) e la porta 20 per i dati."
+  },
+  {
+    "id": 135,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Quale comando FTP si usa per scaricare un file dal server?",
+    "option_a": "put",
+    "option_b": "dir",
+    "option_c": "get",
+    "option_d": "download",
+    "correct_answer": "C",
+    "explanation": "Il comando get scarica un file dal server FTP al client."
+  },
+  {
+    "id": 136,
+    "section_id": "T",
+    "topic_id": null,
+    "question": "Per configurare la mail su un PC in Packet Tracer si va in:",
+    "option_a": "Desktop → Command Prompt",
+    "option_b": "Desktop → Email",
+    "option_c": "Services → EMAIL",
+    "option_d": "CLI → mail setup",
+    "correct_answer": "B",
+    "explanation": "La configurazione del client email si trova in Desktop → Email sul PC in Packet Tracer."
   }
 ];
 
@@ -3020,6 +3140,27 @@ export const flashcards = [
     "topic_id": null,
     "front": "Come verificare la connettività?",
     "back": "Da PC: ping (raggiungibilità), tracert (percorso), ipconfig (configurazione IP). Da router: show ip route, ping. Busta PDU per test grafico."
+  },
+  {
+    "id": 57,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Come si configura il DNS in Packet Tracer?",
+    "back": "Server → Services → DNS → ON. Aggiungere record A: nome (es. www.azienda.com) → IP (es. 192.168.1.100). Sui PC: impostare DNS Server nell'IP Configuration. Verifica: nslookup dal Command Prompt."
+  },
+  {
+    "id": 58,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Come si configura la mail (SMTP/POP3) in Packet Tracer?",
+    "back": "Server → Services → EMAIL: domain name, SMTP/POP3 ON, creare utenti. DNS: record A per mail.azienda.com → IP server. PC → Desktop → Email: configurare server SMTP/POP3, user e password. Compose per inviare, Receive per scaricare."
+  },
+  {
+    "id": 59,
+    "section_id": "T",
+    "topic_id": null,
+    "front": "Come si configura FTP in Packet Tracer?",
+    "back": "Server → Services → FTP: creare utente con permessi (Read, Write, Delete, List). Dal PC: Command Prompt → ftp <IP>, login, poi dir/get/put/quit. Porta 21 (controllo), porta 20 (dati)."
   }
 ];
 
@@ -3205,6 +3346,13 @@ export const oralQuestions = [
     "question": "Spiega le modalità CLI di un router Cisco e i comandi principali.",
     "model_answer": "Il router Cisco ha diverse modalità CLI: User EXEC (>) per comandi base, Privileged EXEC (#) con enable per comandi avanzati, Global Configuration (config)# con configure terminal per modifiche globali, Interface Configuration (config-if)# per configurare interfacce. I comandi principali sono: hostname per il nome, interface + ip address + no shutdown per attivare interfacce, show running-config per la configurazione, show ip route per le rotte, copy running-config startup-config per salvare.",
     "cross_section": 0
+  },
+  {
+    "id": 27,
+    "section_id": "T",
+    "question": "Spiega come si implementano i servizi DNS, Email e FTP in Packet Tracer.",
+    "model_answer": "Per il DNS: si configura un server con Services → DNS → ON, si aggiungono record A che mappano nomi di dominio a indirizzi IP, e sui PC si imposta il DNS Server nell'IP Configuration. Per la posta: serve un server mail con SMTP (invio) e POP3 (ricezione) attivi, si crea un dominio e gli account utente. Serve anche un record DNS per il server di posta. Sui PC si configura il client email con server SMTP/POP3, utente e password. Per FTP: si attiva il servizio FTP sul server con account e permessi (Read, Write, Delete). Dal PC si accede via Command Prompt con ftp <IP>, e si usano get per scaricare e put per caricare file. FTP usa porta 21 per i comandi e porta 20 per i dati.",
+    "cross_section": 0
   }
 ];
 
@@ -3231,641 +3379,666 @@ export const glossary = [
   },
   {
     "id": 5,
+    "term": "A Record",
+    "definition": "Record DNS che mappa un nome di dominio a un indirizzo IPv4."
+  },
+  {
+    "id": 6,
     "term": "AES",
     "definition": "Advanced Encryption Standard - algoritmo di crittografia simmetrica standard con chiavi 128/192/256 bit."
   },
   {
-    "id": 6,
+    "id": 7,
     "term": "ARP",
     "definition": "Address Resolution Protocol - risolve indirizzi IP in indirizzi MAC nella rete locale."
   },
   {
-    "id": 7,
+    "id": 8,
     "term": "ARP Spoofing",
     "definition": "Attacco che falsifica risposte ARP per intercettare traffico nella rete locale (MitM)."
   },
   {
-    "id": 8,
+    "id": 9,
     "term": "Armadio rack",
     "definition": "Struttura metallica standardizzata da 19 pollici che ospita apparati di rete."
   },
   {
-    "id": 9,
+    "id": 10,
     "term": "Backdoor",
     "definition": "Accesso nascosto a un sistema, spesso installato da un trojan."
   },
   {
-    "id": 10,
+    "id": 11,
     "term": "Backbone",
     "definition": "Cablaggio dorsale che collega gli armadi di piano e gli edifici, spesso in fibra ottica."
   },
   {
-    "id": 11,
+    "id": 12,
     "term": "Baiting",
     "definition": "Tecnica di social engineering che usa esche (es. USB infette) per compromettere un sistema."
   },
   {
-    "id": 12,
+    "id": 13,
     "term": "Bellman-Ford",
     "definition": "Algoritmo per il cammino minimo usato dal protocollo RIP."
   },
   {
-    "id": 13,
+    "id": 14,
     "term": "Bluetooth",
     "definition": "Tecnologia wireless a corto raggio per connessioni tra dispositivi."
   },
   {
-    "id": 14,
+    "id": 15,
     "term": "Botnet",
     "definition": "Rete di dispositivi infetti controllati da un attaccante, usata per attacchi DDoS."
   },
   {
-    "id": 15,
+    "id": 16,
     "term": "Broadcast",
     "definition": "Trasmissione di un messaggio a tutti i dispositivi della rete (indirizzo .255 in /24)."
   },
   {
-    "id": 16,
+    "id": 17,
     "term": "CA",
     "definition": "Certification Authority - ente che emette e firma i certificati digitali."
   },
   {
-    "id": 17,
+    "id": 18,
     "term": "Cablaggio strutturato",
     "definition": "Sistema standardizzato di cavi e componenti per le comunicazioni in edifici."
   },
   {
-    "id": 18,
+    "id": 19,
     "term": "Cavo console",
     "definition": "Cavo azzurro per collegare un PC alla porta Console di router/switch per la configurazione CLI."
   },
   {
-    "id": 19,
+    "id": 20,
     "term": "Cavo crossover",
     "definition": "Cavo incrociato per collegare dispositivi dello stesso tipo (Switch↔Switch, PC↔PC)."
   },
   {
-    "id": 20,
+    "id": 21,
     "term": "Cavo straight-through",
     "definition": "Cavo dritto per collegare dispositivi diversi (PC↔Switch, Router↔Switch)."
   },
   {
-    "id": 21,
+    "id": 22,
     "term": "Certificato digitale",
     "definition": "Documento elettronico che associa una chiave pubblica all'identità del proprietario, firmato dalla CA."
   },
   {
-    "id": 22,
+    "id": 23,
     "term": "Chiave privata",
     "definition": "Chiave segreta della coppia asimmetrica, usata per decifrare e firmare."
   },
   {
-    "id": 23,
+    "id": 24,
     "term": "Chiave pubblica",
     "definition": "Chiave nota a tutti della coppia asimmetrica, usata per cifrare e verificare firme."
   },
   {
-    "id": 24,
+    "id": 25,
     "term": "CIDR",
     "definition": "Classless Inter-Domain Routing - notazione /N per indicare la subnet mask."
   },
   {
-    "id": 25,
+    "id": 26,
     "term": "CLI",
     "definition": "Command Line Interface - interfaccia a riga di comando per configurare router e switch Cisco."
   },
   {
-    "id": 26,
+    "id": 27,
     "term": "Ciphertext",
     "definition": "Testo cifrato, risultato della cifratura di un messaggio in chiaro."
   },
   {
-    "id": 27,
+    "id": 28,
     "term": "Collisione",
     "definition": "Quando due dispositivi trasmettono contemporaneamente sullo stesso mezzo, causando corruzione dati."
   },
   {
-    "id": 28,
+    "id": 29,
     "term": "CRC",
     "definition": "Cyclic Redundancy Check - campo del frame Ethernet per il controllo errori."
   },
   {
-    "id": 29,
+    "id": 30,
     "term": "Crittografia",
     "definition": "Scienza delle tecniche per rendere i messaggi incomprensibili a chi non ha la chiave."
   },
   {
-    "id": 30,
+    "id": 31,
     "term": "Crittografia asimmetrica",
     "definition": "Cifratura con coppia di chiavi (pubblica/privata). Più lenta ma risolve la distribuzione chiavi."
   },
   {
-    "id": 31,
+    "id": 32,
     "term": "Crittografia simmetrica",
     "definition": "Cifratura con una sola chiave condivisa (es. AES). Veloce ma richiede scambio sicuro della chiave."
   },
   {
-    "id": 32,
+    "id": 33,
     "term": "CSMA/CD",
     "definition": "Carrier Sense Multiple Access with Collision Detection - protocollo di accesso al mezzo."
   },
   {
-    "id": 33,
+    "id": 34,
     "term": "DDoS",
     "definition": "Distributed Denial of Service - attacco che inonda un server di traffico per renderlo inaccessibile."
   },
   {
-    "id": 34,
+    "id": 35,
     "term": "Default gateway",
     "definition": "Indirizzo del router usato per raggiungere reti esterne alla propria."
   },
   {
-    "id": 35,
+    "id": 36,
     "term": "Diffie-Hellman",
     "definition": "Algoritmo per lo scambio sicuro di chiavi crittografiche su un canale insicuro."
   },
   {
-    "id": 36,
+    "id": 37,
     "term": "DMZ",
     "definition": "Zona demilitarizzata - sottorete tra Internet e LAN che ospita server pubblici."
   },
   {
-    "id": 37,
+    "id": 38,
+    "term": "DNS",
+    "definition": "Domain Name System - sistema che traduce nomi di dominio in indirizzi IP. Usa record A, MX, CNAME ecc."
+  },
+  {
+    "id": 39,
     "term": "DHCP",
     "definition": "Dynamic Host Configuration Protocol - assegna automaticamente indirizzi IP ai dispositivi."
   },
   {
-    "id": 38,
+    "id": 40,
     "term": "Diafonia",
     "definition": "Interferenza tra cavi adiacenti (crosstalk), ridotta dall'intreccio nel doppino."
   },
   {
-    "id": 39,
+    "id": 41,
     "term": "Dijkstra",
     "definition": "Algoritmo per il cammino minimo usato dal protocollo OSPF."
   },
   {
-    "id": 40,
+    "id": 42,
     "term": "Doppino intrecciato",
     "definition": "Cavo di rete con due fili di rame intrecciati, usa connettore RJ45."
   },
   {
-    "id": 41,
+    "id": 43,
     "term": "ESP",
     "definition": "Encapsulating Security Payload - componente IPsec che fornisce cifratura e autenticazione."
   },
   {
-    "id": 42,
+    "id": 44,
     "term": "Ethernet",
     "definition": "Tecnologia LAN più diffusa, standard IEEE 802.3, opera al livello 2 OSI."
   },
   {
-    "id": 43,
+    "id": 45,
     "term": "Fibra ottica",
     "definition": "Mezzo trasmissivo che usa impulsi luminosi, immune a interferenze EM."
   },
   {
-    "id": 44,
+    "id": 46,
     "term": "Firewall",
     "definition": "Sistema di sicurezza che controlla e filtra il traffico di rete in base a regole."
   },
   {
-    "id": 45,
+    "id": 47,
     "term": "Firma digitale",
     "definition": "Meccanismo crittografico che garantisce autenticità e integrità di un documento."
   },
   {
-    "id": 46,
+    "id": 48,
     "term": "FLSM",
     "definition": "Fixed Length Subnet Mask - subnetting con la stessa mask per tutte le sottoreti."
   },
   {
-    "id": 47,
+    "id": 49,
     "term": "Flooding",
     "definition": "Invio di un frame a tutte le porte quando il MAC di destinazione non è in tabella."
   },
   {
-    "id": 48,
+    "id": 50,
+    "term": "FTP",
+    "definition": "File Transfer Protocol - protocollo per il trasferimento file. Porta 21 (controllo), porta 20 (dati). Comandi: get, put, dir."
+  },
+  {
+    "id": 51,
     "term": "Frame",
     "definition": "Unità dati del livello 2 (Data Link), contiene MAC sorgente, destinazione, payload e CRC."
   },
   {
-    "id": 49,
+    "id": 52,
     "term": "Full-duplex",
     "definition": "Comunicazione bidirezionale simultanea su un collegamento."
   },
   {
-    "id": 50,
+    "id": 53,
     "term": "Grafo",
     "definition": "Struttura matematica con nodi e archi, usata per rappresentare reti."
   },
   {
-    "id": 51,
+    "id": 54,
     "term": "Hash",
     "definition": "Impronta digitale (digest) di lunghezza fissa prodotta da una funzione hash irreversibile."
   },
   {
-    "id": 52,
+    "id": 55,
     "term": "Hop count",
     "definition": "Metrica di RIP: numero di router attraversati per raggiungere la destinazione."
   },
   {
-    "id": 53,
+    "id": 56,
     "term": "HTTP",
     "definition": "HyperText Transfer Protocol - protocollo web, porta 80."
   },
   {
-    "id": 54,
+    "id": 57,
     "term": "HTTPS",
     "definition": "HTTP Secure - versione crittografata di HTTP con TLS, porta 443."
   },
   {
-    "id": 55,
+    "id": 58,
     "term": "Hub",
     "definition": "Apparato di rete livello 1 che ripete il segnale a tutte le porte (obsoleto)."
   },
   {
-    "id": 56,
+    "id": 59,
     "term": "IDS",
     "definition": "Intrusion Detection System - rileva intrusioni e attività sospette nella rete."
   },
   {
-    "id": 57,
+    "id": 60,
     "term": "IEEE 802.1Q",
     "definition": "Standard per il tagging VLAN sui trunk, aggiunge 4 byte al frame Ethernet."
   },
   {
-    "id": 58,
+    "id": 61,
     "term": "IEEE 802.3",
     "definition": "Standard che definisce Ethernet."
   },
   {
-    "id": 59,
+    "id": 62,
     "term": "Inter-VLAN routing",
     "definition": "Routing tra VLAN diverse tramite router-on-a-stick o switch Layer 3."
   },
   {
-    "id": 60,
+    "id": 63,
     "term": "IP",
     "definition": "Internet Protocol - protocollo di livello 3 per l'indirizzamento e instradamento."
   },
   {
-    "id": 61,
+    "id": 64,
     "term": "IPS",
     "definition": "Intrusion Prevention System - rileva e blocca automaticamente intrusioni nella rete."
   },
   {
-    "id": 62,
+    "id": 65,
     "term": "IPsec",
     "definition": "Internet Protocol Security - suite di protocolli per cifratura e autenticazione a livello 3."
   },
   {
-    "id": 63,
+    "id": 66,
     "term": "IPv4",
     "definition": "Internet Protocol versione 4 - indirizzi a 32 bit (4 ottetti)."
   },
   {
-    "id": 64,
+    "id": 67,
     "term": "ISO/OSI",
     "definition": "Modello di riferimento a 7 livelli per le reti di comunicazione."
   },
   {
-    "id": 65,
+    "id": 68,
     "term": "Keylogger",
     "definition": "Spyware che registra ogni tasto premuto sulla tastiera per rubare credenziali."
   },
   {
-    "id": 66,
+    "id": 69,
     "term": "LAN",
     "definition": "Local Area Network - rete locale che copre un'area limitata."
   },
   {
-    "id": 67,
+    "id": 70,
     "term": "Link State",
     "definition": "Tipo di protocollo di routing dove ogni router ha la mappa completa della topologia."
   },
   {
-    "id": 68,
+    "id": 71,
     "term": "Longest prefix match",
     "definition": "Regola di routing: si sceglie la rotta con la subnet mask più lunga."
   },
   {
-    "id": 69,
+    "id": 72,
     "term": "LSA",
     "definition": "Link State Advertisement - messaggio OSPF con informazioni sulla topologia."
   },
   {
-    "id": 70,
+    "id": 73,
     "term": "MAC address",
     "definition": "Media Access Control address - identificatore univoco a 48 bit della scheda di rete."
   },
   {
-    "id": 71,
+    "id": 74,
     "term": "Malware",
     "definition": "Malicious software - software malevolo creato per danneggiare o compromettere sistemi."
   },
   {
-    "id": 72,
+    "id": 75,
     "term": "Man-in-the-Middle",
     "definition": "Attacco in cui l'attaccante si inserisce tra due comunicanti per intercettare i dati."
   },
   {
-    "id": 73,
+    "id": 76,
     "term": "MFA",
     "definition": "Multi-Factor Authentication - autenticazione con più fattori (password + OTP/token)."
   },
   {
-    "id": 74,
+    "id": 77,
     "term": "Modem",
     "definition": "Modulatore/demodulatore - converte segnale digitale in analogico per la linea del provider."
   },
   {
-    "id": 75,
+    "id": 78,
     "term": "NAT",
     "definition": "Network Address Translation - traduce indirizzi IP privati in pubblici."
   },
   {
-    "id": 76,
+    "id": 79,
     "term": "Native VLAN",
     "definition": "VLAN i cui frame viaggiano senza tag 802.1Q sul trunk (default: VLAN 1)."
   },
   {
-    "id": 77,
+    "id": 80,
     "term": "NGFW",
     "definition": "Next-Generation Firewall - firewall avanzato con IPS, analisi SSL e controllo applicazioni."
   },
   {
-    "id": 78,
+    "id": 81,
     "term": "NIC",
     "definition": "Network Interface Card - scheda di rete di un dispositivo."
   },
   {
-    "id": 79,
+    "id": 82,
     "term": "OpenVPN",
     "definition": "Protocollo VPN open source basato su TLS/SSL, flessibile e molto diffuso."
   },
   {
-    "id": 80,
+    "id": 83,
     "term": "OSPF",
     "definition": "Open Shortest Path First - protocollo di routing link state basato su Dijkstra."
   },
   {
-    "id": 81,
+    "id": 84,
     "term": "Ottetto",
     "definition": "Gruppo di 8 bit, un byte. Un indirizzo IPv4 ha 4 ottetti."
   },
   {
-    "id": 82,
+    "id": 85,
     "term": "Packet Tracer",
     "definition": "Simulatore di rete gratuito di Cisco per progettare e configurare reti virtuali."
   },
   {
-    "id": 83,
+    "id": 86,
     "term": "OUI",
     "definition": "Organizationally Unique Identifier - primi 3 byte del MAC, identificano il produttore."
   },
   {
-    "id": 84,
+    "id": 87,
     "term": "Pacchetto",
     "definition": "Unità dati del livello 3 (Rete), contiene indirizzi IP."
   },
   {
-    "id": 85,
+    "id": 88,
     "term": "Patch cord",
     "definition": "Cavo corto per collegare dispositivi a prese di rete o patch panel a switch."
   },
   {
-    "id": 86,
+    "id": 89,
     "term": "Patch panel",
     "definition": "Pannello di permutazione dove terminano i cavi dagli uffici."
   },
   {
-    "id": 87,
+    "id": 90,
     "term": "Payload",
     "definition": "Dati utili trasportati all'interno di un frame o pacchetto."
   },
   {
-    "id": 88,
+    "id": 91,
     "term": "Phishing",
     "definition": "Attacco che usa email/siti falsi per rubare credenziali. Varianti: spear phishing, whaling."
   },
   {
-    "id": 89,
+    "id": 92,
+    "term": "POP3",
+    "definition": "Post Office Protocol v3 - protocollo per scaricare email dal server al client. Porta 110."
+  },
+  {
+    "id": 93,
     "term": "PKI",
     "definition": "Public Key Infrastructure - sistema di gestione dei certificati digitali (CA, RA, CRL)."
   },
   {
-    "id": 90,
+    "id": 94,
     "term": "Plaintext",
     "definition": "Testo in chiaro, messaggio originale prima della cifratura."
   },
   {
-    "id": 91,
+    "id": 95,
     "term": "PDU",
     "definition": "Protocol Data Unit - unità dati di un protocollo, visibile nella modalità Simulation di Packet Tracer."
   },
   {
-    "id": 92,
+    "id": 96,
     "term": "Porta (networking)",
     "definition": "Numero che identifica un'applicazione specifica su un host (0-65535)."
   },
   {
-    "id": 93,
+    "id": 97,
     "term": "QUIC",
     "definition": "Quick UDP Internet Connections - protocollo Google su UDP, base di HTTP/3."
   },
   {
-    "id": 94,
+    "id": 98,
     "term": "Ransomware",
     "definition": "Malware che cifra i file e chiede un riscatto per la chiave di decifratura."
   },
   {
-    "id": 95,
+    "id": 99,
     "term": "RIP",
     "definition": "Routing Information Protocol - protocollo distance vector con metrica hop count."
   },
   {
-    "id": 96,
+    "id": 100,
     "term": "RJ45",
     "definition": "Connettore standard per cavi Ethernet (doppino intrecciato)."
   },
   {
-    "id": 97,
+    "id": 101,
     "term": "Rootkit",
     "definition": "Malware che si nasconde nel sistema operativo per mantenere accesso privilegiato."
   },
   {
-    "id": 98,
+    "id": 102,
     "term": "Router",
     "definition": "Apparato di rete livello 3 che collega reti diverse e instrada pacchetti IP."
   },
   {
-    "id": 99,
+    "id": 103,
     "term": "Router-on-a-stick",
     "definition": "Tecnica inter-VLAN routing con un trunk e subinterface virtuali sul router."
   },
   {
-    "id": 100,
+    "id": 104,
     "term": "Routing",
     "definition": "Processo di determinazione del percorso migliore per i pacchetti."
   },
   {
-    "id": 101,
+    "id": 105,
     "term": "Routing statico",
     "definition": "Routing con percorsi configurati manualmente dall'amministratore."
   },
   {
-    "id": 102,
+    "id": 106,
     "term": "Routing dinamico",
     "definition": "Routing con aggiornamento automatico delle rotte tramite protocolli."
   },
   {
-    "id": 103,
+    "id": 107,
     "term": "RSA",
     "definition": "Algoritmo di crittografia asimmetrica basato sulla fattorizzazione di numeri primi."
   },
   {
-    "id": 104,
+    "id": 108,
     "term": "Segmento",
     "definition": "Unità dati del livello 4 (Trasporto) in TCP."
   },
   {
-    "id": 105,
+    "id": 109,
     "term": "SHA-256",
     "definition": "Secure Hash Algorithm a 256 bit - funzione hash crittografica standard attuale."
   },
   {
-    "id": 106,
+    "id": 110,
+    "term": "SMTP",
+    "definition": "Simple Mail Transfer Protocol - protocollo per l'invio di email. Porta 25 (o 587 con TLS)."
+  },
+  {
+    "id": 111,
     "term": "Social engineering",
     "definition": "Tecniche che sfruttano la psicologia umana per ottenere informazioni o accesso ai sistemi."
   },
   {
-    "id": 107,
+    "id": 112,
     "term": "Socket",
     "definition": "Combinazione di indirizzo IP e porta che identifica un endpoint di comunicazione."
   },
   {
-    "id": 108,
+    "id": 113,
     "term": "Spyware",
     "definition": "Malware che spia le attività dell'utente e raccoglie dati senza consenso."
   },
   {
-    "id": 109,
+    "id": 114,
     "term": "Stateful firewall",
     "definition": "Firewall che tiene traccia delle connessioni attive per decisioni di filtraggio più intelligenti."
   },
   {
-    "id": 110,
+    "id": 115,
     "term": "STP (cavo)",
     "definition": "Shielded Twisted Pair - doppino con schermatura metallica."
   },
   {
-    "id": 111,
+    "id": 116,
     "term": "Subnet mask",
     "definition": "Maschera che separa la parte rete dalla parte host di un indirizzo IP."
   },
   {
-    "id": 112,
+    "id": 117,
     "term": "Subnetting",
     "definition": "Tecnica di divisione di una rete in sottoreti più piccole."
   },
   {
-    "id": 113,
+    "id": 118,
     "term": "Switch",
     "definition": "Apparato di rete livello 2 che commuta frame usando la tabella MAC."
   },
   {
-    "id": 114,
+    "id": 119,
     "term": "SYN",
     "definition": "Synchronize - primo messaggio del three-way handshake TCP."
   },
   {
-    "id": 115,
+    "id": 120,
     "term": "Tabella di routing",
     "definition": "Database del router con le rotte verso le reti di destinazione."
   },
   {
-    "id": 116,
+    "id": 121,
     "term": "Tabella MAC",
     "definition": "Database dello switch con associazioni MAC address - porta fisica."
   },
   {
-    "id": 117,
+    "id": 122,
     "term": "TCP",
     "definition": "Transmission Control Protocol - protocollo di trasporto affidabile e orientato alla connessione."
   },
   {
-    "id": 118,
+    "id": 123,
     "term": "TCP/IP",
     "definition": "Modello di rete a 4 livelli usato da Internet."
   },
   {
-    "id": 119,
+    "id": 124,
     "term": "Three-way handshake",
     "definition": "Processo in 3 passi (SYN, SYN-ACK, ACK) per stabilire una connessione TCP."
   },
   {
-    "id": 120,
+    "id": 125,
     "term": "TLS",
     "definition": "Transport Layer Security - protocollo di crittografia per comunicazioni sicure."
   },
   {
-    "id": 121,
+    "id": 126,
     "term": "Topologia a stella",
     "definition": "Configurazione in cui tutti i dispositivi sono collegati a un nodo centrale (switch)."
   },
   {
-    "id": 122,
+    "id": 127,
     "term": "Trojan",
     "definition": "Malware mascherato da programma legittimo che esegue azioni malevole in background."
   },
   {
-    "id": 123,
+    "id": 128,
     "term": "Trunk",
     "definition": "Collegamento tra switch che trasporta traffico di più VLAN con tagging 802.1Q."
   },
   {
-    "id": 124,
+    "id": 129,
     "term": "Tunneling",
     "definition": "Tecnica VPN che incapsula e cifra pacchetti originali dentro nuovi pacchetti."
   },
   {
-    "id": 125,
+    "id": 130,
     "term": "UDP",
     "definition": "User Datagram Protocol - protocollo di trasporto veloce senza garanzie di consegna."
   },
   {
-    "id": 126,
+    "id": 131,
     "term": "UTP",
     "definition": "Unshielded Twisted Pair - doppino senza schermatura, economico."
   },
   {
-    "id": 127,
+    "id": 132,
     "term": "VLAN",
     "definition": "Virtual LAN - rete locale virtuale per segmentare logicamente una rete fisica."
   },
   {
-    "id": 128,
+    "id": 133,
     "term": "VLSM",
     "definition": "Variable Length Subnet Mask - subnetting con mask diverse per ogni sottorete."
   },
   {
-    "id": 129,
+    "id": 134,
     "term": "VPN",
     "definition": "Virtual Private Network - tunnel cifrato su rete pubblica per connessioni sicure."
   },
   {
-    "id": 130,
+    "id": 135,
     "term": "Wi-Fi",
     "definition": "Tecnologia wireless per reti locali basata su standard IEEE 802.11."
   },
   {
-    "id": 131,
+    "id": 136,
     "term": "WireGuard",
     "definition": "Protocollo VPN moderno con codice minimale e prestazioni elevate."
   },
   {
-    "id": 132,
+    "id": 137,
     "term": "Worm",
     "definition": "Malware che si replica autonomamente attraverso la rete senza azione umana."
   }
