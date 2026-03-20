@@ -11,7 +11,7 @@ const nodeColors = {
   I: '#2dd4bf', J: '#fb923c', K: '#818cf8', L: '#a3e635',
   M: '#fb7185', N: '#38bdf8', O: '#ef4444', P: '#8b5cf6',
   Q: '#06b6d4', R: '#10b981', S: '#f59e0b',
-  T: '#14b8a6',
+  T: '#14b8a6', U: '#e879f9',
 };
 
 // Posizioni manuali ragionate per evitare incroci
@@ -50,6 +50,9 @@ const nodePositions = {
 
   // Packet Tracer (sotto sicurezza)
   T: { x: 800, y: 620 },   // Packet Tracer
+
+  // Tracce Maturità (in basso al centro)
+  U: { x: 400, y: 780 },   // Tracce Maturità
 };
 
 const connections = [
@@ -87,6 +90,11 @@ const connections = [
   // Packet Tracer
   ['T', 'R', 'PT → VLAN'],
   ['T', 'I', 'PT → Routing'],
+
+  // Tracce Maturità (collega tutto)
+  ['U', 'H', 'Tracce → VLSM'],
+  ['U', 'T', 'Tracce → Packet Tracer'],
+  ['U', 'O', 'Tracce → Sicurezza'],
 ];
 
 const staticEdges = connections.map(([from, to, label], i) => ({
