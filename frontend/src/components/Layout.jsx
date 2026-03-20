@@ -3,7 +3,7 @@ import { useState } from 'react';
 import SearchBar from './SearchBar';
 import {
   NetworkLogo, DashboardIcon, StudyIcon, QuizIcon,
-  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon,
+  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon,
 } from './Icons';
 
 const navItems = [
@@ -14,6 +14,7 @@ const navItems = [
   { to: '/oral', label: 'Orale', Icon: OralIcon },
   { to: '/map', label: 'Mappa', Icon: MapIcon },
   { to: '/glossary', label: 'Glossario', Icon: GlossaryIcon },
+  { to: '/cheatsheet', label: 'Cheat Sheet', Icon: CheatSheetIcon },
 ];
 
 export default function Layout() {
