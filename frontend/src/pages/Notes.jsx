@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { api } from '../lib/api';
 
 export default function Notes() {
@@ -153,9 +151,10 @@ export default function Notes() {
                     )}
                   </div>
                 </div>
-                <div className="text-[13px] text-gray-400 mt-2 line-clamp-4 leading-relaxed prose-content">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{note.text}</ReactMarkdown>
-                </div>
+                <div
+                  className="text-[13px] text-gray-400 mt-2 line-clamp-4 leading-relaxed note-editor"
+                  dangerouslySetInnerHTML={{ __html: note.text }}
+                />
                 <Link
                   to={`/study/${note.sectionId}/${note.topicId}`}
                   className="text-[11px] text-purple-400/70 hover:text-purple-300 mt-2 inline-block"

@@ -1,98 +1,41 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useFetch } from '../hooks/useFetch';
 import { api } from '../lib/api';
 
-// ── Formatting helpers ──
-function applyFormat(textareaRef, noteText, setNoteText, type) {
-  const ta = textareaRef.current;
-  if (!ta) return;
-  const start = ta.selectionStart;
-  const end = ta.selectionEnd;
-  const selected = noteText.slice(start, end);
-  let before = noteText.slice(0, start);
-  let after = noteText.slice(end);
-  let insert = '';
-  let cursorOffset = 0;
-
-  switch (type) {
-    case 'bold':
-      insert = selected ? `**${selected}**` : '**testo**';
-      cursorOffset = selected ? insert.length : 2;
-      break;
-    case 'italic':
-      insert = selected ? `*${selected}*` : '*testo*';
-      cursorOffset = selected ? insert.length : 1;
-      break;
-    case 'heading':
-      // Add ### at the start of the current line
-      const lineStart = noteText.lastIndexOf('\n', start - 1) + 1;
-      before = noteText.slice(0, lineStart);
-      const lineContent = noteText.slice(lineStart, end);
-      after = noteText.slice(end);
-      insert = `### ${lineContent || 'Titolo'}`;
-      cursorOffset = insert.length;
-      break;
-    case 'list':
-      if (selected) {
-        insert = selected.split('\n').map(l => `- ${l}`).join('\n');
-      } else {
-        insert = '- ';
-      }
-      cursorOffset = insert.length;
-      break;
-    case 'ordered':
-      if (selected) {
-        insert = selected.split('\n').map((l, i) => `${i + 1}. ${l}`).join('\n');
-      } else {
-        insert = '1. ';
-      }
-      cursorOffset = insert.length;
-      break;
-    case 'code':
-      insert = selected ? `\`${selected}\`` : '`codice`';
-      cursorOffset = selected ? insert.length : 1;
-      break;
-    case 'highlight':
-      insert = selected ? `==${selected}==` : '==evidenzia==';
-      cursorOffset = selected ? insert.length : 2;
-      break;
-    default:
-      return;
-  }
-
-  const newText = before + insert + after;
-  setNoteText(newText);
-
-  // Restore cursor position
-  requestAnimationFrame(() => {
-    ta.focus();
-    const pos = before.length + cursorOffset;
-    ta.setSelectionRange(pos, pos);
-  });
-}
-
+// ── WYSIWYG toolbar buttons ──
 const FMT_BUTTONS = [
-  { type: 'bold', label: 'B', title: 'Grassetto', className: 'font-bold' },
-  { type: 'italic', label: 'I', title: 'Corsivo', className: 'italic' },
-  { type: 'heading', label: 'H', title: 'Titolo', className: 'font-bold text-[10px]' },
-  { type: 'list', label: null, title: 'Elenco puntato', icon: 'list' },
-  { type: 'ordered', label: '1.', title: 'Elenco numerato', className: 'text-[10px] font-mono' },
-  { type: 'code', label: '<>', title: 'Codice', className: 'font-mono text-[10px]' },
+  { cmd: 'bold', label: 'B', title: 'Grassetto', className: 'font-bold' },
+  { cmd: 'italic', label: 'I', title: 'Corsivo', className: 'italic' },
+  { cmd: 'underline', label: 'U', title: 'Sottolineato', className: 'underline' },
+  { cmd: 'strikeThrough', label: 'S', title: 'Barrato', className: 'line-through' },
+  { divider: true },
+  { cmd: 'insertUnorderedList', icon: 'list', title: 'Elenco puntato' },
+  { cmd: 'insertOrderedList', label: '1.', title: 'Elenco numerato', className: 'font-mono text-[10px]' },
+  { divider: true },
+  { cmd: 'formatBlock:H3', label: 'H', title: 'Titolo', className: 'font-bold text-[10px]' },
 ];
+
+function execFormat(cmd) {
+  if (cmd.startsWith('formatBlock:')) {
+    document.execCommand('formatBlock', false, cmd.split(':')[1]);
+  } else {
+    document.execCommand(cmd, false, null);
+  }
+}
 
 export default function TopicView() {
   const { sectionId, topicId } = useParams();
   const { data: topic, loading, refetch } = useFetch(() => api.getTopic(sectionId, topicId), [sectionId, topicId]);
   const [actionLoading, setActionLoading] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
-  const [noteText, setNoteText] = useState('');
+  const [noteHtml, setNoteHtml] = useState('');
   const [noteSaved, setNoteSaved] = useState(false);
   const [noteLoaded, setNoteLoaded] = useState(false);
-  const [notePreview, setNotePreview] = useState(false);
-  const noteRef = useRef(null);
+  const editorRef = useRef(null);
+  const saveTimerRef = useRef(null);
 
   // Record study activity for streak
   useEffect(() => {
@@ -108,7 +51,7 @@ export default function TopicView() {
     if (topic && !noteLoaded) {
       api.getNote(topic.id).then(note => {
         if (note) {
-          setNoteText(note.text);
+          setNoteHtml(note.text);
           setNoteOpen(true);
         }
         setNoteLoaded(true);
@@ -116,27 +59,36 @@ export default function TopicView() {
     }
   }, [topic?.id, noteLoaded]);
 
+  // Set editor content when note loads
+  useEffect(() => {
+    if (noteLoaded && editorRef.current && noteHtml) {
+      editorRef.current.innerHTML = noteHtml;
+    }
+  }, [noteLoaded, noteOpen]);
+
   // Reset note state when topic changes
   useEffect(() => {
     setNoteLoaded(false);
-    setNoteText('');
+    setNoteHtml('');
     setNoteOpen(false);
     setNoteSaved(false);
   }, [sectionId, topicId]);
 
-  // Auto-save note
+  // Auto-save on noteHtml change
   useEffect(() => {
     if (!noteLoaded || !topic) return;
-    const timer = setTimeout(() => {
-      api.saveNote(topic.id, noteText, sectionId, topic.title).then(() => {
-        if (noteText.trim()) {
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      const plainText = editorRef.current?.innerText?.trim() || '';
+      api.saveNote(topic.id, noteHtml, sectionId, topic.title).then(() => {
+        if (plainText) {
           setNoteSaved(true);
           setTimeout(() => setNoteSaved(false), 2000);
         }
       });
     }, 800);
-    return () => clearTimeout(timer);
-  }, [noteText]);
+    return () => clearTimeout(saveTimerRef.current);
+  }, [noteHtml]);
 
   if (loading) return <div className="text-center text-gray-600 py-20">Caricamento...</div>;
   if (!topic) return <div className="text-center text-gray-600 py-20">Argomento non trovato</div>;
@@ -147,6 +99,20 @@ export default function TopicView() {
     refetch();
     setActionLoading(false);
   };
+
+  const handleEditorInput = () => {
+    if (editorRef.current) {
+      setNoteHtml(editorRef.current.innerHTML);
+    }
+  };
+
+  const handleClearNote = () => {
+    setNoteHtml('');
+    if (editorRef.current) editorRef.current.innerHTML = '';
+    api.deleteNote(topic.id);
+  };
+
+  const hasContent = noteHtml && noteHtml.replace(/<[^>]*>/g, '').trim().length > 0;
 
   const keywords = topic.keywords ? topic.keywords.split(',').map(k => k.trim()) : [];
 
@@ -204,20 +170,30 @@ export default function TopicView() {
           {topic.bookmarked ? 'Salvato' : 'Segnalibro'}
         </button>
         <button
-          onClick={() => setNoteOpen(!noteOpen)}
+          onClick={() => {
+            setNoteOpen(!noteOpen);
+            if (!noteOpen) {
+              setTimeout(() => {
+                if (editorRef.current) {
+                  editorRef.current.innerHTML = noteHtml;
+                  editorRef.current.focus();
+                }
+              }, 50);
+            }
+          }}
           className={`btn-secondary flex items-center gap-2 ${noteOpen ? 'text-yellow-400 border-yellow-500/20' : ''}`}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill={noteText.trim() ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill={hasContent ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
             <polyline points="14 2 14 8 20 8" />
             <line x1="16" y1="13" x2="8" y2="13" />
             <line x1="16" y1="17" x2="8" y2="17" />
           </svg>
-          {noteText.trim() ? 'Appunti' : 'Prendi appunti'}
+          {hasContent ? 'Appunti' : 'Prendi appunti'}
         </button>
       </div>
 
-      {/* Note editor */}
+      {/* WYSIWYG Note editor */}
       {noteOpen && (
         <div className="card border-yellow-500/15 bg-gradient-to-br from-yellow-500/[0.04] to-transparent animate-fade-in-up">
           {/* Header */}
@@ -234,80 +210,57 @@ export default function TopicView() {
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1.5">
-              {/* Preview toggle */}
-              <button
-                onClick={() => setNotePreview(!notePreview)}
-                className={`text-[11px] px-2.5 py-1 rounded-lg transition-all ${
-                  notePreview
-                    ? 'text-yellow-300 bg-yellow-500/10 border border-yellow-500/20'
-                    : 'text-gray-500 hover:text-gray-300 hover:bg-white/[0.04]'
-                }`}
-                title={notePreview ? 'Modifica' : 'Anteprima'}
-              >
-                {notePreview ? 'Modifica' : 'Anteprima'}
-              </button>
-              <button
-                onClick={() => setNoteOpen(false)}
-                className="text-gray-600 hover:text-gray-400 transition-colors p-1"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-              </button>
-            </div>
+            <button
+              onClick={() => setNoteOpen(false)}
+              className="text-gray-600 hover:text-gray-400 transition-colors p-1"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            </button>
           </div>
 
-          {notePreview ? (
-            /* Markdown preview */
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 min-h-[168px] prose-content text-[13px] text-gray-300 leading-relaxed">
-              {noteText.trim() ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{noteText}</ReactMarkdown>
+          {/* Formatting toolbar */}
+          <div className="flex items-center gap-0.5 mb-2 p-1 bg-white/[0.02] rounded-lg border border-white/[0.04] flex-wrap">
+            {FMT_BUTTONS.map((btn, i) =>
+              btn.divider ? (
+                <div key={`d${i}`} className="w-px h-4 bg-white/[0.06] mx-1" />
               ) : (
-                <p className="text-gray-600 italic">Nessun contenuto da visualizzare</p>
-              )}
-            </div>
-          ) : (
-            <>
-              {/* Formatting toolbar */}
-              <div className="flex items-center gap-0.5 mb-2 p-1 bg-white/[0.02] rounded-lg border border-white/[0.04] flex-wrap">
-                {FMT_BUTTONS.map(btn => (
-                  <button
-                    key={btn.type}
-                    onClick={() => applyFormat(noteRef, noteText, setNoteText, btn.type)}
-                    title={btn.title}
-                    className={`w-7 h-7 flex items-center justify-center rounded-md text-gray-500 hover:text-yellow-300 hover:bg-yellow-500/10 transition-all text-xs ${btn.className || ''}`}
-                  >
-                    {btn.icon === 'list' ? (
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                        <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
-                        <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
-                      </svg>
-                    ) : btn.label}
-                  </button>
-                ))}
-                <div className="w-px h-4 bg-white/[0.06] mx-1" />
-                <span className="text-[9px] text-gray-600 ml-1">Markdown</span>
-              </div>
+                <button
+                  key={btn.cmd}
+                  onMouseDown={(e) => {
+                    e.preventDefault(); // Keep focus on editor
+                    execFormat(btn.cmd);
+                  }}
+                  title={btn.title}
+                  className={`w-7 h-7 flex items-center justify-center rounded-md text-gray-500 hover:text-yellow-300 hover:bg-yellow-500/10 transition-all text-xs ${btn.className || ''}`}
+                >
+                  {btn.icon === 'list' ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                      <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
+                      <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+                    </svg>
+                  ) : btn.label}
+                </button>
+              )
+            )}
+          </div>
 
-              {/* Textarea */}
-              <textarea
-                ref={noteRef}
-                value={noteText}
-                onChange={(e) => setNoteText(e.target.value)}
-                placeholder="Scrivi i tuoi appunti qui... Usa i tasti sopra per formattare! (salvataggio automatico)"
-                className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-gray-300 placeholder-gray-600 resize-y focus:outline-none focus:border-yellow-500/30 focus:ring-1 focus:ring-yellow-500/15 leading-relaxed font-mono"
-                rows="6"
-              />
-            </>
-          )}
+          {/* Editable area */}
+          <div
+            ref={editorRef}
+            contentEditable
+            onInput={handleEditorInput}
+            data-placeholder="Scrivi i tuoi appunti qui... (salvataggio automatico)"
+            className="note-editor w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-gray-300 focus:outline-none focus:border-yellow-500/30 focus:ring-1 focus:ring-yellow-500/15 leading-relaxed min-h-[168px] max-h-[400px] overflow-y-auto"
+          />
 
           {/* Footer */}
           <div className="flex items-center justify-between mt-2">
             <span className="text-[10px] text-gray-600">
-              {noteText.length > 0 ? `${noteText.length} caratteri` : 'Il salvataggio avviene automaticamente'}
+              Salvataggio automatico
             </span>
-            {noteText.trim() && (
+            {hasContent && (
               <button
-                onClick={() => { setNoteText(''); setNotePreview(false); api.deleteNote(topic.id); }}
+                onClick={handleClearNote}
                 className="text-[10px] text-red-400/60 hover:text-red-400 transition-colors"
               >
                 Cancella appunto
