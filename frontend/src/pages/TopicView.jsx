@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useFetch } from '../hooks/useFetch';
 import { api } from '../lib/api';
+import TutorBubble from '../components/TutorBubble';
 
 export default function TopicView() {
   const { sectionId, topicId } = useParams();
@@ -85,6 +86,9 @@ export default function TopicView() {
           {topic.bookmarked ? 'Salvato' : 'Segnalibro'}
         </button>
       </div>
+
+      {/* Tutor AI avatar floating */}
+      <TutorBubble />
     </div>
   );
 }
