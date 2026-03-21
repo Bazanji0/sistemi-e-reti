@@ -296,14 +296,14 @@ export default function TutorBubble({ showGreeting = false }) {
         </div>
       )}
 
-      {/* ── FUMETTO DI SALUTO ── */}
-      {greetVisible && !open && (
+      {/* ── FUMETTO SEMPRE VISIBILE ── */}
+      {!open && (
         <div
-          className="mb-3 relative bg-white/[0.08] backdrop-blur-xl border border-white/[0.12] rounded-2xl rounded-br-md px-4 py-2.5 shadow-xl cursor-pointer hover:bg-white/[0.12] transition-all duration-200 animate-fade-in-up max-w-[220px]"
-          onClick={() => { setGreetVisible(false); setGreeted(true); toggleOpen(); }}
+          className="mb-3 relative bg-white/[0.08] backdrop-blur-xl border border-white/[0.12] rounded-2xl rounded-br-md px-4 py-2.5 shadow-xl cursor-pointer hover:bg-white/[0.12] transition-all duration-200 animate-fade-in-up"
+          onClick={toggleOpen}
         >
-          <p className="text-sm text-gray-200 font-medium leading-snug">
-            Salame, se hai qualche dubbio chiedi 😏
+          <p className="text-sm text-gray-200 font-bold leading-snug">
+            Chiedi a Stocchi!
           </p>
         </div>
       )}
