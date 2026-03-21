@@ -60,6 +60,13 @@ export const CheatSheetIcon = (p) => <I {...p} d={<>
   <path d="M9 16h4" />
 </>} />;
 
+export const ChatBotIcon = (p) => <I {...p} d={<>
+  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  <path d="M8 10h.01" />
+  <path d="M12 10h.01" />
+  <path d="M16 10h.01" />
+</>} />;
+
 export const SearchIcon = (p) => <I {...p} d={<>
   <circle cx="11" cy="11" r="8" />
   <line x1="21" y1="21" x2="16.65" y2="16.65" />
