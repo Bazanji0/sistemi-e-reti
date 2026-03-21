@@ -34,8 +34,27 @@ export default function TopicView() {
   const [noteHtml, setNoteHtml] = useState('');
   const [noteSaved, setNoteSaved] = useState(false);
   const [noteLoaded, setNoteLoaded] = useState(false);
+  const [activeFormats, setActiveFormats] = useState({});
   const editorRef = useRef(null);
   const saveTimerRef = useRef(null);
+
+  // Check which formatting commands are active at cursor position
+  const updateActiveFormats = () => {
+    const formats = {};
+    ['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList'].forEach(cmd => {
+      try { formats[cmd] = document.queryCommandState(cmd); } catch { formats[cmd] = false; }
+    });
+    // Check if inside H3
+    const sel = window.getSelection();
+    if (sel?.anchorNode) {
+      let node = sel.anchorNode;
+      while (node && node !== editorRef.current) {
+        if (node.nodeName === 'H3') { formats['formatBlock:H3'] = true; break; }
+        node = node.parentNode;
+      }
+    }
+    setActiveFormats(formats);
+  };
 
   // Record study activity for streak
   useEffect(() => {
@@ -73,6 +92,19 @@ export default function TopicView() {
     setNoteOpen(false);
     setNoteSaved(false);
   }, [sectionId, topicId]);
+
+  // Track active formatting at cursor
+  useEffect(() => {
+    if (!noteOpen) return;
+    const handler = () => {
+      if (editorRef.current?.contains(document.activeElement) ||
+          editorRef.current === document.activeElement) {
+        updateActiveFormats();
+      }
+    };
+    document.addEventListener('selectionchange', handler);
+    return () => document.removeEventListener('selectionchange', handler);
+  }, [noteOpen]);
 
   // Auto-save on noteHtml change
   useEffect(() => {
@@ -220,18 +252,23 @@ export default function TopicView() {
 
           {/* Formatting toolbar */}
           <div className="flex items-center gap-0.5 mb-2 p-1 bg-white/[0.02] rounded-lg border border-white/[0.04] flex-wrap">
-            {FMT_BUTTONS.map((btn, i) =>
-              btn.divider ? (
-                <div key={`d${i}`} className="w-px h-4 bg-white/[0.06] mx-1" />
-              ) : (
+            {FMT_BUTTONS.map((btn, i) => {
+              if (btn.divider) return <div key={`d${i}`} className="w-px h-4 bg-white/[0.06] mx-1" />;
+              const isActive = activeFormats[btn.cmd] || false;
+              return (
                 <button
                   key={btn.cmd}
                   onMouseDown={(e) => {
-                    e.preventDefault(); // Keep focus on editor
+                    e.preventDefault();
                     execFormat(btn.cmd);
+                    setTimeout(updateActiveFormats, 10);
                   }}
                   title={btn.title}
-                  className={`w-7 h-7 flex items-center justify-center rounded-md text-gray-500 hover:text-yellow-300 hover:bg-yellow-500/10 transition-all text-xs ${btn.className || ''}`}
+                  className={`w-7 h-7 flex items-center justify-center rounded-md transition-all text-xs ${btn.className || ''} ${
+                    isActive
+                      ? 'text-yellow-300 bg-yellow-500/20 border border-yellow-500/30'
+                      : 'text-gray-500 hover:text-yellow-300 hover:bg-yellow-500/10'
+                  }`}
                 >
                   {btn.icon === 'list' ? (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -240,8 +277,8 @@ export default function TopicView() {
                     </svg>
                   ) : btn.label}
                 </button>
-              )
-            )}
+              );
+            })}
           </div>
 
           {/* Editable area */}
@@ -249,6 +286,8 @@ export default function TopicView() {
             ref={editorRef}
             contentEditable
             onInput={handleEditorInput}
+            onKeyUp={updateActiveFormats}
+            onMouseUp={updateActiveFormats}
             data-placeholder="Scrivi i tuoi appunti qui... (salvataggio automatico)"
             className="note-editor w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-gray-300 focus:outline-none focus:border-yellow-500/30 focus:ring-1 focus:ring-yellow-500/15 leading-relaxed min-h-[168px] max-h-[400px] overflow-y-auto"
           />
