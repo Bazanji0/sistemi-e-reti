@@ -38,7 +38,7 @@ Regole:
 - Quando possibile, fai esempi pratici
 - Se utile, suggerisci comandi CLI Cisco o procedure Packet Tracer
 - Rispondi in italiano
-- Sii conciso ma completo`;
+- Sii MOLTO conciso e diretto: risposte brevi, massimo 8-10 righe. Niente introduzioni lunghe, vai dritto al punto. Se serve una tabella falla corta. Solo se lo studente chiede esplicitamente di approfondire, allora puoi scrivere di piu.`;
 
 function getHistory() {
   try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
