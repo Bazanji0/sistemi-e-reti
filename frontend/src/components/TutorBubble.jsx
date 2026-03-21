@@ -315,7 +315,7 @@ export default function TutorBubble({ showGreeting = false }) {
         title="Chiedi a Stocchi"
       >
         <div className="absolute -inset-1 bg-gradient-to-br from-purple-500/30 to-blue-500/30 rounded-full blur-md opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className={`relative w-14 h-14 rounded-full overflow-hidden border-2 transition-all duration-300 shadow-lg shadow-purple-500/20 ${
+        <div className={`relative w-20 h-20 rounded-full overflow-hidden border-2 transition-all duration-300 shadow-lg shadow-purple-500/20 ${
           open ? 'border-purple-400/70 scale-95' : 'border-purple-500/40 group-hover:border-purple-400/70 group-hover:scale-105'
         }`}>
           <img src={avatarUrl} alt="Stocchi" className="w-full h-full object-cover" />
