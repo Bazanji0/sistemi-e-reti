@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-const STORAGE_KEY = 'sr_gemini_key';
+// API key built-in dalla variabile d'ambiente (impostata in frontend/.env)
+const BUILT_IN_KEY = import.meta.env.VITE_GEMINI_KEY || '';
 const HISTORY_KEY = 'sr_chat_history';
 
 const SYSTEM_PROMPT = `Sei un tutor esperto di Sistemi e Reti per studenti italiani delle scuole superiori (ITIS) che si preparano alla maturità.
@@ -40,78 +41,11 @@ Regole:
 - Rispondi in italiano
 - Sii conciso ma completo`;
 
-function getApiKey() {
-  try { return localStorage.getItem(STORAGE_KEY) || ''; } catch { return ''; }
-}
-function saveApiKey(key) {
-  localStorage.setItem(STORAGE_KEY, key);
-}
 function getHistory() {
   try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
 }
 function saveHistory(msgs) {
-  // Keep last 50 messages
   localStorage.setItem(HISTORY_KEY, JSON.stringify(msgs.slice(-50)));
-}
-
-function ApiKeySetup({ onSave }) {
-  const [key, setKey] = useState('');
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center mb-6 border border-white/[0.08]">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-purple-400">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-      </div>
-      <h2 className="text-xl font-bold text-white mb-2">Configura il Tutor AI</h2>
-      <p className="text-sm text-gray-500 mb-6 max-w-md leading-relaxed">
-        Per usare il chatbot serve una chiave API di Google Gemini.
-        <br />
-        <span className="text-purple-400 font-medium">È gratis</span>, non serve carta di credito.
-      </p>
-
-      <div className="w-full max-w-md space-y-4">
-        <div className="card p-4 text-left space-y-3">
-          <div className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 text-xs flex items-center justify-center font-bold">1</span>
-            Vai su <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300 underline underline-offset-2">Google AI Studio</a>
-          </div>
-          <div className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 text-xs flex items-center justify-center font-bold">2</span>
-            Clicca "Create API Key" (accedi con Google)
-          </div>
-          <div className="flex items-center gap-2 text-sm font-medium text-gray-300">
-            <span className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 text-xs flex items-center justify-center font-bold">3</span>
-            Copia la chiave e incollala qui sotto
-          </div>
-        </div>
-
-        <div className="relative">
-          <input
-            type="password"
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-            placeholder="AIzaSy..."
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500/40 focus:ring-1 focus:ring-purple-500/20"
-          />
-        </div>
-
-        <button
-          onClick={() => { saveApiKey(key.trim()); onSave(key.trim()); }}
-          disabled={!key.trim()}
-          className="btn-primary w-full disabled:opacity-30 disabled:cursor-not-allowed"
-        >
-          Attiva il Tutor
-        </button>
-
-        <p className="text-[10px] text-gray-700 leading-relaxed">
-          La chiave viene salvata solo nel tuo browser (localStorage).
-          Non viene inviata a nessun server nostro, solo a Google.
-        </p>
-      </div>
-    </div>
-  );
 }
 
 function MessageBubble({ msg }) {
@@ -174,13 +108,14 @@ const SUGGESTIONS = [
 ];
 
 export default function ChatBot() {
-  const [apiKey, setApiKey] = useState(getApiKey());
   const [messages, setMessages] = useState(getHistory());
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  const apiKey = BUILT_IN_KEY;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -191,11 +126,24 @@ export default function ChatBot() {
   }, [messages, loading]);
 
   useEffect(() => {
-    if (apiKey) inputRef.current?.focus();
-  }, [apiKey]);
+    inputRef.current?.focus();
+  }, []);
 
+  // Se non c'è la key built-in, mostra errore
   if (!apiKey) {
-    return <ApiKeySetup onSave={setApiKey} />;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+        <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mb-6 border border-red-500/15">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
+            <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold text-white mb-2">Tutor AI non configurato</h2>
+        <p className="text-sm text-gray-500 max-w-md leading-relaxed">
+          Il Tutor AI non è ancora attivo. Contatta chi gestisce il sito per attivarlo.
+        </p>
+      </div>
+    );
   }
 
   const sendMessage = async (text) => {
@@ -211,10 +159,7 @@ export default function ChatBot() {
     setLoading(true);
 
     try {
-      // Build conversation for Gemini
       const geminiContents = [];
-
-      // Add conversation history (last 10 exchanges for context)
       const recentMsgs = newMessages.slice(-20);
       for (const msg of recentMsgs) {
         geminiContents.push({
@@ -241,11 +186,8 @@ export default function ChatBot() {
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        if (response.status === 400 && errData?.error?.message?.includes('API_KEY')) {
-          throw new Error('Chiave API non valida. Controlla e riprova.');
-        }
         if (response.status === 429) {
-          throw new Error('Troppi messaggi. Aspetta un minuto e riprova.');
+          throw new Error('Troppi messaggi, aspetta un minuto e riprova.');
         }
         throw new Error(errData?.error?.message || `Errore ${response.status}`);
       }
@@ -278,13 +220,6 @@ export default function ChatBot() {
     setError('');
   };
 
-  const changeKey = () => {
-    saveApiKey('');
-    setApiKey('');
-    setMessages([]);
-    saveHistory([]);
-  };
-
   return (
     <div className="flex flex-col h-[calc(100vh-7rem)]">
       {/* Header */}
@@ -293,14 +228,9 @@ export default function ChatBot() {
           <h1 className="page-title">Tutor AI</h1>
           <p className="page-subtitle">Chiedi qualsiasi cosa su Sistemi e Reti</p>
         </div>
-        <div className="flex items-center gap-2">
-          <button onClick={clearChat} className="text-[11px] text-gray-600 hover:text-gray-400 transition-colors px-2 py-1 rounded-lg hover:bg-white/[0.04]">
-            Pulisci chat
-          </button>
-          <button onClick={changeKey} className="text-[11px] text-gray-600 hover:text-gray-400 transition-colors px-2 py-1 rounded-lg hover:bg-white/[0.04]">
-            Cambia API key
-          </button>
-        </div>
+        <button onClick={clearChat} className="text-[11px] text-gray-600 hover:text-gray-400 transition-colors px-2 py-1 rounded-lg hover:bg-white/[0.04]">
+          Pulisci chat
+        </button>
       </div>
 
       {/* Messages */}
@@ -372,7 +302,7 @@ export default function ChatBot() {
           </button>
         </div>
         <p className="text-[9px] text-gray-700 mt-2 text-center">
-          Powered by Google Gemini 2.0 Flash (gratuito) — Le risposte possono contenere errori, verifica sempre
+          Powered by Google Gemini — Le risposte possono contenere errori, verifica sempre
         </p>
       </div>
     </div>
