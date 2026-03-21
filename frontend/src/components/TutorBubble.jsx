@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-const BUILT_IN_KEY = import.meta.env.VITE_GEMINI_KEY || '';
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || '';
 const HISTORY_KEY = 'sr_chat_history';
 
 const SYSTEM_PROMPT = `Ti chiami Stocchi e sei un tutor esperto di Sistemi e Reti per studenti italiani delle scuole superiori (ITIS) che si preparano alla maturità.
@@ -93,7 +93,7 @@ export default function TutorBubble({ showGreeting = false }) {
     if (open) setTimeout(() => inputRef.current?.focus(), 100);
   }, [open]);
 
-  if (!BUILT_IN_KEY) return null;
+  if (!WORKER_URL) return null;
 
   const toggleOpen = () => {
     setOpen(!open);
@@ -123,18 +123,15 @@ export default function TutorBubble({ showGreeting = false }) {
         });
       }
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${BUILT_IN_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-            contents: geminiContents,
-            generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
-          }),
-        }
-      );
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: geminiContents,
+          generationConfig: { temperature: 0.7, maxOutputTokens: 2048 },
+        }),
+      });
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
