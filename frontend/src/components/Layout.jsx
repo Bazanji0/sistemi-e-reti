@@ -1,6 +1,7 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
+import StreakBadge from './StreakBadge';
 import {
   NetworkLogo, DashboardIcon, StudyIcon, QuizIcon,
   FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon,
@@ -43,7 +44,10 @@ export default function Layout() {
               </div>
             </NavLink>
           </div>
-          <SearchBar />
+          <div className="flex items-center gap-3">
+            <SearchBar />
+            <StreakBadge />
+          </div>
         </div>
       </header>
 

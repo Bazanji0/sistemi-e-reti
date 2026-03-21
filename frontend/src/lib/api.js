@@ -6,6 +6,7 @@ const STORAGE_KEYS = {
   bookmarked: 'sr_bookmarked',
   quizHistory: 'sr_quiz_history',
   flashcardProgress: 'sr_flashcard_progress',
+  studyDays: 'sr_study_days',
 };
 
 function getSet(key) {
@@ -175,6 +176,46 @@ export const api = {
   getCrossOral: () => Promise.resolve(
     shuffle(oralQuestions.filter(o => o.cross_section))
   ),
+
+  // Streak
+  recordStudyActivity: () => {
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+    const days = getArray(STORAGE_KEYS.studyDays);
+    if (!days.includes(today)) {
+      days.push(today);
+      // Keep last 365 days max
+      if (days.length > 365) days.shift();
+      saveArray(STORAGE_KEYS.studyDays, days);
+    }
+    return Promise.resolve({ ok: true });
+  },
+
+  getStreak: () => {
+    const days = getArray(STORAGE_KEYS.studyDays).sort();
+    if (days.length === 0) return Promise.resolve({ streak: 0, studiedToday: false });
+
+    const today = new Date().toISOString().slice(0, 10);
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const studiedToday = days.includes(today);
+
+    // Start counting from today or yesterday
+    let startDate = studiedToday ? today : (days.includes(yesterday) ? yesterday : null);
+    if (!startDate) return Promise.resolve({ streak: 0, studiedToday: false });
+
+    let streak = 1;
+    let current = new Date(startDate);
+    while (true) {
+      current = new Date(current.getTime() - 86400000);
+      const dateStr = current.toISOString().slice(0, 10);
+      if (days.includes(dateStr)) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+
+    return Promise.resolve({ streak, studiedToday, totalDays: days.length });
+  },
 
   // Stats
   getStats: () => {

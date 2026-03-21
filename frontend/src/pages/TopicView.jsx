@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useFetch } from '../hooks/useFetch';
@@ -9,6 +9,15 @@ export default function TopicView() {
   const { sectionId, topicId } = useParams();
   const { data: topic, loading, refetch } = useFetch(() => api.getTopic(sectionId, topicId), [sectionId, topicId]);
   const [actionLoading, setActionLoading] = useState(false);
+
+  // Record study activity for streak
+  useEffect(() => {
+    if (topic) {
+      api.recordStudyActivity().then(() => {
+        window.dispatchEvent(new Event('streak-update'));
+      });
+    }
+  }, [topic?.id]);
 
   if (loading) return <div className="text-center text-gray-600 py-20">Caricamento...</div>;
   if (!topic) return <div className="text-center text-gray-600 py-20">Argomento non trovato</div>;

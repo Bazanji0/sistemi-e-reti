@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import { api } from '../lib/api';
 import { QuizIcon, FlashcardIcon, OralIcon } from '../components/Icons';
@@ -18,8 +19,58 @@ function ProgressBar({ value, max, className = '' }) {
   );
 }
 
+function StreakCard({ streak }) {
+  if (!streak) return null;
+  const { streak: count, studiedToday, totalDays } = streak;
+  const isBurning = studiedToday && count > 0;
+  const milestone = count >= 30 ? '\u{1F3C6} Leggenda' : count >= 14 ? '\u{1F31F} Inarrestabile' : count >= 7 ? '\u{1F525} In fiamme' : count >= 3 ? '\u{2B50} Ottimo' : null;
+
+  return (
+    <div className={`rounded-2xl p-5 border relative overflow-hidden transition-all duration-500 ${
+      isBurning
+        ? 'border-orange-500/20 bg-gradient-to-br from-orange-500/10 via-red-500/5 to-yellow-500/10'
+        : 'border-white/[0.06] bg-white/[0.03]'
+    }`}>
+      {isBurning && (
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
+      )}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className={`text-3xl ${isBurning ? 'animate-bounce' : ''}`} style={isBurning ? { animationDuration: '2s' } : {}}>
+            {isBurning ? '\u{1F525}' : count > 0 ? '\u{1F525}' : '\u{1F9CA}'}
+          </div>
+          <div>
+            <div className={`text-2xl font-bold tracking-tight ${isBurning ? 'text-orange-400' : count > 0 ? 'text-orange-400/70' : 'text-gray-500'}`}>
+              {count} giorn{count === 1 ? 'o' : 'i'}
+            </div>
+            <div className="text-xs text-gray-500 mt-0.5">
+              {isBurning ? 'Streak attiva!' : count > 0 ? 'Studia oggi per mantenerla!' : 'Apri un argomento per iniziare'}
+            </div>
+          </div>
+        </div>
+        <div className="text-right">
+          {milestone && <div className="text-xs font-medium text-orange-400/80 mb-1">{milestone}</div>}
+          {!studiedToday && count > 0 && (
+            <Link to="/study" className="text-[11px] text-orange-400 hover:text-orange-300 font-medium underline underline-offset-2">
+              Studia ora →
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { data: stats, loading } = useFetch(() => api.getStats(), []);
+  const [streak, setStreak] = useState(null);
+
+  useEffect(() => {
+    api.getStreak().then(setStreak);
+    const handler = () => api.getStreak().then(setStreak);
+    window.addEventListener('streak-update', handler);
+    return () => window.removeEventListener('streak-update', handler);
+  }, []);
 
   if (loading) return <div className="text-center text-gray-600 py-20">Caricamento...</div>;
   if (!stats) return null;
@@ -33,6 +84,9 @@ export default function Dashboard() {
         <h1 className="page-title">Dashboard</h1>
         <p className="page-subtitle">Panoramica del tuo progresso in Sistemi e Reti</p>
       </div>
+
+      {/* Streak */}
+      <StreakCard streak={streak} />
 
       {/* Global stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">

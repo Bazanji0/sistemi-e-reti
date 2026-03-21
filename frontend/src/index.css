@@ -106,6 +106,18 @@
     @apply text-sm text-gray-500 mt-1;
   }
 
+  /* Fire animation */
+  @keyframes fire-flicker {
+    0%, 100% { transform: scaleY(1) scaleX(1); }
+    25% { transform: scaleY(1.04) scaleX(0.97); }
+    50% { transform: scaleY(0.96) scaleX(1.03); }
+    75% { transform: scaleY(1.02) scaleX(0.98); }
+  }
+  .animate-fire {
+    animation: fire-flicker 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.5));
+  }
+
   /* Stat card */
   .stat-card {
     @apply rounded-2xl p-5 text-center border border-white/[0.06] relative overflow-hidden;
