@@ -1,5 +1,22 @@
 import { sections, topics, quizQuestions, flashcards, oralQuestions, glossary } from '../data/database';
 
+// ── Analytics tracking (silent, no errors) ──
+const WORKER_URL = import.meta.env.VITE_WORKER_URL || '';
+function trackEvent(event) {
+  if (!WORKER_URL) return;
+  fetch(`${WORKER_URL}/track`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event }),
+  }).catch(() => {});
+}
+
+// Track visit once per session
+if (!sessionStorage.getItem('sr_visited')) {
+  trackEvent('visit');
+  sessionStorage.setItem('sr_visited', '1');
+}
+
 // ── localStorage helpers ──
 const STORAGE_KEYS = {
   studied: 'sr_studied',
@@ -92,6 +109,7 @@ export const api = {
     });
     // Keep max 50 entries
     saveArray(STORAGE_KEYS.quizHistory, history.slice(0, 50));
+    trackEvent('quizzes');
     return Promise.resolve({ ok: true });
   },
 
@@ -101,8 +119,10 @@ export const api = {
   toggleStudied: (topicId) => {
     const tid = Number(topicId);
     const set = getSet(STORAGE_KEYS.studied);
-    if (set.has(tid)) set.delete(tid); else set.add(tid);
+    const wasStudied = set.has(tid);
+    if (wasStudied) set.delete(tid); else set.add(tid);
     saveSet(STORAGE_KEYS.studied, set);
+    if (!wasStudied) trackEvent('studied');
     return Promise.resolve({ studied: set.has(tid) });
   },
 
@@ -131,6 +151,7 @@ export const api = {
       progress.push({ id, correct: correct ? 1 : 0, wrong: correct ? 0 : 1 });
     }
     saveArray(STORAGE_KEYS.flashcardProgress, progress);
+    trackEvent('flashcards');
     return Promise.resolve({ ok: true });
   },
 

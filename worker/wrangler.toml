@@ -1,3 +1,7 @@
 name = "stocchi-proxy"
 main = "index.js"
 compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "ANALYTICS"
+id = "c106e03ed05e4b6080baf78dfca9158a"

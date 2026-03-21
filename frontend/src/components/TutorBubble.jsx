@@ -135,6 +135,13 @@ export default function TutorBubble({ showGreeting = false }) {
     setInput('');
     setError('');
 
+    // Track chat usage
+    fetch(`${WORKER_URL}/track`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ event: 'chats' }),
+    }).catch(() => {});
+
     const newMessages = [...messages, { role: 'user', content: userMsg }];
     setMessages(newMessages);
     saveHistory(newMessages);
