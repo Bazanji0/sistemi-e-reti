@@ -2,9 +2,10 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import SearchBar from './SearchBar';
 import StreakBadge from './StreakBadge';
+import TutorBubble from './TutorBubble';
 import {
   NetworkLogo, DashboardIcon, StudyIcon, QuizIcon,
-  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon, ChatBotIcon,
+  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon,
 } from './Icons';
 
 const navItems = [
@@ -16,7 +17,6 @@ const navItems = [
   { to: '/map', label: 'Mappa', Icon: MapIcon },
   { to: '/glossary', label: 'Glossario', Icon: GlossaryIcon },
   { to: '/cheatsheet', label: 'Cheat Sheet', Icon: CheatSheetIcon },
-  { to: '/chat', label: 'Tutor AI', Icon: ChatBotIcon },
 ];
 
 export default function Layout() {
@@ -100,6 +100,9 @@ export default function Layout() {
           </div>
         </main>
       </div>
+
+      {/* Stocchi — floating chat widget */}
+      <TutorBubble showGreeting={/^\/study\/[A-Z]\/\d+/.test(location.pathname)} />
     </div>
   );
 }
