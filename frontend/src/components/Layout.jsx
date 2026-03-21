@@ -5,7 +5,7 @@ import StreakBadge from './StreakBadge';
 import TutorBubble from './TutorBubble';
 import {
   NetworkLogo, DashboardIcon, StudyIcon, QuizIcon,
-  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon,
+  FlashcardIcon, OralIcon, MapIcon, GlossaryIcon, CheatSheetIcon, NotesIcon,
 } from './Icons';
 
 const navItems = [
@@ -17,6 +17,7 @@ const navItems = [
   { to: '/map', label: 'Mappa', Icon: MapIcon },
   { to: '/glossary', label: 'Glossario', Icon: GlossaryIcon },
   { to: '/cheatsheet', label: 'Cheat Sheet', Icon: CheatSheetIcon },
+  { to: '/notes', label: 'Appunti', Icon: NotesIcon },
 ];
 
 export default function Layout() {

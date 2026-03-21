@@ -12,6 +12,7 @@ import ConceptMap from './pages/ConceptMap';
 import Glossary from './pages/Glossary';
 import SearchPage from './pages/SearchPage';
 import CheatSheet from './pages/CheatSheet';
+import Notes from './pages/Notes';
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="map" element={<ConceptMap />} />
         <Route path="glossary" element={<Glossary />} />
         <Route path="cheatsheet" element={<CheatSheet />} />
+        <Route path="notes" element={<Notes />} />
         <Route path="search" element={<SearchPage />} />
       </Route>
     </Routes>

@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
   quizHistory: 'sr_quiz_history',
   flashcardProgress: 'sr_flashcard_progress',
   studyDays: 'sr_study_days',
+  notes: 'sr_notes',
 };
 
 function getSet(key) {
@@ -215,6 +216,55 @@ export const api = {
     }
 
     return Promise.resolve({ streak, studiedToday, totalDays: days.length });
+  },
+
+  // Notes
+  getNotes: () => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEYS.notes) || '{}'); } catch { return {}; }
+  },
+
+  getNote: (topicId) => {
+    const notes = api.getNotes();
+    return Promise.resolve(notes[topicId] || null);
+  },
+
+  saveNote: (topicId, text, sectionId, topicTitle) => {
+    const notes = api.getNotes();
+    if (!text || text.trim() === '') {
+      delete notes[topicId];
+    } else {
+      notes[topicId] = {
+        text: text.trim(),
+        sectionId,
+        topicTitle,
+        updatedAt: new Date().toISOString(),
+      };
+    }
+    localStorage.setItem(STORAGE_KEYS.notes, JSON.stringify(notes));
+    return Promise.resolve({ ok: true });
+  },
+
+  deleteNote: (topicId) => {
+    const notes = api.getNotes();
+    delete notes[topicId];
+    localStorage.setItem(STORAGE_KEYS.notes, JSON.stringify(notes));
+    return Promise.resolve({ ok: true });
+  },
+
+  getAllNotes: () => {
+    const notes = api.getNotes();
+    const entries = Object.entries(notes).map(([topicId, note]) => ({
+      topicId: Number(topicId),
+      ...note,
+      sectionName: sections.find(s => s.id === note.sectionId)?.name || note.sectionId,
+    }));
+    // Sort by most recently updated
+    entries.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    return Promise.resolve(entries);
+  },
+
+  getNotesCount: () => {
+    return Object.keys(api.getNotes()).length;
   },
 
   // Stats
