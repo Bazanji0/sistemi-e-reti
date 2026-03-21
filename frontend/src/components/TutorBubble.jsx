@@ -204,10 +204,10 @@ export default function TutorBubble({ showGreeting = false }) {
           <div className="flex-1 overflow-y-auto p-3 space-y-3 min-h-0">
             {messages.length === 0 && (
               <div className="flex flex-col items-center text-center pt-6 px-2">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-purple-500/30 mb-3">
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-purple-500/30 mb-3">
                   <img src={avatarUrl} alt="Stocchi" className="w-full h-full object-cover" />
                 </div>
-                <p className="text-sm font-semibold text-gray-300 mb-1">Ciao! Sono Stocchi</p>
+                <p className="text-sm font-semibold text-gray-300 mb-1">Merdina, se hai qualche dubbio chiedi.</p>
                 <p className="text-[11px] text-gray-600 mb-4">Chiedimi qualsiasi cosa su Sistemi e Reti</p>
                 <div className="grid grid-cols-1 gap-1.5 w-full">
                   {SUGGESTIONS.map((s, i) => (
