@@ -47,12 +47,37 @@ function saveHistory(msgs) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(msgs.slice(-50)));
 }
 
-const SUGGESTIONS = [
+const ALL_SUGGESTIONS = [
   'Spiegami il subnetting VLSM',
   'Differenza tra TCP e UDP?',
   'Come funziona il NAT?',
   'Come si configura OSPF?',
+  'Cos\'è una VLAN?',
+  'Come funziona il DHCP?',
+  'Differenza tra hub e switch?',
+  'Cos\'è il modello OSI?',
+  'Come funziona il DNS?',
+  'Spiegami il three-way handshake',
+  'A cosa serve un firewall?',
+  'Cos\'è il subnetting FLSM?',
+  'Differenza tra routing statico e dinamico?',
+  'Come funziona la crittografia TLS?',
+  'Cos\'è una VPN e a cosa serve?',
+  'Spiegami le ACL su Cisco',
+  'Differenza tra fibra ottica e doppino?',
+  'Come funziona l\'ARP?',
+  'Cos\'è il NAT e il PAT?',
+  'Spiegami OSPF in breve',
 ];
+
+function pickRandom(arr, n) {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, n);
+}
 
 const avatarUrl = (import.meta.env.BASE_URL || '/') + 'tutor-avatar.png';
 
@@ -64,6 +89,7 @@ export default function TutorBubble({ showGreeting = false }) {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [suggestions, setSuggestions] = useState(() => pickRandom(ALL_SUGGESTIONS, 4));
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -96,6 +122,7 @@ export default function TutorBubble({ showGreeting = false }) {
   if (!WORKER_URL) return null;
 
   const toggleOpen = () => {
+    if (!open) setSuggestions(pickRandom(ALL_SUGGESTIONS, 4));
     setOpen(!open);
     setGreetVisible(false);
     setGreeted(true);
@@ -207,7 +234,7 @@ export default function TutorBubble({ showGreeting = false }) {
                 <p className="text-sm font-semibold text-gray-300 mb-1">Merdina, se hai qualche dubbio chiedi.</p>
                 <p className="text-[11px] text-gray-600 mb-4">Chiedimi qualsiasi cosa su Sistemi e Reti</p>
                 <div className="grid grid-cols-1 gap-1.5 w-full">
-                  {SUGGESTIONS.map((s, i) => (
+                  {suggestions.map((s, i) => (
                     <button
                       key={i}
                       onClick={() => sendMessage(s)}
