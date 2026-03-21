@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useFetch } from '../hooks/useFetch';
@@ -18,14 +18,6 @@ const FMT_BUTTONS = [
   { cmd: 'formatBlock:H3', label: 'H', title: 'Titolo', className: 'font-bold text-[10px]' },
 ];
 
-function execFormat(cmd) {
-  if (cmd.startsWith('formatBlock:')) {
-    document.execCommand('formatBlock', false, cmd.split(':')[1]);
-  } else {
-    document.execCommand(cmd, false, null);
-  }
-}
-
 export default function TopicView() {
   const { sectionId, topicId } = useParams();
   const { data: topic, loading, refetch } = useFetch(() => api.getTopic(sectionId, topicId), [sectionId, topicId]);
@@ -38,23 +30,57 @@ export default function TopicView() {
   const editorRef = useRef(null);
   const saveTimerRef = useRef(null);
 
-  // Check which formatting commands are active at cursor position
-  const updateActiveFormats = () => {
-    const formats = {};
-    ['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList'].forEach(cmd => {
-      try { formats[cmd] = document.queryCommandState(cmd); } catch { formats[cmd] = false; }
-    });
-    // Check if inside H3
+  // Stable function to check active formats via ref
+  const checkFormats = useCallback(() => {
+    if (!editorRef.current) return;
+    const f = {};
+    try { f.bold = document.queryCommandState('bold'); } catch { f.bold = false; }
+    try { f.italic = document.queryCommandState('italic'); } catch { f.italic = false; }
+    try { f.underline = document.queryCommandState('underline'); } catch { f.underline = false; }
+    try { f.strikeThrough = document.queryCommandState('strikeThrough'); } catch { f.strikeThrough = false; }
+    try { f.insertUnorderedList = document.queryCommandState('insertUnorderedList'); } catch { f.insertUnorderedList = false; }
+    try { f.insertOrderedList = document.queryCommandState('insertOrderedList'); } catch { f.insertOrderedList = false; }
+
+    // H3 check: walk up from cursor
+    f['formatBlock:H3'] = false;
     const sel = window.getSelection();
-    if (sel?.anchorNode) {
+    if (sel && sel.rangeCount > 0) {
       let node = sel.anchorNode;
       while (node && node !== editorRef.current) {
-        if (node.nodeName === 'H3') { formats['formatBlock:H3'] = true; break; }
+        if (node.nodeName === 'H3') { f['formatBlock:H3'] = true; break; }
         node = node.parentNode;
       }
     }
-    setActiveFormats(formats);
-  };
+    setActiveFormats(f);
+  }, []);
+
+  // Execute format and refresh button states
+  const handleFormat = useCallback((cmd) => {
+    editorRef.current?.focus();
+    if (cmd.startsWith('formatBlock:')) {
+      // Toggle H3: if already H3, go back to paragraph
+      const sel = window.getSelection();
+      let inH3 = false;
+      if (sel?.anchorNode) {
+        let node = sel.anchorNode;
+        while (node && node !== editorRef.current) {
+          if (node.nodeName === 'H3') { inH3 = true; break; }
+          node = node.parentNode;
+        }
+      }
+      document.execCommand('formatBlock', false, inH3 ? 'P' : cmd.split(':')[1]);
+    } else {
+      document.execCommand(cmd, false, null);
+    }
+    // Update HTML state
+    if (editorRef.current) {
+      setNoteHtml(editorRef.current.innerHTML);
+    }
+    // Refresh active states with multiple delays for reliability
+    requestAnimationFrame(() => checkFormats());
+    setTimeout(() => checkFormats(), 50);
+    setTimeout(() => checkFormats(), 150);
+  }, [checkFormats]);
 
   // Record study activity for streak
   useEffect(() => {
@@ -91,20 +117,16 @@ export default function TopicView() {
     setNoteHtml('');
     setNoteOpen(false);
     setNoteSaved(false);
+    setActiveFormats({});
   }, [sectionId, topicId]);
 
-  // Track active formatting at cursor
+  // Selection change listener
   useEffect(() => {
     if (!noteOpen) return;
-    const handler = () => {
-      if (editorRef.current?.contains(document.activeElement) ||
-          editorRef.current === document.activeElement) {
-        updateActiveFormats();
-      }
-    };
+    const handler = () => checkFormats();
     document.addEventListener('selectionchange', handler);
     return () => document.removeEventListener('selectionchange', handler);
-  }, [noteOpen]);
+  }, [noteOpen, checkFormats]);
 
   // Auto-save on noteHtml change
   useEffect(() => {
@@ -136,11 +158,13 @@ export default function TopicView() {
     if (editorRef.current) {
       setNoteHtml(editorRef.current.innerHTML);
     }
+    checkFormats();
   };
 
   const handleClearNote = () => {
     setNoteHtml('');
     if (editorRef.current) editorRef.current.innerHTML = '';
+    setActiveFormats({});
     api.deleteNote(topic.id);
   };
 
@@ -254,19 +278,16 @@ export default function TopicView() {
           <div className="flex items-center gap-0.5 mb-2 p-1 bg-white/[0.02] rounded-lg border border-white/[0.04] flex-wrap">
             {FMT_BUTTONS.map((btn, i) => {
               if (btn.divider) return <div key={`d${i}`} className="w-px h-4 bg-white/[0.06] mx-1" />;
-              const isActive = activeFormats[btn.cmd] || false;
+              const isActive = !!activeFormats[btn.cmd];
               return (
                 <button
                   key={btn.cmd}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    execFormat(btn.cmd);
-                    setTimeout(updateActiveFormats, 10);
-                  }}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => handleFormat(btn.cmd)}
                   title={btn.title}
-                  className={`w-7 h-7 flex items-center justify-center rounded-md transition-all text-xs ${btn.className || ''} ${
+                  className={`w-8 h-8 sm:w-7 sm:h-7 flex items-center justify-center rounded-md transition-all text-xs ${btn.className || ''} ${
                     isActive
-                      ? 'text-yellow-300 bg-yellow-500/20 border border-yellow-500/30'
+                      ? 'text-yellow-300 bg-yellow-500/20 ring-1 ring-yellow-500/40'
                       : 'text-gray-500 hover:text-yellow-300 hover:bg-yellow-500/10'
                   }`}
                 >
@@ -286,8 +307,9 @@ export default function TopicView() {
             ref={editorRef}
             contentEditable
             onInput={handleEditorInput}
-            onKeyUp={updateActiveFormats}
-            onMouseUp={updateActiveFormats}
+            onKeyUp={checkFormats}
+            onMouseUp={checkFormats}
+            onFocus={checkFormats}
             data-placeholder="Scrivi i tuoi appunti qui... (salvataggio automatico)"
             className="note-editor w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-gray-300 focus:outline-none focus:border-yellow-500/30 focus:ring-1 focus:ring-yellow-500/15 leading-relaxed min-h-[168px] max-h-[400px] overflow-y-auto"
           />
