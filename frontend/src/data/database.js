@@ -450,12 +450,68 @@ export const topics = [
     "id": 38,
     "section_id": "E",
     "number": 7,
+    "title": "Livello 1 — Fisico",
+    "content": "Il **livello fisico** è il fondamento di tutta la comunicazione di rete. Si occupa della **trasmissione di bit** grezzi (0 e 1) sul mezzo fisico.\n\n### Cosa fa:\n- Converte i dati in **segnali elettrici** (rame), **impulsi luminosi** (fibra) o **onde radio** (wireless)\n- Definisce le caratteristiche **meccaniche** ed **elettriche** del collegamento\n- Gestisce la **sincronizzazione dei bit** (clock)\n- Definisce la **velocità di trasmissione** (bit rate)\n\n### Specifiche del livello 1:\n- **Tipo di cavo**: doppino (UTP/STP), coassiale, fibra ottica\n- **Connettori**: RJ45, SC, LC, ST\n- **Topologia fisica**: come i dispositivi sono collegati fisicamente\n- **Codifica del segnale**: come i bit vengono rappresentati\n- **Modalità di trasmissione**: simplex, half-duplex, full-duplex\n\n### Dispositivi che operano al livello 1:\n- **Hub**: ripete il segnale a tutte le porte (obsoleto)\n- **Repeater**: rigenera il segnale per estendere la distanza\n- **Cavi e connettori**: il mezzo fisico stesso\n\n### Standard principali:\n| Standard | Velocità | Mezzo |\n|----------|----------|-------|\n| 10BASE-T | 10 Mbps | Doppino Cat.3 |\n| 100BASE-TX | 100 Mbps | Doppino Cat.5 |\n| 1000BASE-T | 1 Gbps | Doppino Cat.5e/6 |\n| 1000BASE-SX | 1 Gbps | Fibra multimodale |\n\n### PDU: **Bit**\n\n### Ricorda:\nIl livello 1 **non sa cosa significano i bit** che trasmette. Trasporta segnali senza capirli — è come il postino che porta la lettera senza leggerla.",
+    "keywords": "livello 1,fisico,bit,segnale,cavo,hub,connettore,trasmissione"
+  },
+  {
+    "id": 39,
+    "section_id": "E",
+    "number": 8,
+    "title": "Livello 2 — Collegamento dati (Data Link)",
+    "content": "Il **livello collegamento dati** organizza i bit in **frame** e gestisce la comunicazione nella **rete locale** (LAN).\n\n### Cosa fa:\n- **Framing**: raggruppa i bit in frame con header e trailer\n- **Indirizzamento fisico**: usa gli indirizzi **MAC** (48 bit)\n- **Controllo degli errori**: aggiunge il **CRC** (Cyclic Redundancy Check) per rilevare errori\n- **Controllo dell'accesso al mezzo**: decide chi può trasmettere e quando (MAC sublayer)\n- **Controllo di flusso**: regola la velocità tra mittente e destinatario\n\n### Struttura del frame Ethernet:\n```\n| Preambolo | MAC Dest | MAC Sorg | Tipo | PAYLOAD | CRC |\n| 8 byte    | 6 byte   | 6 byte   | 2 B  | 46-1500 | 4 B |\n```\n\n### Due sotto-livelli:\n- **LLC** (Logical Link Control): interfaccia con il livello 3, gestisce il multiplexing\n- **MAC** (Media Access Control): controlla l'accesso al mezzo fisico\n\n### Dispositivi che operano al livello 2:\n- **Switch**: inoltra i frame in base alla tabella MAC\n- **Bridge**: collega segmenti di rete diversi\n- **NIC** (scheda di rete): ha un indirizzo MAC univoco\n\n### Protocolli:\n- **Ethernet** (IEEE 802.3) — LAN cablate\n- **Wi-Fi** (IEEE 802.11) — LAN wireless\n- **PPP** — collegamenti punto-punto\n- **ARP** — risoluzione IP → MAC\n\n### PDU: **Frame**\n\n### Switch vs Hub:\n| | Hub (L1) | Switch (L2) |\n|--|----------|-------------|\n| Trasmissione | A tutte le porte | Solo alla porta corretta |\n| Tabella | Nessuna | Tabella MAC |\n| Collisioni | Frequenti | Eliminate |\n| Intelligenza | Nessuna | Legge i MAC address |",
+    "keywords": "livello 2,data link,frame,MAC,switch,CRC,Ethernet,ARP"
+  },
+  {
+    "id": 40,
+    "section_id": "E",
+    "number": 9,
+    "title": "Livello 3 — Rete (Network)",
+    "content": "Il **livello rete** si occupa dell'**instradamento** dei pacchetti tra reti diverse. È il cuore del routing.\n\n### Cosa fa:\n- **Indirizzamento logico**: assegna indirizzi **IP** ai dispositivi\n- **Routing**: determina il **percorso migliore** per ogni pacchetto\n- **Frammentazione**: divide pacchetti troppo grandi per il mezzo\n- **Inoltro** (forwarding): passa il pacchetto all'interfaccia corretta\n\n### Differenza tra livello 2 e livello 3:\n| | Livello 2 | Livello 3 |\n|--|----------|----------|\n| Indirizzo | MAC (fisico) | IP (logico) |\n| Ambito | Rete locale (LAN) | Tra reti diverse (WAN) |\n| Dispositivo | Switch | Router |\n| PDU | Frame | Pacchetto |\n\n### Struttura del pacchetto IPv4:\n```\n| Versione | IHL | TTL | Protocollo | IP Sorgente | IP Dest | PAYLOAD |\n| 4 bit    | 4 b | 8 b | 8 bit      | 32 bit      | 32 bit  |         |\n```\n\n### Campi importanti:\n- **TTL** (Time To Live): decrementato ad ogni router, previene i loop infiniti\n- **Protocollo**: indica il livello 4 (6=TCP, 17=UDP)\n- **IP sorgente/destinazione**: chi manda e chi riceve\n\n### Dispositivi che operano al livello 3:\n- **Router**: instrada pacchetti tra reti diverse\n- **Switch L3**: switch con funzionalità di routing\n\n### Protocolli:\n- **IP** (IPv4, IPv6) — indirizzamento e instradamento\n- **ICMP** — messaggi di errore e diagnostica (ping)\n- **ARP** — risoluzione IP → MAC (opera tra L2 e L3)\n- **Protocolli di routing**: RIP, OSPF, BGP\n\n### PDU: **Pacchetto**\n\n### Analogia:\nSe il livello 2 è il \"postino del quartiere\" (rete locale), il livello 3 è il **sistema postale nazionale** che instrada le lettere tra città diverse.",
+    "keywords": "livello 3,rete,network,IP,routing,router,pacchetto,TTL,ICMP"
+  },
+  {
+    "id": 41,
+    "section_id": "E",
+    "number": 10,
+    "title": "Livello 4 — Trasporto (Transport)",
+    "content": "Il **livello trasporto** gestisce la comunicazione **end-to-end** tra applicazioni su host diversi.\n\n### Cosa fa:\n- **Segmentazione**: divide i dati in segmenti numerati\n- **Riassemblaggio**: ricostruisce i dati nell'ordine corretto\n- **Multiplexing**: più applicazioni comunicano contemporaneamente (tramite porte)\n- **Controllo di flusso**: evita di sovraccaricare il destinatario\n- **Controllo degli errori**: rileva e corregge errori end-to-end\n\n### I due protocolli principali:\n\n| | TCP | UDP |\n|--|-----|-----|\n| Connessione | Sì (3-way handshake) | No |\n| Affidabilità | Sì (ACK, ritrasmissione) | No |\n| Ordinamento | Sì (sequence number) | No |\n| Velocità | Più lento | Più veloce |\n| Header | 20+ byte | 8 byte |\n| Uso | Web, email, file | Streaming, DNS, VoIP |\n\n### Porte (identificano le applicazioni):\n| Range | Nome | Esempio |\n|-------|------|--------|\n| 0-1023 | Well-known | 80 (HTTP), 443 (HTTPS), 22 (SSH) |\n| 1024-49151 | Registered | 3306 (MySQL), 8080 |\n| 49152-65535 | Dynamic | Porte temporanee client |\n\n### Socket = IP + Porta\nEs: `192.168.1.10:443` — identifica univocamente un endpoint.\n\n### PDU: **Segmento** (TCP) o **Datagram** (UDP)\n\n### Ricorda:\nI livelli sotto (1-3) si occupano di portare i dati da **punto A a punto B**. Il livello 4 si occupa di portarli **all'applicazione giusta** e (con TCP) di farlo in modo **affidabile**.",
+    "keywords": "livello 4,trasporto,TCP,UDP,porte,socket,segmento,end-to-end"
+  },
+  {
+    "id": 42,
+    "section_id": "E",
+    "number": 11,
+    "title": "Livello 5 — Sessione",
+    "content": "Il **livello sessione** gestisce l'apertura, il mantenimento e la chiusura delle **sessioni di comunicazione** tra due host.\n\n### Cosa fa:\n- **Apertura sessione**: stabilisce il dialogo tra due applicazioni\n- **Gestione sessione**: mantiene la comunicazione ordinata\n- **Sincronizzazione**: inserisce **checkpoint** nel flusso dati\n- **Chiusura sessione**: termina la comunicazione in modo ordinato\n\n### Checkpoint (punti di sincronizzazione):\nSe una connessione cade durante un trasferimento di 100 MB:\n- **Senza checkpoint**: si ricomincia da zero\n- **Con checkpoint**: si riparte dall'ultimo punto salvato\n\n### Modalità di dialogo:\n- **Simplex**: comunicazione in una sola direzione (es. TV)\n- **Half-duplex**: una direzione alla volta (es. walkie-talkie)\n- **Full-duplex**: entrambe le direzioni contemporaneamente (es. telefono)\n\n### Esempi pratici:\n- **Login/Logout**: apertura e chiusura di sessione\n- **NetBIOS**: protocollo di sessione per reti Windows\n- **RPC** (Remote Procedure Call): chiamate di procedura remota\n- **Sessione HTTP**: cookie di sessione mantengono lo stato\n\n### PDU: **Dati**\n\n### Nota per l'esame:\nNel modello TCP/IP questo livello **non esiste** separatamente — le sue funzioni sono inglobate nel livello Application. All'esame spiega che l'OSI lo separa per chiarezza teorica, ma nella pratica le funzioni di sessione sono gestite dai protocolli applicativi.",
+    "keywords": "livello 5,sessione,checkpoint,dialogo,simplex,half-duplex,full-duplex"
+  },
+  {
+    "id": 43,
+    "section_id": "E",
+    "number": 12,
+    "title": "Livello 6 — Presentazione",
+    "content": "Il **livello presentazione** si occupa del **formato** dei dati: come vengono rappresentati, compressi e cifrati.\n\n### Cosa fa:\n- **Traduzione**: converte i dati tra formati diversi\n- **Compressione**: riduce la dimensione dei dati\n- **Crittografia/Decrittografia**: protegge i dati durante la trasmissione\n\n### Traduzione dei dati:\nHost diversi possono usare formati diversi (es. codifica dei caratteri). Il livello 6 si assicura che i dati siano comprensibili da entrambi.\n\n| Funzione | Esempio |\n|----------|--------|\n| Codifica caratteri | ASCII, UTF-8, Unicode |\n| Formato immagini | JPEG, PNG, GIF |\n| Formato video | MPEG, AVI, MP4 |\n| Formato dati | JSON, XML, HTML |\n| Crittografia | SSL/TLS, cifratura |\n| Compressione | ZIP, GZIP |\n\n### Crittografia:\n- **SSL/TLS** opera a questo livello\n- Quando vedi **HTTPS** (lucchetto nel browser), il livello 6 sta cifrando i dati\n- Garantisce che nessuno possa leggere i dati in transito\n\n### PDU: **Dati**\n\n### Nota per l'esame:\nCome il livello 5, nel TCP/IP non esiste separatamente. Le funzioni di presentazione (es. TLS) sono considerate parte del livello Application. Però all'esame è importante saper spiegare cosa fa: \"il livello 6 si occupa di formato, compressione e crittografia\".",
+    "keywords": "livello 6,presentazione,traduzione,compressione,crittografia,TLS,formato"
+  },
+  {
+    "id": 44,
+    "section_id": "E",
+    "number": 13,
+    "title": "Livello 7 — Applicazione",
+    "content": "Il **livello applicazione** è quello che l'utente **vede e usa**. Fornisce l'interfaccia tra l'utente e la rete.\n\n### Cosa fa:\n- Fornisce **servizi di rete** direttamente alle applicazioni dell'utente\n- Gestisce l'accesso alle risorse di rete\n- Identifica i **partner di comunicazione** e la loro disponibilità\n\n### Protocolli principali:\n| Protocollo | Porta | Funzione |\n|-----------|-------|----------|\n| **HTTP/HTTPS** | 80/443 | Navigazione web |\n| **FTP** | 20-21 | Trasferimento file |\n| **SMTP** | 25 | Invio email |\n| **POP3** | 110 | Ricezione email (scarica) |\n| **IMAP** | 143 | Ricezione email (sincronizza) |\n| **DNS** | 53 | Risoluzione nomi → IP |\n| **DHCP** | 67-68 | Assegnazione automatica IP |\n| **SSH** | 22 | Accesso remoto sicuro |\n| **Telnet** | 23 | Accesso remoto non sicuro |\n| **SNMP** | 161 | Monitoraggio di rete |\n\n### Attenzione:\nIl livello 7 **non è** il browser o l'app email — quelli sono **programmi utente**. Il livello 7 è il **protocollo** che quel programma utilizza (HTTP, SMTP, ecc.).\n\n### Esempio pratico:\n1. Apri il browser e digiti `google.com`\n2. Il browser usa **DNS** (L7) per trovare l'IP\n3. Poi usa **HTTPS** (L7) per richiedere la pagina\n4. Il livello 7 passa i dati al livello 4 (TCP)\n5. E così via, giù per tutti i livelli...\n\n### PDU: **Dati**\n\n### All'esame:\nQuando ti chiedono un protocollo, dì sempre a che livello opera. \"HTTP è un protocollo di livello 7 che usa TCP al livello 4 sulla porta 443 per HTTPS\".",
+    "keywords": "livello 7,applicazione,HTTP,DNS,SMTP,FTP,SSH,DHCP,protocolli"
+  },
+  {
+    "id": 45,
+    "section_id": "E",
+    "number": 14,
     "title": "RFC da ricordare",
     "content": "Le **RFC** (Request for Comments) sono i documenti ufficiali che definiscono gli standard di Internet. Conoscerne alcune fa **bella figura** all'esame e dimostra che sai da dove vengono i protocolli.\n\n---\n\n## RFC fondamentali\n\n| RFC | Anno | Titolo | Cosa definisce |\n|-----|------|--------|----------------|\n| **RFC 791** | 1981 | Internet Protocol (IPv4) | Il protocollo IP versione 4: formato del pacchetto, indirizzamento a 32 bit, frammentazione, TTL. È la **base di Internet**. |\n| **RFC 793** | 1981 | Transmission Control Protocol | TCP: three-way handshake, numeri di sequenza, controllo di flusso, affidabilità end-to-end. |\n| **RFC 768** | 1980 | User Datagram Protocol | UDP: solo 1 pagina! Il protocollo più semplice possibile — nessuna garanzia, massima velocità. |\n| **RFC 826** | 1982 | Address Resolution Protocol | ARP: come si scopre il MAC address a partire dall'IP nella rete locale. |\n| **RFC 1918** | 1996 | Private Address Space | Definisce gli indirizzi **IP privati** che usiamo ogni giorno: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`. |\n| **RFC 2131** | 1997 | DHCP | Come un host ottiene automaticamente IP, mask, gateway e DNS. |\n\n---\n\n## RFC di livello applicativo\n\n| RFC | Anno | Titolo | Cosa definisce |\n|-----|------|--------|----------------|\n| **RFC 2616** | 1999 | HTTP/1.1 | Il protocollo del web: GET, POST, codici di stato (200, 404, 500). Aggiornato poi da RFC 7230-7235. |\n| **RFC 5321** | 2008 | SMTP | Simple Mail Transfer Protocol: come si inviano le email tra server. |\n| **RFC 1034 / 1035** | 1987 | DNS | Domain Name System: la \"rubrica di Internet\" che traduce nomi in IP. |\n\n---\n\n## RFC per fare colpo alla maturità 🎯\n\n| RFC | Perché citarla |\n|-----|----------------|\n| **RFC 791** (IP) | Quando parli di indirizzamento e routing: \"come definito nella RFC 791, il pacchetto IP contiene TTL, indirizzo sorgente e destinazione...\" |\n| **RFC 1918** (IP privati) | Quando parli di NAT e indirizzi privati: \"gli indirizzi 192.168.x.x sono privati secondo la RFC 1918, non instradabili su Internet...\" |\n| **RFC 793** (TCP) | Quando parli del three-way handshake: \"il meccanismo SYN/SYN-ACK/ACK è definito nella RFC 793...\" |\n| **RFC 2131** (DHCP) | Quando parli di configurazione automatica: \"il processo DORA (Discover, Offer, Request, Ack) è descritto nella RFC 2131...\" |\n\n---\n\n### Cos'è una RFC in breve?\n- Pubblicate dalla **IETF** (Internet Engineering Task Force)\n- Sono **numerate progressivamente** (RFC 1, RFC 2, ... RFC 9000+)\n- Una volta pubblicate **non cambiano mai** — se serve un aggiornamento, si pubblica una nuova RFC\n- Chiunque può leggerle gratuitamente su **rfc-editor.org**\n- Il nome \"Request for Comments\" risale al 1969 — un tono volutamente informale per incoraggiare la discussione\n\n> **Consiglio esame**: Non devi memorizzare i numeri di tutte le RFC, ma citare almeno **RFC 791** (IP), **RFC 1918** (IP privati) e **RFC 793** (TCP) dimostra preparazione e padronanza.",
     "keywords": "RFC,Request for Comments,IETF,standard,RFC 791,RFC 793,RFC 1918,RFC 2131"
   },
   {
-    "id": 39,
+    "id": 46,
     "section_id": "F",
     "number": 1,
     "title": "Indirizzo IP",
@@ -463,7 +519,7 @@ export const topics = [
     "keywords": "indirizzo IP,host,instradamento,IPv4,IPv6"
   },
   {
-    "id": 40,
+    "id": 47,
     "section_id": "F",
     "number": 2,
     "title": "IPv4",
@@ -471,7 +527,7 @@ export const topics = [
     "keywords": "IPv4,32 bit,ottetti,Net ID,Host ID"
   },
   {
-    "id": 41,
+    "id": 48,
     "section_id": "F",
     "number": 3,
     "title": "Indirizzi speciali",
@@ -479,7 +535,7 @@ export const topics = [
     "keywords": "indirizzo di rete,host,broadcast,.0,.255"
   },
   {
-    "id": 42,
+    "id": 49,
     "section_id": "F",
     "number": 4,
     "title": "Subnet mask",
@@ -487,7 +543,7 @@ export const topics = [
     "keywords": "subnet mask,rete,host,AND,bit"
   },
   {
-    "id": 43,
+    "id": 50,
     "section_id": "F",
     "number": 5,
     "title": "Notazione CIDR",
@@ -495,7 +551,7 @@ export const topics = [
     "keywords": "CIDR,slash,notazione,flessibile,classi"
   },
   {
-    "id": 44,
+    "id": 51,
     "section_id": "F",
     "number": 6,
     "title": "Default gateway",
@@ -503,7 +559,7 @@ export const topics = [
     "keywords": "default gateway,router,rete esterna,instradamento"
   },
   {
-    "id": 45,
+    "id": 52,
     "section_id": "G",
     "number": 1,
     "title": "Cos'è il subnetting",
@@ -511,7 +567,7 @@ export const topics = [
     "keywords": "subnetting,sottoreti,gestione,sicurezza,broadcast"
   },
   {
-    "id": 46,
+    "id": 53,
     "section_id": "G",
     "number": 2,
     "title": "FLSM",
@@ -519,7 +575,7 @@ export const topics = [
     "keywords": "FLSM,Fixed Length,stessa mask,sottoreti"
   },
   {
-    "id": 47,
+    "id": 54,
     "section_id": "G",
     "number": 3,
     "title": "Procedimento FLSM",
@@ -527,7 +583,7 @@ export const topics = [
     "keywords": "procedimento,FLSM,bit,calcolo,formula"
   },
   {
-    "id": 48,
+    "id": 55,
     "section_id": "G",
     "number": 4,
     "title": "Esempio FLSM",
@@ -535,7 +591,7 @@ export const topics = [
     "keywords": "esempio,FLSM,/26,sottoreti,calcolo"
   },
   {
-    "id": 49,
+    "id": 56,
     "section_id": "G",
     "number": 5,
     "title": "Limiti FLSM",
@@ -543,7 +599,7 @@ export const topics = [
     "keywords": "limiti,spreco,flessibilità,VLSM"
   },
   {
-    "id": 50,
+    "id": 57,
     "section_id": "G",
     "number": 6,
     "title": "Esercizio FLSM — 8 sottoreti",
@@ -551,7 +607,7 @@ export const topics = [
     "keywords": "esercizio,FLSM,sottoreti,passo passo,/19"
   },
   {
-    "id": 51,
+    "id": 58,
     "section_id": "G",
     "number": 7,
     "title": "Esercizio FLSM — da host richiesti",
@@ -559,7 +615,7 @@ export const topics = [
     "keywords": "esercizio,FLSM,host,mask,calcolo"
   },
   {
-    "id": 52,
+    "id": 59,
     "section_id": "H",
     "number": 1,
     "title": "VLSM",
@@ -567,7 +623,7 @@ export const topics = [
     "keywords": "VLSM,Variable Length,subnet mask diverse,efficienza"
   },
   {
-    "id": 53,
+    "id": 60,
     "section_id": "H",
     "number": 2,
     "title": "Efficienza VLSM",
@@ -575,7 +631,7 @@ export const topics = [
     "keywords": "efficienza,confronto,FLSM,spreco,risparmio"
   },
   {
-    "id": 54,
+    "id": 61,
     "section_id": "H",
     "number": 3,
     "title": "Metodo VLSM",
@@ -583,7 +639,7 @@ export const topics = [
     "keywords": "metodo,procedimento,ordinare,assegnare"
   },
   {
-    "id": 55,
+    "id": 62,
     "section_id": "H",
     "number": 4,
     "title": "Esempio VLSM",
@@ -591,7 +647,7 @@ export const topics = [
     "keywords": "esempio,VLSM,/25,/27,/28,assegnazione"
   },
   {
-    "id": 56,
+    "id": 63,
     "section_id": "H",
     "number": 5,
     "title": "Uso del VLSM",
@@ -599,7 +655,7 @@ export const topics = [
     "keywords": "aziendali,ISP,infrastrutture,CIDR,OSPF"
   },
   {
-    "id": 57,
+    "id": 64,
     "section_id": "H",
     "number": 6,
     "title": "Esercizio VLSM — Azienda con 4 reparti",
@@ -607,7 +663,7 @@ export const topics = [
     "keywords": "esercizio,VLSM,passo passo,azienda,/26,/27,/28,/30"
   },
   {
-    "id": 58,
+    "id": 65,
     "section_id": "H",
     "number": 7,
     "title": "Esercizio VLSM — Scuola con 3 piani",
@@ -615,7 +671,7 @@ export const topics = [
     "keywords": "esercizio,VLSM,scuola,maturità,passo passo"
   },
   {
-    "id": 59,
+    "id": 66,
     "section_id": "I",
     "number": 1,
     "title": "Cos'è il routing",
@@ -623,7 +679,7 @@ export const topics = [
     "keywords": "routing,instradamento,percorso,router,livello 3"
   },
   {
-    "id": 60,
+    "id": 67,
     "section_id": "I",
     "number": 2,
     "title": "Tabella di routing",
@@ -631,7 +687,7 @@ export const topics = [
     "keywords": "tabella di routing,next hop,interfaccia,metrica,entry"
   },
   {
-    "id": 61,
+    "id": 68,
     "section_id": "I",
     "number": 3,
     "title": "Routing diretto vs indiretto",
@@ -639,7 +695,7 @@ export const topics = [
     "keywords": "diretto,indiretto,stessa rete,reti diverse,ARP"
   },
   {
-    "id": 62,
+    "id": 69,
     "section_id": "I",
     "number": 4,
     "title": "Longest prefix match",
@@ -647,7 +703,7 @@ export const topics = [
     "keywords": "longest prefix match,rotta più specifica,subnet mask"
   },
   {
-    "id": 63,
+    "id": 70,
     "section_id": "I",
     "number": 5,
     "title": "Router di default",
@@ -655,7 +711,7 @@ export const topics = [
     "keywords": "default route,0.0.0.0,rotta predefinita,Internet"
   },
   {
-    "id": 64,
+    "id": 71,
     "section_id": "J",
     "number": 1,
     "title": "Routing statico",
@@ -663,7 +719,7 @@ export const topics = [
     "keywords": "routing statico,manuale,configurazione,rotte"
   },
   {
-    "id": 65,
+    "id": 72,
     "section_id": "J",
     "number": 2,
     "title": "Vantaggi e svantaggi routing statico",
@@ -671,7 +727,7 @@ export const topics = [
     "keywords": "vantaggi,svantaggi,scalabilità,sicurezza,overhead"
   },
   {
-    "id": 66,
+    "id": 73,
     "section_id": "K",
     "number": 1,
     "title": "Rete come grafo",
@@ -679,7 +735,7 @@ export const topics = [
     "keywords": "grafo,nodi,archi,router,link"
   },
   {
-    "id": 67,
+    "id": 74,
     "section_id": "K",
     "number": 2,
     "title": "Elementi del grafo",
@@ -687,7 +743,7 @@ export const topics = [
     "keywords": "nodo,arco,cammino,costo,peso"
   },
   {
-    "id": 68,
+    "id": 75,
     "section_id": "K",
     "number": 3,
     "title": "Cammino minimo",
@@ -695,7 +751,7 @@ export const topics = [
     "keywords": "cammino minimo,shortest path,Dijkstra,Bellman-Ford,costo"
   },
   {
-    "id": 69,
+    "id": 76,
     "section_id": "K",
     "number": 4,
     "title": "Algoritmo di Dijkstra",
@@ -703,7 +759,7 @@ export const topics = [
     "keywords": "Dijkstra,cammino minimo,SPF,OSPF,grafo pesato,algoritmo"
   },
   {
-    "id": 70,
+    "id": 77,
     "section_id": "K",
     "number": 5,
     "title": "Algoritmo di Bellman-Ford",
@@ -711,7 +767,7 @@ export const topics = [
     "keywords": "Bellman-Ford,distance vector,RIP,count-to-infinity,split horizon,convergenza"
   },
   {
-    "id": 71,
+    "id": 78,
     "section_id": "L",
     "number": 1,
     "title": "Routing dinamico",
@@ -719,7 +775,7 @@ export const topics = [
     "keywords": "routing dinamico,automatico,scalabile,failover"
   },
   {
-    "id": 72,
+    "id": 79,
     "section_id": "L",
     "number": 2,
     "title": "RIP",
@@ -727,7 +783,7 @@ export const topics = [
     "keywords": "RIP,distance vector,hop count,15 hop,Bellman-Ford"
   },
   {
-    "id": 73,
+    "id": 80,
     "section_id": "L",
     "number": 3,
     "title": "OSPF",
@@ -735,7 +791,7 @@ export const topics = [
     "keywords": "OSPF,link state,Dijkstra,costo,gerarchico,LSA"
   },
   {
-    "id": 74,
+    "id": 81,
     "section_id": "L",
     "number": 4,
     "title": "RIP vs OSPF",
@@ -743,7 +799,7 @@ export const topics = [
     "keywords": "RIP,OSPF,confronto,distance vector,link state"
   },
   {
-    "id": 75,
+    "id": 82,
     "section_id": "M",
     "number": 1,
     "title": "Livello trasporto",
@@ -751,7 +807,7 @@ export const topics = [
     "keywords": "livello trasporto,end-to-end,multiplexing,segmentazione"
   },
   {
-    "id": 76,
+    "id": 83,
     "section_id": "M",
     "number": 2,
     "title": "TCP vs UDP overview",
@@ -759,7 +815,7 @@ export const topics = [
     "keywords": "TCP,UDP,affidabile,non affidabile"
   },
   {
-    "id": 77,
+    "id": 84,
     "section_id": "M",
     "number": 3,
     "title": "TCP in dettaglio",
@@ -767,7 +823,7 @@ export const topics = [
     "keywords": "TCP,affidabile,connessione,flusso,congestione"
   },
   {
-    "id": 78,
+    "id": 85,
     "section_id": "M",
     "number": 4,
     "title": "Three-way handshake",
@@ -775,7 +831,7 @@ export const topics = [
     "keywords": "three-way handshake,SYN,SYN-ACK,ACK,connessione"
   },
   {
-    "id": 79,
+    "id": 86,
     "section_id": "M",
     "number": 5,
     "title": "Sequence e ACK number",
@@ -783,7 +839,7 @@ export const topics = [
     "keywords": "sequence number,acknowledgment,ritrasmissione,timeout"
   },
   {
-    "id": 80,
+    "id": 87,
     "section_id": "M",
     "number": 6,
     "title": "UDP in dettaglio",
@@ -791,7 +847,7 @@ export const topics = [
     "keywords": "UDP,connectionless,datagram,veloce,leggero"
   },
   {
-    "id": 81,
+    "id": 88,
     "section_id": "M",
     "number": 7,
     "title": "TCP vs UDP confronto",
@@ -799,7 +855,7 @@ export const topics = [
     "keywords": "TCP,UDP,confronto,affidabile,veloce"
   },
   {
-    "id": 82,
+    "id": 89,
     "section_id": "M",
     "number": 8,
     "title": "Porte",
@@ -807,7 +863,7 @@ export const topics = [
     "keywords": "porte,HTTP,HTTPS,80,443,well-known"
   },
   {
-    "id": 83,
+    "id": 90,
     "section_id": "M",
     "number": 9,
     "title": "Socket",
@@ -815,7 +871,7 @@ export const topics = [
     "keywords": "socket,IP,porta,endpoint,connessione"
   },
   {
-    "id": 84,
+    "id": 91,
     "section_id": "N",
     "number": 1,
     "title": "Scelta del protocollo",
@@ -823,7 +879,7 @@ export const topics = [
     "keywords": "TCP,UDP,scelta,web,streaming"
   },
   {
-    "id": 85,
+    "id": 92,
     "section_id": "N",
     "number": 2,
     "title": "Perdita vs ritardo",
@@ -831,7 +887,7 @@ export const topics = [
     "keywords": "perdita,ritardo,real-time,latenza,streaming"
   },
   {
-    "id": 86,
+    "id": 93,
     "section_id": "N",
     "number": 3,
     "title": "QUIC introduzione",
@@ -839,7 +895,7 @@ export const topics = [
     "keywords": "QUIC,Google,UDP,veloce,sicurezza,HTTP/3"
   },
   {
-    "id": 87,
+    "id": 94,
     "section_id": "N",
     "number": 4,
     "title": "QUIC vantaggi",
@@ -847,7 +903,7 @@ export const topics = [
     "keywords": "QUIC,vantaggi,0-RTT,TLS,connection migration,HTTP/3"
   },
   {
-    "id": 88,
+    "id": 95,
     "section_id": "O",
     "number": 1,
     "title": "Cos'è un Firewall",
@@ -855,7 +911,7 @@ export const topics = [
     "keywords": "firewall,filtraggio,sicurezza,protezione,ACL"
   },
   {
-    "id": 89,
+    "id": 96,
     "section_id": "O",
     "number": 2,
     "title": "Tipi di Firewall",
@@ -863,7 +919,7 @@ export const topics = [
     "keywords": "packet filter,stateful,proxy,NGFW,livelli OSI"
   },
   {
-    "id": 90,
+    "id": 97,
     "section_id": "O",
     "number": 3,
     "title": "Stateless vs Stateful",
@@ -871,7 +927,7 @@ export const topics = [
     "keywords": "stateless,stateful,state table,connessioni,pacchetto"
   },
   {
-    "id": 91,
+    "id": 98,
     "section_id": "O",
     "number": 4,
     "title": "ACL — Access Control List",
@@ -879,7 +935,7 @@ export const topics = [
     "keywords": "ACL,regole,permit,deny,filtraggio"
   },
   {
-    "id": 92,
+    "id": 99,
     "section_id": "O",
     "number": 5,
     "title": "DMZ — Zona Demilitarizzata",
@@ -887,7 +943,7 @@ export const topics = [
     "keywords": "DMZ,zona demilitarizzata,web server,sicurezza,doppio firewall"
   },
   {
-    "id": 93,
+    "id": 100,
     "section_id": "O",
     "number": 6,
     "title": "Firewall in pratica",
@@ -895,7 +951,7 @@ export const topics = [
     "keywords": "configurazione,policy,DROP,ACCEPT,whitelist"
   },
   {
-    "id": 94,
+    "id": 101,
     "section_id": "P",
     "number": 1,
     "title": "Introduzione alla Crittografia",
@@ -903,7 +959,7 @@ export const topics = [
     "keywords": "crittografia,cifratura,chiave,confidenzialità,integrità"
   },
   {
-    "id": 95,
+    "id": 102,
     "section_id": "P",
     "number": 2,
     "title": "Crittografia simmetrica",
@@ -911,7 +967,7 @@ export const topics = [
     "keywords": "simmetrica,AES,DES,chiave condivisa,veloce"
   },
   {
-    "id": 96,
+    "id": 103,
     "section_id": "P",
     "number": 3,
     "title": "Crittografia asimmetrica",
@@ -919,7 +975,7 @@ export const topics = [
     "keywords": "asimmetrica,chiave pubblica,chiave privata,RSA,Diffie-Hellman"
   },
   {
-    "id": 97,
+    "id": 104,
     "section_id": "P",
     "number": 4,
     "title": "Funzioni Hash",
@@ -927,7 +983,7 @@ export const topics = [
     "keywords": "hash,digest,SHA-256,integrità,irreversibile"
   },
   {
-    "id": 98,
+    "id": 105,
     "section_id": "P",
     "number": 5,
     "title": "Certificati digitali e PKI",
@@ -935,7 +991,7 @@ export const topics = [
     "keywords": "certificato digitale,CA,PKI,X.509,HTTPS"
   },
   {
-    "id": 99,
+    "id": 106,
     "section_id": "P",
     "number": 6,
     "title": "TLS e HTTPS",
@@ -943,7 +999,7 @@ export const topics = [
     "keywords": "TLS,SSL,HTTPS,handshake,cifratura"
   },
   {
-    "id": 100,
+    "id": 107,
     "section_id": "Q",
     "number": 1,
     "title": "Cos'è una VPN",
@@ -951,7 +1007,7 @@ export const topics = [
     "keywords": "VPN,tunnel,cifratura,rete privata,sicurezza"
   },
   {
-    "id": 101,
+    "id": 108,
     "section_id": "Q",
     "number": 2,
     "title": "Tipi di VPN",
@@ -959,7 +1015,7 @@ export const topics = [
     "keywords": "site-to-site,remote access,client VPN,smart working"
   },
   {
-    "id": 102,
+    "id": 109,
     "section_id": "Q",
     "number": 3,
     "title": "Tunneling",
@@ -967,7 +1023,7 @@ export const topics = [
     "keywords": "tunneling,incapsulamento,cifratura,pacchetto,VPN"
   },
   {
-    "id": 103,
+    "id": 110,
     "section_id": "Q",
     "number": 4,
     "title": "Protocolli VPN",
@@ -975,7 +1031,7 @@ export const topics = [
     "keywords": "IPsec,OpenVPN,WireGuard,L2TP,protocolli VPN"
   },
   {
-    "id": 104,
+    "id": 111,
     "section_id": "Q",
     "number": 5,
     "title": "VPN e sicurezza aziendale",
@@ -983,7 +1039,7 @@ export const topics = [
     "keywords": "VPN aziendale,split tunneling,MFA,concentrator,sicurezza"
   },
   {
-    "id": 105,
+    "id": 112,
     "section_id": "R",
     "number": 1,
     "title": "Cos'è una VLAN",
@@ -991,7 +1047,7 @@ export const topics = [
     "keywords": "VLAN,rete virtuale,segmentazione,broadcast,VLAN ID"
   },
   {
-    "id": 106,
+    "id": 113,
     "section_id": "R",
     "number": 2,
     "title": "VLAN basate su porte",
@@ -999,7 +1055,7 @@ export const topics = [
     "keywords": "port-based,access port,assegnazione,switch,configurazione"
   },
   {
-    "id": 107,
+    "id": 114,
     "section_id": "R",
     "number": 3,
     "title": "Trunk e 802.1Q",
@@ -1007,7 +1063,7 @@ export const topics = [
     "keywords": "trunk,802.1Q,tag,VLAN ID,native VLAN"
   },
   {
-    "id": 108,
+    "id": 115,
     "section_id": "R",
     "number": 4,
     "title": "Inter-VLAN Routing",
@@ -1015,7 +1071,7 @@ export const topics = [
     "keywords": "inter-VLAN,router-on-a-stick,subinterface,SVI,Layer 3"
   },
   {
-    "id": 109,
+    "id": 116,
     "section_id": "R",
     "number": 5,
     "title": "Vantaggi delle VLAN",
@@ -1023,7 +1079,7 @@ export const topics = [
     "keywords": "vantaggi,sicurezza,broadcast,flessibilità,gestione"
   },
   {
-    "id": 110,
+    "id": 117,
     "section_id": "S",
     "number": 1,
     "title": "Cos'è il Malware",
@@ -1031,7 +1087,7 @@ export const topics = [
     "keywords": "malware,virus,worm,trojan,ransomware"
   },
   {
-    "id": 111,
+    "id": 118,
     "section_id": "S",
     "number": 2,
     "title": "Virus, Worm e Trojan",
@@ -1039,7 +1095,7 @@ export const topics = [
     "keywords": "virus,worm,trojan,backdoor,WannaCry"
   },
   {
-    "id": 112,
+    "id": 119,
     "section_id": "S",
     "number": 3,
     "title": "Ransomware e Spyware",
@@ -1047,7 +1103,7 @@ export const topics = [
     "keywords": "ransomware,spyware,keylogger,riscatto,WannaCry"
   },
   {
-    "id": 113,
+    "id": 120,
     "section_id": "S",
     "number": 4,
     "title": "Attacchi di rete",
@@ -1055,7 +1111,7 @@ export const topics = [
     "keywords": "phishing,MitM,DDoS,ARP spoofing,botnet"
   },
   {
-    "id": 114,
+    "id": 121,
     "section_id": "S",
     "number": 5,
     "title": "Social Engineering",
@@ -1063,7 +1119,7 @@ export const topics = [
     "keywords": "social engineering,phishing,pretexting,baiting,tailgating"
   },
   {
-    "id": 115,
+    "id": 122,
     "section_id": "S",
     "number": 6,
     "title": "Difese e prevenzione",
@@ -1071,7 +1127,7 @@ export const topics = [
     "keywords": "antivirus,IDS,IPS,backup,patch,best practice"
   },
   {
-    "id": 116,
+    "id": 123,
     "section_id": "T",
     "number": 1,
     "title": "Cos'è Packet Tracer",
@@ -1079,7 +1135,7 @@ export const topics = [
     "keywords": "Packet Tracer,Cisco,simulatore,topologia,configurazione"
   },
   {
-    "id": 117,
+    "id": 124,
     "section_id": "T",
     "number": 2,
     "title": "L'interfaccia di Packet Tracer",
@@ -1087,7 +1143,7 @@ export const topics = [
     "keywords": "interfaccia,workspace,cavi,simulation,PDU"
   },
   {
-    "id": 118,
+    "id": 125,
     "section_id": "T",
     "number": 3,
     "title": "Configurazione base di un router",
@@ -1095,7 +1151,7 @@ export const topics = [
     "keywords": "CLI,router,configurazione,hostname,interfaccia"
   },
   {
-    "id": 119,
+    "id": 126,
     "section_id": "T",
     "number": 4,
     "title": "Configurazione base di uno switch",
@@ -1103,7 +1159,7 @@ export const topics = [
     "keywords": "switch,VLAN,trunk,access,configurazione"
   },
   {
-    "id": 120,
+    "id": 127,
     "section_id": "T",
     "number": 5,
     "title": "Configurare IP su PC e test di connettività",
@@ -1111,7 +1167,7 @@ export const topics = [
     "keywords": "IP,configurazione PC,ping,tracert,DHCP"
   },
   {
-    "id": 121,
+    "id": 128,
     "section_id": "T",
     "number": 6,
     "title": "Esercizio tipo maturità",
@@ -1119,7 +1175,7 @@ export const topics = [
     "keywords": "esercizio,maturità,VLSM,VLAN,progetto rete"
   },
   {
-    "id": 122,
+    "id": 129,
     "section_id": "T",
     "number": 7,
     "title": "Comandi show e debug",
@@ -1127,7 +1183,7 @@ export const topics = [
     "keywords": "show,comandi,running-config,ip route,verifica"
   },
   {
-    "id": 123,
+    "id": 130,
     "section_id": "T",
     "number": 8,
     "title": "Configurare un server DNS in Packet Tracer",
@@ -1135,7 +1191,7 @@ export const topics = [
     "keywords": "DNS,server,risoluzione nomi,A Record,nslookup"
   },
   {
-    "id": 124,
+    "id": 131,
     "section_id": "T",
     "number": 9,
     "title": "Configurare un server Email (SMTP/POP3) in Packet Tracer",
@@ -1143,7 +1199,7 @@ export const topics = [
     "keywords": "Email,SMTP,POP3,posta,mail server,configurazione"
   },
   {
-    "id": 125,
+    "id": 132,
     "section_id": "T",
     "number": 10,
     "title": "Configurare NAT in Packet Tracer",
@@ -1151,7 +1207,7 @@ export const topics = [
     "keywords": "NAT,traduzione indirizzi,inside,outside,overload,IP pubblico"
   },
   {
-    "id": 126,
+    "id": 133,
     "section_id": "T",
     "number": 11,
     "title": "Configurare DHCP in Packet Tracer",
@@ -1159,7 +1215,7 @@ export const topics = [
     "keywords": "DHCP,assegnazione automatica,pool,gateway,DNS,IP Configuration"
   },
   {
-    "id": 127,
+    "id": 134,
     "section_id": "T",
     "number": 12,
     "title": "Sicurezza dello Switch in Packet Tracer",
@@ -1167,7 +1223,7 @@ export const topics = [
     "keywords": "port security,MAC flooding,DHCP snooping,shutdown,sicurezza switch"
   },
   {
-    "id": 128,
+    "id": 135,
     "section_id": "T",
     "number": 13,
     "title": "Configurare un server FTP in Packet Tracer",
@@ -1175,7 +1231,7 @@ export const topics = [
     "keywords": "FTP,file transfer,upload,download,porta 21,backup"
   },
   {
-    "id": 129,
+    "id": 136,
     "section_id": "U",
     "number": 1,
     "title": "Maturità 2024 — Testo e analisi",
@@ -1183,7 +1239,7 @@ export const topics = [
     "keywords": "maturità 2024,traccia,analisi,fascicolo sanitario,fibra ottica"
   },
   {
-    "id": 130,
+    "id": 137,
     "section_id": "U",
     "number": 2,
     "title": "Maturità 2024 — Punto 1: Infrastruttura e indirizzamento",
@@ -1191,7 +1247,7 @@ export const topics = [
     "keywords": "infrastruttura,piano indirizzamento,/28,VLSM,fibra ottica,schema rete"
   },
   {
-    "id": 131,
+    "id": 138,
     "section_id": "U",
     "number": 3,
     "title": "Maturità 2024 — Punto 2: Dispositivo per le strutture",
@@ -1199,7 +1255,7 @@ export const topics = [
     "keywords": "CPE,router,firewall,porte,NAT,VPN,ACL,isolamento"
   },
   {
-    "id": 132,
+    "id": 139,
     "section_id": "U",
     "number": 4,
     "title": "Maturità 2024 — Punto 3: Connessione LAN esistente",
@@ -1207,7 +1263,7 @@ export const topics = [
     "keywords": "LAN esistente,collegamento,CPE,rotta statica,switch,cablaggio"
   },
   {
-    "id": 133,
+    "id": 140,
     "section_id": "U",
     "number": 5,
     "title": "Maturità 2024 — Punto 4: Sicurezza dati sanitari",
@@ -1215,7 +1271,7 @@ export const topics = [
     "keywords": "sicurezza,VPN,cifratura,GDPR,backup,SFTP,trasferimento,data-center"
   },
   {
-    "id": 134,
+    "id": 141,
     "section_id": "U",
     "number": 6,
     "title": "Maturità 2024 — Quesito I: Tolleranza ai guasti",
@@ -1223,7 +1279,7 @@ export const topics = [
     "keywords": "tolleranza guasti,backup,RAID,disaster recovery,retry,ridondanza"
   },
   {
-    "id": 135,
+    "id": 142,
     "section_id": "U",
     "number": 7,
     "title": "Maturità 2024 — Quesito II: Autenticazione multi-fattore",
@@ -1231,7 +1287,7 @@ export const topics = [
     "keywords": "MFA,SPID,CIE,OTP,autenticazione,fascicolo sanitario"
   },
   {
-    "id": 136,
+    "id": 143,
     "section_id": "U",
     "number": 8,
     "title": "Maturità 2024 — Quesito III: NAT e port forwarding",
@@ -1239,7 +1295,7 @@ export const topics = [
     "keywords": "NAT,port forwarding,ACL,static NAT,HTTP,HTTPS,SSH,IP pubblico"
   },
   {
-    "id": 137,
+    "id": 144,
     "section_id": "U",
     "number": 9,
     "title": "Maturità 2024 — Quesito IV: Troubleshooting rete",
@@ -1791,6 +1847,150 @@ export const quizQuestions = [
   },
   {
     "id": 46,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale livello OSI si occupa della trasmissione dei bit sul mezzo fisico?",
+    "option_a": "Livello 2",
+    "option_b": "Livello 1",
+    "option_c": "Livello 3",
+    "option_d": "Livello 4",
+    "correct_answer": "B",
+    "explanation": "Il livello 1 (Fisico) trasmette bit grezzi come segnali elettrici, ottici o radio."
+  },
+  {
+    "id": 47,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Lo switch opera a quale livello OSI?",
+    "option_a": "Livello 1",
+    "option_b": "Livello 3",
+    "option_c": "Livello 2",
+    "option_d": "Livello 4",
+    "correct_answer": "C",
+    "explanation": "Lo switch opera al livello 2 (Data Link) e usa gli indirizzi MAC per inoltrare i frame."
+  },
+  {
+    "id": 48,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale livello OSI usa gli indirizzi MAC?",
+    "option_a": "Livello 1",
+    "option_b": "Livello 2",
+    "option_c": "Livello 3",
+    "option_d": "Livello 4",
+    "correct_answer": "B",
+    "explanation": "Il livello 2 (Collegamento dati) usa gli indirizzi MAC per la comunicazione nella LAN."
+  },
+  {
+    "id": 49,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Il router opera a quale livello OSI?",
+    "option_a": "Livello 1",
+    "option_b": "Livello 2",
+    "option_c": "Livello 3",
+    "option_d": "Livello 4",
+    "correct_answer": "C",
+    "explanation": "Il router opera al livello 3 (Rete) e instrada i pacchetti in base agli indirizzi IP."
+  },
+  {
+    "id": 50,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale è la PDU del livello 2?",
+    "option_a": "Bit",
+    "option_b": "Pacchetto",
+    "option_c": "Segmento",
+    "option_d": "Frame",
+    "correct_answer": "D",
+    "explanation": "La PDU del livello 2 è il Frame, che contiene MAC sorgente, destinazione, payload e CRC."
+  },
+  {
+    "id": 51,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale è la PDU del livello 3?",
+    "option_a": "Bit",
+    "option_b": "Frame",
+    "option_c": "Pacchetto",
+    "option_d": "Segmento",
+    "correct_answer": "C",
+    "explanation": "La PDU del livello 3 è il Pacchetto (packet), che contiene indirizzi IP."
+  },
+  {
+    "id": 52,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Il campo TTL del pacchetto IP serve a:",
+    "option_a": "Cifrare i dati",
+    "option_b": "Evitare loop infiniti nella rete",
+    "option_c": "Assegnare le porte",
+    "option_d": "Comprimere i dati",
+    "correct_answer": "B",
+    "explanation": "Il TTL viene decrementato ad ogni router: se arriva a 0 il pacchetto viene scartato, evitando loop."
+  },
+  {
+    "id": 53,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale livello OSI gestisce i checkpoint per il recupero della sessione?",
+    "option_a": "Livello 4",
+    "option_b": "Livello 5",
+    "option_c": "Livello 6",
+    "option_d": "Livello 7",
+    "correct_answer": "B",
+    "explanation": "Il livello 5 (Sessione) gestisce apertura, mantenimento e sincronizzazione delle sessioni."
+  },
+  {
+    "id": 54,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "SSL/TLS opera principalmente a quale livello OSI?",
+    "option_a": "Livello 4",
+    "option_b": "Livello 5",
+    "option_c": "Livello 6",
+    "option_d": "Livello 7",
+    "correct_answer": "C",
+    "explanation": "SSL/TLS opera al livello 6 (Presentazione) per la crittografia dei dati."
+  },
+  {
+    "id": 55,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "HTTP è un protocollo di quale livello OSI?",
+    "option_a": "Livello 4",
+    "option_b": "Livello 5",
+    "option_c": "Livello 6",
+    "option_d": "Livello 7",
+    "correct_answer": "D",
+    "explanation": "HTTP è un protocollo di livello 7 (Applicazione) che usa TCP al livello 4."
+  },
+  {
+    "id": 56,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "Quale livello OSI si occupa della compressione dei dati?",
+    "option_a": "Livello 4",
+    "option_b": "Livello 5",
+    "option_c": "Livello 6",
+    "option_d": "Livello 7",
+    "correct_answer": "C",
+    "explanation": "Il livello 6 (Presentazione) gestisce formato, compressione e crittografia."
+  },
+  {
+    "id": 57,
+    "section_id": "E",
+    "topic_id": null,
+    "question": "L'hub opera a quale livello OSI?",
+    "option_a": "Livello 1",
+    "option_b": "Livello 2",
+    "option_c": "Livello 3",
+    "option_d": "Livello 4",
+    "correct_answer": "A",
+    "explanation": "L'hub è un dispositivo di livello 1 che ripete il segnale a tutte le porte."
+  },
+  {
+    "id": 58,
     "section_id": "F",
     "topic_id": null,
     "question": "Quanti bit ha un indirizzo IPv4?",
@@ -1802,7 +2002,7 @@ export const quizQuestions = [
     "explanation": "IPv4 usa indirizzi a 32 bit, scritti come 4 ottetti decimali."
   },
   {
-    "id": 47,
+    "id": 59,
     "section_id": "F",
     "topic_id": null,
     "question": "Cosa indica l'indirizzo .255 in una rete /24?",
@@ -1814,7 +2014,7 @@ export const quizQuestions = [
     "explanation": "In una rete /24, l'ultimo indirizzo (.255) è l'indirizzo di broadcast."
   },
   {
-    "id": 48,
+    "id": 60,
     "section_id": "F",
     "topic_id": null,
     "question": "Cosa fa la subnet mask?",
@@ -1826,7 +2026,7 @@ export const quizQuestions = [
     "explanation": "La subnet mask separa la parte rete dalla parte host di un indirizzo IP."
   },
   {
-    "id": 49,
+    "id": 61,
     "section_id": "F",
     "topic_id": null,
     "question": "Cosa significa /24 in notazione CIDR?",
@@ -1838,7 +2038,7 @@ export const quizQuestions = [
     "explanation": "CIDR /24 significa che 24 bit sono dedicati alla parte rete."
   },
   {
-    "id": 50,
+    "id": 62,
     "section_id": "F",
     "topic_id": null,
     "question": "A cosa serve il default gateway?",
@@ -1850,7 +2050,7 @@ export const quizQuestions = [
     "explanation": "Il default gateway è il router usato per raggiungere reti esterne alla propria."
   },
   {
-    "id": 51,
+    "id": 63,
     "section_id": "F",
     "topic_id": null,
     "question": "Quale operazione si usa per calcolare l'indirizzo di rete?",
@@ -1862,7 +2062,7 @@ export const quizQuestions = [
     "explanation": "IP AND subnet mask = indirizzo di rete."
   },
   {
-    "id": 52,
+    "id": 64,
     "section_id": "G",
     "topic_id": null,
     "question": "Cosa significa FLSM?",
@@ -1874,7 +2074,7 @@ export const quizQuestions = [
     "explanation": "FLSM = Fixed Length Subnet Mask, tutte le sottoreti con la stessa mask."
   },
   {
-    "id": 53,
+    "id": 65,
     "section_id": "G",
     "topic_id": null,
     "question": "Quanti host utilizzabili ci sono in una rete /26?",
@@ -1886,7 +2086,7 @@ export const quizQuestions = [
     "explanation": "2^6 - 2 = 62 host utilizzabili (si sottraggono rete e broadcast)."
   },
   {
-    "id": 54,
+    "id": 66,
     "section_id": "G",
     "topic_id": null,
     "question": "Qual è il principale limite di FLSM?",
@@ -1898,7 +2098,7 @@ export const quizQuestions = [
     "explanation": "FLSM spreca indirizzi perché tutte le sottoreti hanno la stessa dimensione."
   },
   {
-    "id": 55,
+    "id": 67,
     "section_id": "G",
     "topic_id": null,
     "question": "Per dividere una /24 in 4 sottoreti FLSM, quanti bit servono?",
@@ -1910,7 +2110,7 @@ export const quizQuestions = [
     "explanation": "2² = 4, servono 2 bit in prestito dalla parte host."
   },
   {
-    "id": 56,
+    "id": 68,
     "section_id": "G",
     "topic_id": null,
     "question": "Quale sarà la nuova mask dividendo una /24 in 4 sottoreti?",
@@ -1922,7 +2122,7 @@ export const quizQuestions = [
     "explanation": "24 + 2 bit = /26 (255.255.255.192)."
   },
   {
-    "id": 57,
+    "id": 69,
     "section_id": "G",
     "topic_id": null,
     "question": "La formula per gli host utilizzabili è:",
@@ -1934,7 +2134,7 @@ export const quizQuestions = [
     "explanation": "Host utilizzabili = 2^h - 2, dove si sottraggono indirizzo di rete e broadcast."
   },
   {
-    "id": 58,
+    "id": 70,
     "section_id": "H",
     "topic_id": null,
     "question": "Cosa permette VLSM?",
@@ -1946,7 +2146,7 @@ export const quizQuestions = [
     "explanation": "VLSM permette di usare subnet mask diverse per ogni sottorete."
   },
   {
-    "id": 59,
+    "id": 71,
     "section_id": "H",
     "topic_id": null,
     "question": "Nel metodo VLSM, da quale sottorete si parte?",
@@ -1958,7 +2158,7 @@ export const quizQuestions = [
     "explanation": "Si assegnano prima le sottoreti più grandi per evitare frammentazione."
   },
   {
-    "id": 60,
+    "id": 72,
     "section_id": "H",
     "topic_id": null,
     "question": "Quale protocollo NON supporta VLSM?",
@@ -1970,7 +2170,7 @@ export const quizQuestions = [
     "explanation": "RIPv1 è classful e non supporta VLSM, a differenza di RIPv2."
   },
   {
-    "id": 61,
+    "id": 73,
     "section_id": "H",
     "topic_id": null,
     "question": "VLSM è più efficiente di FLSM perché:",
@@ -1982,7 +2182,7 @@ export const quizQuestions = [
     "explanation": "VLSM assegna la dimensione adatta a ogni sottorete, riducendo sprechi."
   },
   {
-    "id": 62,
+    "id": 74,
     "section_id": "H",
     "topic_id": null,
     "question": "Per una LAN con 100 host, quale mask VLSM è adatta?",
@@ -1994,7 +2194,7 @@ export const quizQuestions = [
     "explanation": "Con /25 si hanno 126 host disponibili, sufficienti per 100 host."
   },
   {
-    "id": 63,
+    "id": 75,
     "section_id": "I",
     "topic_id": null,
     "question": "A quale livello OSI avviene il routing?",
@@ -2006,7 +2206,7 @@ export const quizQuestions = [
     "explanation": "Il routing avviene al livello 3 (Rete) del modello OSI."
   },
   {
-    "id": 64,
+    "id": 76,
     "section_id": "I",
     "topic_id": null,
     "question": "Cosa contiene una entry della tabella di routing?",
@@ -2018,7 +2218,7 @@ export const quizQuestions = [
     "explanation": "Ogni entry contiene rete di destinazione, subnet mask, next hop e interfaccia."
   },
   {
-    "id": 65,
+    "id": 77,
     "section_id": "I",
     "topic_id": null,
     "question": "Quando si usa il routing diretto?",
@@ -2030,7 +2230,7 @@ export const quizQuestions = [
     "explanation": "Il routing diretto avviene quando i dispositivi sono nella stessa rete."
   },
   {
-    "id": 66,
+    "id": 78,
     "section_id": "I",
     "topic_id": null,
     "question": "Il longest prefix match sceglie:",
@@ -2042,7 +2242,7 @@ export const quizQuestions = [
     "explanation": "Il longest prefix match seleziona la rotta più specifica (mask più lunga)."
   },
   {
-    "id": 67,
+    "id": 79,
     "section_id": "I",
     "topic_id": null,
     "question": "Come si rappresenta la default route?",
@@ -2054,7 +2254,7 @@ export const quizQuestions = [
     "explanation": "La default route è 0.0.0.0/0, corrisponde a qualsiasi destinazione."
   },
   {
-    "id": 68,
+    "id": 80,
     "section_id": "J",
     "topic_id": null,
     "question": "Nel routing statico, chi configura le rotte?",
@@ -2066,7 +2266,7 @@ export const quizQuestions = [
     "explanation": "Nel routing statico le rotte sono configurate manualmente dall'amministratore."
   },
   {
-    "id": 69,
+    "id": 81,
     "section_id": "J",
     "topic_id": null,
     "question": "Quale NON è un vantaggio del routing statico?",
@@ -2078,7 +2278,7 @@ export const quizQuestions = [
     "explanation": "Il routing statico non si adatta automaticamente: se un link cade, serve intervento manuale."
   },
   {
-    "id": 70,
+    "id": 82,
     "section_id": "J",
     "topic_id": null,
     "question": "In quale scenario è ideale il routing statico?",
@@ -2090,7 +2290,7 @@ export const quizQuestions = [
     "explanation": "Il routing statico è ideale per reti piccole, link punto-punto e default route."
   },
   {
-    "id": 71,
+    "id": 83,
     "section_id": "J",
     "topic_id": null,
     "question": "Cosa succede se un link cade con routing statico?",
@@ -2102,7 +2302,7 @@ export const quizQuestions = [
     "explanation": "Con routing statico, la rotta rimane anche se il link è giù, causando perdita di traffico."
   },
   {
-    "id": 72,
+    "id": 84,
     "section_id": "J",
     "topic_id": null,
     "question": "Il routing statico genera traffico di routing aggiuntivo?",
@@ -2114,7 +2314,7 @@ export const quizQuestions = [
     "explanation": "Il routing statico non genera nessun traffico di routing (nessun overhead)."
   },
   {
-    "id": 73,
+    "id": 85,
     "section_id": "K",
     "topic_id": null,
     "question": "In un grafo di rete, i router corrispondono a:",
@@ -2126,7 +2326,7 @@ export const quizQuestions = [
     "explanation": "I router corrispondono ai nodi (vertici) del grafo."
   },
   {
-    "id": 74,
+    "id": 86,
     "section_id": "K",
     "topic_id": null,
     "question": "Quale algoritmo è usato da OSPF per il cammino minimo?",
@@ -2138,7 +2338,7 @@ export const quizQuestions = [
     "explanation": "OSPF usa l'algoritmo di Dijkstra (Shortest Path First)."
   },
   {
-    "id": 75,
+    "id": 87,
     "section_id": "K",
     "topic_id": null,
     "question": "Il cammino minimo è sempre quello con meno hop?",
@@ -2150,7 +2350,7 @@ export const quizQuestions = [
     "explanation": "Il cammino minimo dipende dalla metrica usata: può essere banda, latenza, costo."
   },
   {
-    "id": 76,
+    "id": 88,
     "section_id": "K",
     "topic_id": null,
     "question": "I link di rete corrispondono a quali elementi del grafo?",
@@ -2162,7 +2362,7 @@ export const quizQuestions = [
     "explanation": "I link (collegamenti fisici) corrispondono agli archi del grafo."
   },
   {
-    "id": 77,
+    "id": 89,
     "section_id": "K",
     "topic_id": null,
     "question": "Quale algoritmo è usato da RIP?",
@@ -2174,7 +2374,7 @@ export const quizQuestions = [
     "explanation": "RIP usa l'algoritmo distribuito di Bellman-Ford."
   },
   {
-    "id": 78,
+    "id": 90,
     "section_id": "K",
     "topic_id": null,
     "question": "Quale è il primo passo dell'algoritmo di Dijkstra?",
@@ -2186,7 +2386,7 @@ export const quizQuestions = [
     "explanation": "Dijkstra inizia assegnando distanza 0 al nodo sorgente e infinito a tutti gli altri."
   },
   {
-    "id": 79,
+    "id": 91,
     "section_id": "K",
     "topic_id": null,
     "question": "Dijkstra funziona con pesi negativi?",
@@ -2198,7 +2398,7 @@ export const quizQuestions = [
     "explanation": "Dijkstra richiede pesi non negativi. Per pesi negativi si usa Bellman-Ford."
   },
   {
-    "id": 80,
+    "id": 92,
     "section_id": "K",
     "topic_id": null,
     "question": "Quante iterazioni servono a Bellman-Ford nel caso peggiore?",
@@ -2210,7 +2410,7 @@ export const quizQuestions = [
     "explanation": "Bellman-Ford esegue V-1 iterazioni, dove V è il numero di nodi."
   },
   {
-    "id": 81,
+    "id": 93,
     "section_id": "K",
     "topic_id": null,
     "question": "Cos'è il problema del count-to-infinity?",
@@ -2222,7 +2422,7 @@ export const quizQuestions = [
     "explanation": "Il count-to-infinity si verifica quando, dopo un guasto, i router continuano ad incrementare la distanza senza convergere."
   },
   {
-    "id": 82,
+    "id": 94,
     "section_id": "K",
     "topic_id": null,
     "question": "Split Horizon è una soluzione a quale problema?",
@@ -2234,7 +2434,7 @@ export const quizQuestions = [
     "explanation": "Split Horizon risolve il count-to-infinity: non invii una rotta al vicino da cui l'hai appresa."
   },
   {
-    "id": 83,
+    "id": 95,
     "section_id": "K",
     "topic_id": null,
     "question": "In Dijkstra, quale nodo viene visitato per primo?",
@@ -2246,7 +2446,7 @@ export const quizQuestions = [
     "explanation": "Ad ogni passo Dijkstra seleziona il nodo non visitato con la distanza minima corrente."
   },
   {
-    "id": 84,
+    "id": 96,
     "section_id": "K",
     "topic_id": null,
     "question": "Nella versione distribuita di Bellman-Ford, ogni router conosce:",
@@ -2258,7 +2458,7 @@ export const quizQuestions = [
     "explanation": "Nella versione distribuita (distance vector), ogni router conosce solo le distanze verso i vicini diretti e le informazioni ricevute da essi."
   },
   {
-    "id": 85,
+    "id": 97,
     "section_id": "K",
     "topic_id": null,
     "question": "La complessità di Dijkstra con lista semplice è:",
@@ -2270,7 +2470,7 @@ export const quizQuestions = [
     "explanation": "Con lista semplice Dijkstra ha complessità O(V²), migliorabile con min-heap."
   },
   {
-    "id": 86,
+    "id": 98,
     "section_id": "L",
     "topic_id": null,
     "question": "RIP è un protocollo di tipo:",
@@ -2282,7 +2482,7 @@ export const quizQuestions = [
     "explanation": "RIP è un protocollo distance vector basato sull'algoritmo Bellman-Ford."
   },
   {
-    "id": 87,
+    "id": 99,
     "section_id": "L",
     "topic_id": null,
     "question": "Qual è il limite massimo di hop in RIP?",
@@ -2294,7 +2494,7 @@ export const quizQuestions = [
     "explanation": "RIP ha un limite massimo di 15 hop; 16 significa rete irraggiungibile."
   },
   {
-    "id": 88,
+    "id": 100,
     "section_id": "L",
     "topic_id": null,
     "question": "OSPF usa quale algoritmo?",
@@ -2306,7 +2506,7 @@ export const quizQuestions = [
     "explanation": "OSPF usa l'algoritmo di Dijkstra (SPF - Shortest Path First)."
   },
   {
-    "id": 89,
+    "id": 101,
     "section_id": "L",
     "topic_id": null,
     "question": "Quale protocollo è più adatto a reti grandi?",
@@ -2318,7 +2518,7 @@ export const quizQuestions = [
     "explanation": "OSPF è progettato per reti medie e grandi grazie alla sua struttura gerarchica."
   },
   {
-    "id": 90,
+    "id": 102,
     "section_id": "L",
     "topic_id": null,
     "question": "La metrica di OSPF è basata su:",
@@ -2330,7 +2530,7 @@ export const quizQuestions = [
     "explanation": "OSPF usa il costo basato sulla banda del collegamento come metrica."
   },
   {
-    "id": 91,
+    "id": 103,
     "section_id": "L",
     "topic_id": null,
     "question": "Ogni quanti secondi RIP invia aggiornamenti?",
@@ -2342,7 +2542,7 @@ export const quizQuestions = [
     "explanation": "RIP invia aggiornamenti della tabella di routing ogni 30 secondi."
   },
   {
-    "id": 92,
+    "id": 104,
     "section_id": "M",
     "topic_id": null,
     "question": "Il livello trasporto gestisce la comunicazione:",
@@ -2354,7 +2554,7 @@ export const quizQuestions = [
     "explanation": "Il livello trasporto gestisce la comunicazione end-to-end tra applicazioni."
   },
   {
-    "id": 93,
+    "id": 105,
     "section_id": "M",
     "topic_id": null,
     "question": "Quale sequenza descrive il three-way handshake?",
@@ -2366,7 +2566,7 @@ export const quizQuestions = [
     "explanation": "Il three-way handshake TCP è: SYN → SYN-ACK → ACK."
   },
   {
-    "id": 94,
+    "id": 106,
     "section_id": "M",
     "topic_id": null,
     "question": "Quanti byte ha l'header UDP?",
@@ -2378,7 +2578,7 @@ export const quizQuestions = [
     "explanation": "L'header UDP è minimo: solo 8 byte (vs 20+ di TCP)."
   },
   {
-    "id": 95,
+    "id": 107,
     "section_id": "M",
     "topic_id": null,
     "question": "Quale porta usa HTTPS?",
@@ -2390,7 +2590,7 @@ export const quizQuestions = [
     "explanation": "HTTPS usa la porta 443, mentre HTTP usa la porta 80."
   },
   {
-    "id": 96,
+    "id": 108,
     "section_id": "M",
     "topic_id": null,
     "question": "Un socket è composto da:",
@@ -2402,7 +2602,7 @@ export const quizQuestions = [
     "explanation": "Un socket è la combinazione di indirizzo IP e numero di porta."
   },
   {
-    "id": 97,
+    "id": 109,
     "section_id": "M",
     "topic_id": null,
     "question": "TCP garantisce la consegna tramite:",
@@ -2414,7 +2614,7 @@ export const quizQuestions = [
     "explanation": "TCP usa acknowledgment e ritrasmissione per garantire la consegna affidabile."
   },
   {
-    "id": 98,
+    "id": 110,
     "section_id": "M",
     "topic_id": null,
     "question": "Quale protocollo è connectionless?",
@@ -2426,7 +2626,7 @@ export const quizQuestions = [
     "explanation": "UDP è connectionless: invia datagram senza stabilire connessione."
   },
   {
-    "id": 99,
+    "id": 111,
     "section_id": "N",
     "topic_id": null,
     "question": "Perché le videochiamate usano UDP?",
@@ -2438,7 +2638,7 @@ export const quizQuestions = [
     "explanation": "Nelle videochiamate, il ritardo è peggiore della perdita: UDP evita la latenza da ritrasmissione."
   },
   {
-    "id": 100,
+    "id": 112,
     "section_id": "N",
     "topic_id": null,
     "question": "QUIC è stato sviluppato da:",
@@ -2450,7 +2650,7 @@ export const quizQuestions = [
     "explanation": "QUIC è stato sviluppato da Google per migliorare le prestazioni web."
   },
   {
-    "id": 101,
+    "id": 113,
     "section_id": "N",
     "topic_id": null,
     "question": "QUIC si basa su quale protocollo di trasporto?",
@@ -2462,7 +2662,7 @@ export const quizQuestions = [
     "explanation": "QUIC utilizza UDP come protocollo di trasporto sottostante."
   },
   {
-    "id": 102,
+    "id": 114,
     "section_id": "N",
     "topic_id": null,
     "question": "Quale versione di HTTP usa QUIC?",
@@ -2474,7 +2674,7 @@ export const quizQuestions = [
     "explanation": "HTTP/3 è basato su QUIC invece che su TCP."
   },
   {
-    "id": 103,
+    "id": 115,
     "section_id": "N",
     "topic_id": null,
     "question": "Quanti RTT servono a QUIC per una connessione già nota?",
@@ -2486,7 +2686,7 @@ export const quizQuestions = [
     "explanation": "QUIC supporta 0-RTT per connessioni già stabilite in precedenza."
   },
   {
-    "id": 104,
+    "id": 116,
     "section_id": "N",
     "topic_id": null,
     "question": "Quale vantaggio ha QUIC su reti instabili?",
@@ -2498,7 +2698,7 @@ export const quizQuestions = [
     "explanation": "QUIC gestisce il cambio di rete (es. Wi-Fi → 4G) senza interrompere la connessione."
   },
   {
-    "id": 105,
+    "id": 117,
     "section_id": "O",
     "topic_id": null,
     "question": "Qual è il principio base di un firewall?",
@@ -2510,7 +2710,7 @@ export const quizQuestions = [
     "explanation": "Il principio base è \"default deny\": tutto ciò che non è esplicitamente permesso viene bloccato."
   },
   {
-    "id": 106,
+    "id": 118,
     "section_id": "O",
     "topic_id": null,
     "question": "Un firewall stateful tiene traccia di:",
@@ -2522,7 +2722,7 @@ export const quizQuestions = [
     "explanation": "Il firewall stateful mantiene una tabella delle connessioni attive (state table)."
   },
   {
-    "id": 107,
+    "id": 119,
     "section_id": "O",
     "topic_id": null,
     "question": "Le regole ACL vengono valutate:",
@@ -2534,7 +2734,7 @@ export const quizQuestions = [
     "explanation": "Le regole ACL sono valutate dall'alto verso il basso, la prima corrispondente viene applicata."
   },
   {
-    "id": 108,
+    "id": 120,
     "section_id": "O",
     "topic_id": null,
     "question": "La DMZ si colloca:",
@@ -2546,7 +2746,7 @@ export const quizQuestions = [
     "explanation": "La DMZ è una sottorete tra la rete interna e Internet che ospita servizi pubblici."
   },
   {
-    "id": 109,
+    "id": 121,
     "section_id": "O",
     "topic_id": null,
     "question": "Quale tipo di firewall analizza il contenuto dei pacchetti a livello 7?",
@@ -2558,7 +2758,7 @@ export const quizQuestions = [
     "explanation": "L'Application Gateway/Proxy opera al livello 7 e può analizzare il contenuto applicativo."
   },
   {
-    "id": 110,
+    "id": 122,
     "section_id": "O",
     "topic_id": null,
     "question": "Un firewall packet filter opera a quali livelli OSI?",
@@ -2570,7 +2770,7 @@ export const quizQuestions = [
     "explanation": "Il packet filter filtra in base a IP, porta e protocollo (livelli 3 e 4)."
   },
   {
-    "id": 111,
+    "id": 123,
     "section_id": "P",
     "topic_id": null,
     "question": "Nella crittografia simmetrica si usano:",
@@ -2582,7 +2782,7 @@ export const quizQuestions = [
     "explanation": "Nella crittografia simmetrica si usa una sola chiave condivisa per cifratura e decifratura."
   },
   {
-    "id": 112,
+    "id": 124,
     "section_id": "P",
     "topic_id": null,
     "question": "Qual è l'algoritmo simmetrico standard attuale?",
@@ -2594,7 +2794,7 @@ export const quizQuestions = [
     "explanation": "AES (Advanced Encryption Standard) è lo standard attuale con chiavi da 128/192/256 bit."
   },
   {
-    "id": 113,
+    "id": 125,
     "section_id": "P",
     "topic_id": null,
     "question": "La crittografia asimmetrica usa:",
@@ -2606,7 +2806,7 @@ export const quizQuestions = [
     "explanation": "La crittografia asimmetrica usa una coppia di chiavi: pubblica (per cifrare) e privata (per decifrare)."
   },
   {
-    "id": 114,
+    "id": 126,
     "section_id": "P",
     "topic_id": null,
     "question": "Quale algoritmo asimmetrico è il più diffuso?",
@@ -2618,7 +2818,7 @@ export const quizQuestions = [
     "explanation": "RSA è l'algoritmo asimmetrico più diffuso, basato sulla fattorizzazione di numeri primi."
   },
   {
-    "id": 115,
+    "id": 127,
     "section_id": "P",
     "topic_id": null,
     "question": "Una funzione hash è:",
@@ -2630,7 +2830,7 @@ export const quizQuestions = [
     "explanation": "Le funzioni hash sono irreversibili: dal digest non si può risalire all'input originale."
   },
   {
-    "id": 116,
+    "id": 128,
     "section_id": "P",
     "topic_id": null,
     "question": "Quale algoritmo di hash è considerato sicuro oggi?",
@@ -2642,7 +2842,7 @@ export const quizQuestions = [
     "explanation": "SHA-256 è lo standard attuale sicuro. MD5 e SHA-1 sono considerati non più sicuri."
   },
   {
-    "id": 117,
+    "id": 129,
     "section_id": "P",
     "topic_id": null,
     "question": "Chi emette i certificati digitali?",
@@ -2654,7 +2854,7 @@ export const quizQuestions = [
     "explanation": "La CA (Certification Authority) emette e firma i certificati digitali."
   },
   {
-    "id": 118,
+    "id": 130,
     "section_id": "P",
     "topic_id": null,
     "question": "TLS 1.3 richiede quanti RTT per stabilire la connessione?",
@@ -2666,7 +2866,7 @@ export const quizQuestions = [
     "explanation": "TLS 1.3 richiede 1 RTT (o 0-RTT per connessioni già note), più veloce delle versioni precedenti."
   },
   {
-    "id": 119,
+    "id": 131,
     "section_id": "Q",
     "topic_id": null,
     "question": "Cosa crea una VPN?",
@@ -2678,7 +2878,7 @@ export const quizQuestions = [
     "explanation": "La VPN crea un tunnel cifrato attraverso una rete pubblica come Internet."
   },
   {
-    "id": 120,
+    "id": 132,
     "section_id": "Q",
     "topic_id": null,
     "question": "Una VPN site-to-site collega:",
@@ -2690,7 +2890,7 @@ export const quizQuestions = [
     "explanation": "La VPN site-to-site collega due reti (es. sede centrale e filiale) in modo permanente."
   },
   {
-    "id": 121,
+    "id": 133,
     "section_id": "Q",
     "topic_id": null,
     "question": "Il tunneling VPN consiste nel:",
@@ -2702,7 +2902,7 @@ export const quizQuestions = [
     "explanation": "Il tunneling incapsula i pacchetti originali (con IP privati) in nuovi pacchetti cifrati."
   },
   {
-    "id": 122,
+    "id": 134,
     "section_id": "Q",
     "topic_id": null,
     "question": "Quale protocollo VPN opera a livello 3?",
@@ -2714,7 +2914,7 @@ export const quizQuestions = [
     "explanation": "IPsec opera al livello 3 (Rete) del modello OSI."
   },
   {
-    "id": 123,
+    "id": 135,
     "section_id": "Q",
     "topic_id": null,
     "question": "WireGuard è caratterizzato da:",
@@ -2726,7 +2926,7 @@ export const quizQuestions = [
     "explanation": "WireGuard ha circa 4000 righe di codice (vs 100.000+ di OpenVPN) con prestazioni eccellenti."
   },
   {
-    "id": 124,
+    "id": 136,
     "section_id": "Q",
     "topic_id": null,
     "question": "Lo split tunneling significa che:",
@@ -2738,7 +2938,7 @@ export const quizQuestions = [
     "explanation": "Con split tunneling solo il traffico destinato alla rete aziendale passa dalla VPN."
   },
   {
-    "id": 125,
+    "id": 137,
     "section_id": "R",
     "topic_id": null,
     "question": "Una VLAN permette di:",
@@ -2750,7 +2950,7 @@ export const quizQuestions = [
     "explanation": "Le VLAN permettono di segmentare una rete fisica in più reti logiche indipendenti."
   },
   {
-    "id": 126,
+    "id": 138,
     "section_id": "R",
     "topic_id": null,
     "question": "Il protocollo per taggare i frame su un trunk è:",
@@ -2762,7 +2962,7 @@ export const quizQuestions = [
     "explanation": "IEEE 802.1Q aggiunge un tag di 4 byte al frame Ethernet per identificare la VLAN."
   },
   {
-    "id": 127,
+    "id": 139,
     "section_id": "R",
     "topic_id": null,
     "question": "Una porta access appartiene a:",
@@ -2774,7 +2974,7 @@ export const quizQuestions = [
     "explanation": "Una porta access è assegnata a una sola VLAN; il dispositivo collegato non sa di essere in una VLAN."
   },
   {
-    "id": 128,
+    "id": 140,
     "section_id": "R",
     "topic_id": null,
     "question": "Per far comunicare due VLAN serve:",
@@ -2786,7 +2986,7 @@ export const quizQuestions = [
     "explanation": "Le VLAN sono isolate: serve un router o switch Layer 3 per l'inter-VLAN routing."
   },
   {
-    "id": 129,
+    "id": 141,
     "section_id": "R",
     "topic_id": null,
     "question": "Il router-on-a-stick usa:",
@@ -2798,7 +2998,7 @@ export const quizQuestions = [
     "explanation": "Il router-on-a-stick usa un singolo trunk e crea subinterface virtuali per ogni VLAN."
   },
   {
-    "id": 130,
+    "id": 142,
     "section_id": "R",
     "topic_id": null,
     "question": "La native VLAN su un trunk:",
@@ -2810,7 +3010,7 @@ export const quizQuestions = [
     "explanation": "I frame della native VLAN (di default VLAN 1) viaggiano senza tag 802.1Q sul trunk."
   },
   {
-    "id": 131,
+    "id": 143,
     "section_id": "S",
     "topic_id": null,
     "question": "Quale malware si replica autonomamente via rete?",
@@ -2822,7 +3022,7 @@ export const quizQuestions = [
     "explanation": "Il worm si replica autonomamente attraverso la rete senza bisogno di azione umana."
   },
   {
-    "id": 132,
+    "id": 144,
     "section_id": "S",
     "topic_id": null,
     "question": "Il ransomware:",
@@ -2834,7 +3034,7 @@ export const quizQuestions = [
     "explanation": "Il ransomware cifra i file della vittima e chiede un pagamento (riscatto) per la chiave."
   },
   {
-    "id": 133,
+    "id": 145,
     "section_id": "S",
     "topic_id": null,
     "question": "Il phishing è:",
@@ -2846,7 +3046,7 @@ export const quizQuestions = [
     "explanation": "Il phishing usa email e siti web falsi per rubare credenziali e dati personali."
   },
   {
-    "id": 134,
+    "id": 146,
     "section_id": "S",
     "topic_id": null,
     "question": "Un attacco DDoS mira a:",
@@ -2858,7 +3058,7 @@ export const quizQuestions = [
     "explanation": "Il DDoS inonda un server di traffico per renderlo inaccessibile, spesso usando una botnet."
   },
   {
-    "id": 135,
+    "id": 147,
     "section_id": "S",
     "topic_id": null,
     "question": "La regola di backup 3-2-1 significa:",
@@ -2870,7 +3070,7 @@ export const quizQuestions = [
     "explanation": "La regola 3-2-1: 3 copie dei dati, su 2 supporti diversi, 1 copia off-site (fuori sede)."
   },
   {
-    "id": 136,
+    "id": 148,
     "section_id": "S",
     "topic_id": null,
     "question": "Quale è la differenza tra IDS e IPS?",
@@ -2882,7 +3082,7 @@ export const quizQuestions = [
     "explanation": "IDS (Intrusion Detection) rileva e avvisa; IPS (Intrusion Prevention) rileva e blocca automaticamente."
   },
   {
-    "id": 137,
+    "id": 149,
     "section_id": "S",
     "topic_id": null,
     "question": "Un trojan si differenzia dal virus perché:",
@@ -2894,7 +3094,7 @@ export const quizQuestions = [
     "explanation": "Il trojan non si replica ma si presenta come software utile, eseguendo azioni malevole in background."
   },
   {
-    "id": 138,
+    "id": 150,
     "section_id": "T",
     "topic_id": null,
     "question": "Packet Tracer è sviluppato da:",
@@ -2906,7 +3106,7 @@ export const quizQuestions = [
     "explanation": "Cisco Packet Tracer è un simulatore di rete gratuito sviluppato da Cisco Systems."
   },
   {
-    "id": 139,
+    "id": 151,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale cavo si usa per collegare PC a Switch?",
@@ -2918,7 +3118,7 @@ export const quizQuestions = [
     "explanation": "Il cavo dritto (straight-through) si usa per collegare dispositivi diversi: PC ↔ Switch, Router ↔ Switch."
   },
   {
-    "id": 140,
+    "id": 152,
     "section_id": "T",
     "topic_id": null,
     "question": "Il comando \"enable\" porta alla modalità:",
@@ -2930,7 +3130,7 @@ export const quizQuestions = [
     "explanation": "Il comando enable porta dalla modalità User EXEC (>) alla Privileged EXEC (#)."
   },
   {
-    "id": 141,
+    "id": 153,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale comando mostra la tabella di routing?",
@@ -2942,7 +3142,7 @@ export const quizQuestions = [
     "explanation": "Il comando show ip route mostra la tabella di routing del router."
   },
   {
-    "id": 142,
+    "id": 154,
     "section_id": "T",
     "topic_id": null,
     "question": "Per salvare la configurazione su un router Cisco si usa:",
@@ -2954,7 +3154,7 @@ export const quizQuestions = [
     "explanation": "Il comando copy running-config startup-config salva la configurazione attiva nella memoria permanente."
   },
   {
-    "id": 143,
+    "id": 155,
     "section_id": "T",
     "topic_id": null,
     "question": "Il cavo console serve per:",
@@ -2966,7 +3166,7 @@ export const quizQuestions = [
     "explanation": "Il cavo console (azzurro) collega un PC alla porta Console del router o switch per la configurazione via CLI."
   },
   {
-    "id": 144,
+    "id": 156,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale comando attiva un'interfaccia spenta?",
@@ -2978,7 +3178,7 @@ export const quizQuestions = [
     "explanation": "Il comando no shutdown attiva un'interfaccia che è in stato administratively down."
   },
   {
-    "id": 145,
+    "id": 157,
     "section_id": "T",
     "topic_id": null,
     "question": "Per verificare la connettività da un PC si usa:",
@@ -2990,7 +3190,7 @@ export const quizQuestions = [
     "explanation": "Il comando ping verifica la raggiungibilità di un host inviando pacchetti ICMP."
   },
   {
-    "id": 146,
+    "id": 158,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale tipo di record DNS mappa un nome a un indirizzo IP?",
@@ -3002,7 +3202,7 @@ export const quizQuestions = [
     "explanation": "Il record A (Address) associa un nome di dominio al suo indirizzo IPv4."
   },
   {
-    "id": 147,
+    "id": 159,
     "section_id": "T",
     "topic_id": null,
     "question": "Per verificare la risoluzione DNS da un PC si usa il comando:",
@@ -3014,7 +3214,7 @@ export const quizQuestions = [
     "explanation": "Il comando nslookup interroga il server DNS e mostra l'IP associato a un nome."
   },
   {
-    "id": 148,
+    "id": 160,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale protocollo si usa per INVIARE email?",
@@ -3026,7 +3226,7 @@ export const quizQuestions = [
     "explanation": "SMTP (Simple Mail Transfer Protocol) è il protocollo standard per l'invio delle email."
   },
   {
-    "id": 149,
+    "id": 161,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale protocollo si usa per SCARICARE email dal server?",
@@ -3038,7 +3238,7 @@ export const quizQuestions = [
     "explanation": "POP3 (Post Office Protocol v3) permette al client di scaricare le email dal server di posta."
   },
   {
-    "id": 150,
+    "id": 162,
     "section_id": "T",
     "topic_id": null,
     "question": "In Packet Tracer, dove si configura il servizio DNS sul server?",
@@ -3050,7 +3250,7 @@ export const quizQuestions = [
     "explanation": "Il servizio DNS si configura dalla scheda Services → DNS del server in Packet Tracer."
   },
   {
-    "id": 151,
+    "id": 163,
     "section_id": "T",
     "topic_id": null,
     "question": "FTP utilizza quale porta per il canale di controllo?",
@@ -3062,7 +3262,7 @@ export const quizQuestions = [
     "explanation": "FTP usa la porta 21 per il canale di controllo (comandi) e la porta 20 per i dati."
   },
   {
-    "id": 152,
+    "id": 164,
     "section_id": "T",
     "topic_id": null,
     "question": "Quale comando FTP si usa per scaricare un file dal server?",
@@ -3074,7 +3274,7 @@ export const quizQuestions = [
     "explanation": "Il comando get scarica un file dal server FTP al client."
   },
   {
-    "id": 153,
+    "id": 165,
     "section_id": "T",
     "topic_id": null,
     "question": "Per configurare la mail su un PC in Packet Tracer si va in:",
@@ -3086,7 +3286,7 @@ export const quizQuestions = [
     "explanation": "La configurazione del client email si trova in Desktop → Email sul PC in Packet Tracer."
   },
   {
-    "id": 154,
+    "id": 166,
     "section_id": "T",
     "topic_id": null,
     "question": "Il NAT traduce:",
@@ -3098,7 +3298,7 @@ export const quizQuestions = [
     "explanation": "Il NAT (Network Address Translation) traduce gli indirizzi IP privati della LAN in IP pubblici per uscire su Internet."
   },
   {
-    "id": 155,
+    "id": 167,
     "section_id": "T",
     "topic_id": null,
     "question": "Nel NAT, l'interfaccia lato LAN è configurata come:",
@@ -3110,7 +3310,7 @@ export const quizQuestions = [
     "explanation": "L'interfaccia verso la rete interna è configurata come ip nat inside, quella verso Internet come ip nat outside."
   },
   {
-    "id": 156,
+    "id": 168,
     "section_id": "T",
     "topic_id": null,
     "question": "Il DHCP assegna automaticamente ai PC:",
@@ -3122,7 +3322,7 @@ export const quizQuestions = [
     "explanation": "Il DHCP assegna automaticamente IP Address, Subnet Mask, Default Gateway e DNS Server."
   },
   {
-    "id": 157,
+    "id": 169,
     "section_id": "T",
     "topic_id": null,
     "question": "In Packet Tracer, per attivare DHCP su un PC si va in:",
@@ -3134,7 +3334,7 @@ export const quizQuestions = [
     "explanation": "Sul PC si va in Desktop → IP Configuration e si seleziona DHCP al posto di Static."
   },
   {
-    "id": 158,
+    "id": 170,
     "section_id": "T",
     "topic_id": null,
     "question": "La Port Security sullo switch serve a:",
@@ -3146,7 +3346,7 @@ export const quizQuestions = [
     "explanation": "La Port Security limita quanti e quali indirizzi MAC possono utilizzare una porta dello switch."
   },
   {
-    "id": 159,
+    "id": 171,
     "section_id": "T",
     "topic_id": null,
     "question": "Con violation shutdown, se un MAC non autorizzato si collega:",
@@ -3309,335 +3509,384 @@ export const flashcards = [
   },
   {
     "id": 22,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 1 — Fisico?",
+    "back": "Trasmette bit grezzi. Segnali elettrici/ottici/radio. Hub, cavi, connettori RJ45. PDU: Bit."
+  },
+  {
+    "id": 23,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 2 — Data Link?",
+    "back": "Frame + MAC address + CRC. Switch, Bridge. Sotto-livelli: LLC e MAC. PDU: Frame."
+  },
+  {
+    "id": 24,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 3 — Rete?",
+    "back": "Routing con IP. Router instrada pacchetti. TTL previene loop. Protocolli: IP, ICMP. PDU: Pacchetto."
+  },
+  {
+    "id": 25,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 4 — Trasporto?",
+    "back": "End-to-end. TCP (affidabile) e UDP (veloce). Porte identificano le app. Socket = IP+Porta. PDU: Segmento."
+  },
+  {
+    "id": 26,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 5 — Sessione?",
+    "back": "Apre/gestisce/chiude sessioni. Checkpoint per recupero. Simplex, Half-duplex, Full-duplex. PDU: Dati."
+  },
+  {
+    "id": 27,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 6 — Presentazione?",
+    "back": "Formato dati, compressione, crittografia (SSL/TLS). Codifiche: ASCII, UTF-8, JPEG, MP4. PDU: Dati."
+  },
+  {
+    "id": 28,
+    "section_id": "E",
+    "topic_id": null,
+    "front": "Livello 7 — Applicazione?",
+    "back": "Interfaccia utente-rete. HTTP(80), HTTPS(443), DNS(53), SMTP(25), FTP(21), SSH(22), DHCP. PDU: Dati."
+  },
+  {
+    "id": 29,
     "section_id": "F",
     "topic_id": null,
     "front": "Cos'è un indirizzo IP?",
     "back": "Identificatore numerico per host. IPv4: 32 bit, 4 ottetti, Net ID + Host ID."
   },
   {
-    "id": 23,
+    "id": 30,
     "section_id": "F",
     "topic_id": null,
     "front": "Cos'è la subnet mask?",
     "back": "Separa parte rete da parte host. Es: 255.255.255.0 = /24 = 24 bit rete."
   },
   {
-    "id": 24,
+    "id": 31,
     "section_id": "F",
     "topic_id": null,
     "front": "Cos'è il CIDR?",
     "back": "Notazione /N che indica i bit di rete. Es: /24 = 24 bit rete, 8 host. Più flessibile delle classi."
   },
   {
-    "id": 25,
+    "id": 32,
     "section_id": "F",
     "topic_id": null,
     "front": "Cos'è il default gateway?",
     "back": "IP del router per raggiungere reti esterne. Deve essere nella stessa rete dell'host."
   },
   {
-    "id": 26,
+    "id": 33,
     "section_id": "G",
     "topic_id": null,
     "front": "Cos'è il subnetting?",
     "back": "Dividere una rete in sottoreti per gestione, traffico e sicurezza."
   },
   {
-    "id": 27,
+    "id": 34,
     "section_id": "G",
     "topic_id": null,
     "front": "FLSM: formula host utilizzabili?",
     "back": "2^h - 2 (si sottraggono indirizzo di rete e broadcast)."
   },
   {
-    "id": 28,
+    "id": 35,
     "section_id": "H",
     "topic_id": null,
     "front": "VLSM vs FLSM?",
     "back": "VLSM: mask diverse per sottorete, più efficiente. FLSM: stessa mask, spreco indirizzi."
   },
   {
-    "id": 29,
+    "id": 36,
     "section_id": "I",
     "topic_id": null,
     "front": "Cos'è il routing?",
     "back": "Processo per determinare il percorso dei pacchetti. Il router consulta la tabella di routing."
   },
   {
-    "id": 30,
+    "id": 37,
     "section_id": "I",
     "topic_id": null,
     "front": "Longest prefix match?",
     "back": "Il router sceglie la rotta con la subnet mask più lunga (più specifica)."
   },
   {
-    "id": 31,
+    "id": 38,
     "section_id": "J",
     "topic_id": null,
     "front": "Routing statico: vantaggi e svantaggi?",
     "back": "Vantaggi: semplice, sicuro, no overhead. Svantaggi: non scalabile, nessun failover automatico."
   },
   {
-    "id": 32,
+    "id": 39,
     "section_id": "K",
     "topic_id": null,
     "front": "Rete come grafo?",
     "back": "Router = nodi, Link = archi, Costo collegamento = peso. Dijkstra/Bellman-Ford per cammino minimo."
   },
   {
-    "id": 33,
+    "id": 40,
     "section_id": "K",
     "topic_id": null,
     "front": "Come funziona Dijkstra?",
     "back": "1) Distanza 0 alla sorgente, infinito agli altri. 2) Visita il nodo con distanza minima. 3) Aggiorna distanze dei vicini. 4) Ripeti. Complessità O(V²). Usato da OSPF."
   },
   {
-    "id": 34,
+    "id": 41,
     "section_id": "K",
     "topic_id": null,
     "front": "Come funziona Bellman-Ford?",
     "back": "Ripeti V-1 volte: per ogni arco, se distanza_sorgente + peso < distanza_destinazione, aggiorna. Versione distribuita usata da RIP."
   },
   {
-    "id": 35,
+    "id": 42,
     "section_id": "K",
     "topic_id": null,
     "front": "Dijkstra vs Bellman-Ford?",
     "back": "Dijkstra: centralizzato, no pesi negativi, O(V²), veloce → OSPF. Bellman-Ford: distribuito, sì pesi negativi, O(V×E), lento → RIP."
   },
   {
-    "id": 36,
+    "id": 43,
     "section_id": "K",
     "topic_id": null,
     "front": "Count-to-infinity?",
     "back": "Dopo un guasto, i router distance vector incrementano le distanze all'infinito. Soluzioni: Split Horizon, Poison Reverse, Triggered Update."
   },
   {
-    "id": 37,
+    "id": 44,
     "section_id": "L",
     "topic_id": null,
     "front": "RIP vs OSPF?",
     "back": "RIP: distance vector, hop count, max 15 hop, reti piccole. OSPF: link state, Dijkstra, costo banda, reti grandi."
   },
   {
-    "id": 38,
+    "id": 45,
     "section_id": "M",
     "topic_id": null,
     "front": "TCP vs UDP?",
     "back": "TCP: connessione, affidabile, controllo flusso, lento. UDP: connectionless, non affidabile, veloce."
   },
   {
-    "id": 39,
+    "id": 46,
     "section_id": "M",
     "topic_id": null,
     "front": "Three-way handshake?",
     "back": "SYN → SYN-ACK → ACK. Stabilisce connessione TCP."
   },
   {
-    "id": 40,
+    "id": 47,
     "section_id": "M",
     "topic_id": null,
     "front": "Cos'è un socket?",
     "back": "IP + porta. Identifica univocamente un endpoint di comunicazione."
   },
   {
-    "id": 41,
+    "id": 48,
     "section_id": "N",
     "topic_id": null,
     "front": "Cos'è QUIC?",
     "back": "Protocollo Google su UDP. Connessione veloce (0-1 RTT), sicurezza TLS 1.3 integrata, base di HTTP/3."
   },
   {
-    "id": 42,
+    "id": 49,
     "section_id": "N",
     "topic_id": null,
     "front": "Perché streaming usa UDP?",
     "back": "Perdere dati è meglio che ritardare. TCP ritrasmette causando latenza."
   },
   {
-    "id": 43,
+    "id": 50,
     "section_id": "O",
     "topic_id": null,
     "front": "Cos'è un firewall?",
     "back": "Sistema che controlla e filtra il traffico di rete. Principio: default deny (blocca tutto tranne ciò che è permesso)."
   },
   {
-    "id": 44,
+    "id": 51,
     "section_id": "O",
     "topic_id": null,
     "front": "Stateless vs Stateful?",
     "back": "Stateless: analizza ogni pacchetto singolarmente. Stateful: tiene traccia delle connessioni attive (state table), più sicuro."
   },
   {
-    "id": 45,
+    "id": 52,
     "section_id": "O",
     "topic_id": null,
     "front": "Cos'è una ACL?",
     "back": "Access Control List: lista di regole (permit/deny) valutate dall'alto al basso. Prima corrispondenza applicata."
   },
   {
-    "id": 46,
+    "id": 53,
     "section_id": "O",
     "topic_id": null,
     "front": "Cos'è la DMZ?",
     "back": "Zona demilitarizzata: sottorete tra Internet e LAN interna. Ospita server pubblici (web, mail). Doppia protezione."
   },
   {
-    "id": 47,
+    "id": 54,
     "section_id": "P",
     "topic_id": null,
     "front": "Simmetrica vs Asimmetrica?",
     "back": "Simmetrica: stessa chiave (AES), veloce. Asimmetrica: chiave pubblica + privata (RSA), lenta ma risolve distribuzione chiavi."
   },
   {
-    "id": 48,
+    "id": 55,
     "section_id": "P",
     "topic_id": null,
     "front": "Cos'è una funzione hash?",
     "back": "Produce un digest di lunghezza fissa, irreversibile. SHA-256 è lo standard. Usata per integrità, password, firme digitali."
   },
   {
-    "id": 49,
+    "id": 56,
     "section_id": "P",
     "topic_id": null,
     "front": "Cos'è un certificato digitale?",
     "back": "Associa chiave pubblica a un'identità. Emesso dalla CA. Contiene: nome, chiave pubblica, firma CA, validità. Usato in HTTPS."
   },
   {
-    "id": 50,
+    "id": 57,
     "section_id": "P",
     "topic_id": null,
     "front": "Come funziona TLS?",
     "back": "Handshake: ClientHello → ServerHello + certificato → scambio chiave (asimmetrica) → dati cifrati (simmetrica). TLS 1.3 = 1 RTT."
   },
   {
-    "id": 51,
+    "id": 58,
     "section_id": "Q",
     "topic_id": null,
     "front": "Cos'è una VPN?",
     "back": "Tunnel cifrato su rete pubblica. Garantisce riservatezza, autenticazione e integrità. Usata per lavoro remoto e collegamento sedi."
   },
   {
-    "id": 52,
+    "id": 59,
     "section_id": "Q",
     "topic_id": null,
     "front": "Site-to-Site vs Remote Access?",
     "back": "Site-to-Site: collega 2 reti, permanente, su router. Remote Access: singolo utente, on-demand, con client VPN."
   },
   {
-    "id": 53,
+    "id": 60,
     "section_id": "Q",
     "topic_id": null,
     "front": "IPsec vs OpenVPN vs WireGuard?",
     "back": "IPsec: livello 3, standard site-to-site. OpenVPN: TLS, flessibile. WireGuard: moderno, ~4000 righe, prestazioni top."
   },
   {
-    "id": 54,
+    "id": 61,
     "section_id": "R",
     "topic_id": null,
     "front": "Cos'è una VLAN?",
     "back": "Rete locale virtuale che segmenta una rete fisica in reti logiche indipendenti. Limita broadcast, migliora sicurezza."
   },
   {
-    "id": 55,
+    "id": 62,
     "section_id": "R",
     "topic_id": null,
     "front": "Cos'è un trunk 802.1Q?",
     "back": "Collegamento che trasporta più VLAN. Aggiunge tag di 4 byte al frame con VLAN ID. Native VLAN viaggia senza tag."
   },
   {
-    "id": 56,
+    "id": 63,
     "section_id": "R",
     "topic_id": null,
     "front": "Inter-VLAN routing?",
     "back": "VLAN sono isolate. Per comunicare: router-on-a-stick (trunk + subinterface) o switch Layer 3 (SVI). Ogni VLAN ha la sua sottorete."
   },
   {
-    "id": 57,
+    "id": 64,
     "section_id": "S",
     "topic_id": null,
     "front": "Virus vs Worm vs Trojan?",
     "back": "Virus: si attacca a file, azione umana. Worm: autonomo via rete. Trojan: si maschera da software legittimo, non si replica."
   },
   {
-    "id": 58,
+    "id": 65,
     "section_id": "S",
     "topic_id": null,
     "front": "Cos'è il ransomware?",
     "back": "Cifra i file e chiede riscatto. Difesa: backup 3-2-1. Esempio: WannaCry (2017)."
   },
   {
-    "id": 59,
+    "id": 66,
     "section_id": "S",
     "topic_id": null,
     "front": "Cos'è il social engineering?",
     "back": "Sfrutta la psicologia umana: phishing (email false), pretexting (storie inventate), baiting (USB infette). Difesa: formazione."
   },
   {
-    "id": 60,
+    "id": 67,
     "section_id": "T",
     "topic_id": null,
     "front": "Modalità CLI del router Cisco?",
     "back": "User EXEC (>) → enable → Privileged EXEC (#) → configure terminal → Global Config (config)# → interface → Interface Config (config-if)#."
   },
   {
-    "id": 61,
+    "id": 68,
     "section_id": "T",
     "topic_id": null,
     "front": "Tipi di cavo in Packet Tracer?",
     "back": "Dritto: PC↔Switch, Router↔Switch. Incrociato: Switch↔Switch, PC↔PC. Console: PC↔porta Console. Seriale: Router↔Router (WAN)."
   },
   {
-    "id": 62,
+    "id": 69,
     "section_id": "T",
     "topic_id": null,
     "front": "Comandi show essenziali?",
     "back": "show running-config (configurazione), show ip route (routing), show ip interface brief (interfacce), show vlan brief (VLAN), show mac-address-table (MAC)."
   },
   {
-    "id": 63,
+    "id": 70,
     "section_id": "T",
     "topic_id": null,
     "front": "Come verificare la connettività?",
     "back": "Da PC: ping (raggiungibilità), tracert (percorso), ipconfig (configurazione IP). Da router: show ip route, ping. Busta PDU per test grafico."
   },
   {
-    "id": 64,
+    "id": 71,
     "section_id": "T",
     "topic_id": null,
     "front": "Come si configura il DNS in Packet Tracer?",
     "back": "Server → Services → DNS → ON. Aggiungere record A: nome (es. www.azienda.com) → IP (es. 192.168.1.100). Sui PC: impostare DNS Server nell'IP Configuration. Verifica: nslookup dal Command Prompt."
   },
   {
-    "id": 65,
+    "id": 72,
     "section_id": "T",
     "topic_id": null,
     "front": "Come si configura la mail (SMTP/POP3) in Packet Tracer?",
     "back": "Server → Services → EMAIL: domain name, SMTP/POP3 ON, creare utenti. DNS: record A per mail.azienda.com → IP server. PC → Desktop → Email: configurare server SMTP/POP3, user e password. Compose per inviare, Receive per scaricare."
   },
   {
-    "id": 66,
+    "id": 73,
     "section_id": "T",
     "topic_id": null,
     "front": "Come si configura FTP in Packet Tracer?",
     "back": "Server → Services → FTP: creare utente con permessi (Read, Write, Delete, List). Dal PC: Command Prompt → ftp <IP>, login, poi dir/get/put/quit. Porta 21 (controllo), porta 20 (dati)."
   },
   {
-    "id": 67,
+    "id": 74,
     "section_id": "T",
     "topic_id": null,
     "front": "Come si configura il NAT in Packet Tracer?",
     "back": "Router: interfaccia LAN = ip nat inside, interfaccia WAN = ip nat outside. Access-list 1 permit rete. ip nat inside source list 1 interface <WAN> overload. Traduce IP privati in IP pubblico del router."
   },
   {
-    "id": 68,
+    "id": 75,
     "section_id": "T",
     "topic_id": null,
     "front": "Come si configura il DHCP in Packet Tracer?",
     "back": "Server → Services → DHCP: ON, gateway, DNS, start IP, mask. PC → Desktop → IP Configuration → selezionare DHCP. Oppure dal router: ip dhcp pool, network, default-router, dns-server."
   },
   {
-    "id": 69,
+    "id": 76,
     "section_id": "T",
     "topic_id": null,
     "front": "Cos'è la Port Security sullo switch?",
@@ -4155,446 +4404,456 @@ export const glossary = [
   },
   {
     "id": 64,
+    "term": "ICMP",
+    "definition": "Internet Control Message Protocol - protocollo di livello 3 per messaggi di errore e diagnostica (ping, traceroute)."
+  },
+  {
+    "id": 65,
     "term": "IDS",
     "definition": "Intrusion Detection System - rileva intrusioni e attività sospette nella rete."
   },
   {
-    "id": 65,
+    "id": 66,
     "term": "IETF",
     "definition": "Internet Engineering Task Force - organismo che pubblica le RFC e definisce gli standard di Internet."
   },
   {
-    "id": 66,
+    "id": 67,
     "term": "IEEE 802.1Q",
     "definition": "Standard per il tagging VLAN sui trunk, aggiunge 4 byte al frame Ethernet."
   },
   {
-    "id": 67,
+    "id": 68,
     "term": "IEEE 802.3",
     "definition": "Standard che definisce Ethernet."
   },
   {
-    "id": 68,
+    "id": 69,
     "term": "Inter-VLAN routing",
     "definition": "Routing tra VLAN diverse tramite router-on-a-stick o switch Layer 3."
   },
   {
-    "id": 69,
+    "id": 70,
     "term": "IP",
     "definition": "Internet Protocol - protocollo di livello 3 per l'indirizzamento e instradamento."
   },
   {
-    "id": 70,
+    "id": 71,
     "term": "IPS",
     "definition": "Intrusion Prevention System - rileva e blocca automaticamente intrusioni nella rete."
   },
   {
-    "id": 71,
+    "id": 72,
     "term": "IPsec",
     "definition": "Internet Protocol Security - suite di protocolli per cifratura e autenticazione a livello 3."
   },
   {
-    "id": 72,
+    "id": 73,
     "term": "IPv4",
     "definition": "Internet Protocol versione 4 - indirizzi a 32 bit (4 ottetti)."
   },
   {
-    "id": 73,
+    "id": 74,
     "term": "ISO/OSI",
     "definition": "Modello di riferimento a 7 livelli per le reti di comunicazione."
   },
   {
-    "id": 74,
+    "id": 75,
     "term": "Keylogger",
     "definition": "Spyware che registra ogni tasto premuto sulla tastiera per rubare credenziali."
   },
   {
-    "id": 75,
+    "id": 76,
     "term": "LAN",
     "definition": "Local Area Network - rete locale che copre un'area limitata."
   },
   {
-    "id": 76,
+    "id": 77,
     "term": "Link State",
     "definition": "Tipo di protocollo di routing dove ogni router ha la mappa completa della topologia."
   },
   {
-    "id": 77,
+    "id": 78,
     "term": "Longest prefix match",
     "definition": "Regola di routing: si sceglie la rotta con la subnet mask più lunga."
   },
   {
-    "id": 78,
+    "id": 79,
     "term": "LSA",
     "definition": "Link State Advertisement - messaggio OSPF con informazioni sulla topologia."
   },
   {
-    "id": 79,
+    "id": 80,
     "term": "MAC address",
     "definition": "Media Access Control address - identificatore univoco a 48 bit della scheda di rete."
   },
   {
-    "id": 80,
+    "id": 81,
     "term": "MAC Flooding",
     "definition": "Attacco che inonda la tabella MAC dello switch per farlo comportare come un hub."
   },
   {
-    "id": 81,
+    "id": 82,
     "term": "Malware",
     "definition": "Malicious software - software malevolo creato per danneggiare o compromettere sistemi."
   },
   {
-    "id": 82,
+    "id": 83,
     "term": "Man-in-the-Middle",
     "definition": "Attacco in cui l'attaccante si inserisce tra due comunicanti per intercettare i dati."
   },
   {
-    "id": 83,
+    "id": 84,
     "term": "MFA",
     "definition": "Multi-Factor Authentication - autenticazione con più fattori (password + OTP/token)."
   },
   {
-    "id": 84,
+    "id": 85,
     "term": "Modem",
     "definition": "Modulatore/demodulatore - converte segnale digitale in analogico per la linea del provider."
   },
   {
-    "id": 85,
+    "id": 86,
     "term": "NAT",
     "definition": "Network Address Translation - traduce indirizzi IP privati in pubblici."
   },
   {
-    "id": 86,
+    "id": 87,
     "term": "Native VLAN",
     "definition": "VLAN i cui frame viaggiano senza tag 802.1Q sul trunk (default: VLAN 1)."
   },
   {
-    "id": 87,
+    "id": 88,
     "term": "NGFW",
     "definition": "Next-Generation Firewall - firewall avanzato con IPS, analisi SSL e controllo applicazioni."
   },
   {
-    "id": 88,
+    "id": 89,
     "term": "NIC",
     "definition": "Network Interface Card - scheda di rete di un dispositivo."
   },
   {
-    "id": 89,
+    "id": 90,
     "term": "OpenVPN",
     "definition": "Protocollo VPN open source basato su TLS/SSL, flessibile e molto diffuso."
   },
   {
-    "id": 90,
+    "id": 91,
     "term": "OSPF",
     "definition": "Open Shortest Path First - protocollo di routing link state basato su Dijkstra."
   },
   {
-    "id": 91,
+    "id": 92,
     "term": "Ottetto",
     "definition": "Gruppo di 8 bit, un byte. Un indirizzo IPv4 ha 4 ottetti."
   },
   {
-    "id": 92,
+    "id": 93,
     "term": "Packet Tracer",
     "definition": "Simulatore di rete gratuito di Cisco per progettare e configurare reti virtuali."
   },
   {
-    "id": 93,
+    "id": 94,
     "term": "OUI",
     "definition": "Organizationally Unique Identifier - primi 3 byte del MAC, identificano il produttore."
   },
   {
-    "id": 94,
+    "id": 95,
     "term": "Pacchetto",
     "definition": "Unità dati del livello 3 (Rete), contiene indirizzi IP."
   },
   {
-    "id": 95,
+    "id": 96,
     "term": "Patch cord",
     "definition": "Cavo corto per collegare dispositivi a prese di rete o patch panel a switch."
   },
   {
-    "id": 96,
+    "id": 97,
     "term": "Patch panel",
     "definition": "Pannello di permutazione dove terminano i cavi dagli uffici."
   },
   {
-    "id": 97,
+    "id": 98,
     "term": "Payload",
     "definition": "Dati utili trasportati all'interno di un frame o pacchetto."
   },
   {
-    "id": 98,
+    "id": 99,
     "term": "Phishing",
     "definition": "Attacco che usa email/siti falsi per rubare credenziali. Varianti: spear phishing, whaling."
   },
   {
-    "id": 99,
+    "id": 100,
     "term": "POP3",
     "definition": "Post Office Protocol v3 - protocollo per scaricare email dal server al client. Porta 110."
   },
   {
-    "id": 100,
+    "id": 101,
     "term": "PKI",
     "definition": "Public Key Infrastructure - sistema di gestione dei certificati digitali (CA, RA, CRL)."
   },
   {
-    "id": 101,
+    "id": 102,
     "term": "Plaintext",
     "definition": "Testo in chiaro, messaggio originale prima della cifratura."
   },
   {
-    "id": 102,
+    "id": 103,
     "term": "PDU",
     "definition": "Protocol Data Unit - unità dati di un protocollo, visibile nella modalità Simulation di Packet Tracer."
   },
   {
-    "id": 103,
+    "id": 104,
     "term": "Port Security",
     "definition": "Funzione di sicurezza dello switch che limita i MAC address ammessi su una porta."
   },
   {
-    "id": 104,
+    "id": 105,
     "term": "Porta (networking)",
     "definition": "Numero che identifica un'applicazione specifica su un host (0-65535)."
   },
   {
-    "id": 105,
+    "id": 106,
     "term": "QUIC",
     "definition": "Quick UDP Internet Connections - protocollo Google su UDP, base di HTTP/3."
   },
   {
-    "id": 106,
+    "id": 107,
     "term": "Ransomware",
     "definition": "Malware che cifra i file e chiede un riscatto per la chiave di decifratura."
   },
   {
-    "id": 107,
+    "id": 108,
     "term": "RFC",
     "definition": "Request for Comments - documenti ufficiali che definiscono gli standard di Internet, pubblicati dalla IETF."
   },
   {
-    "id": 108,
+    "id": 109,
     "term": "RIP",
     "definition": "Routing Information Protocol - protocollo distance vector con metrica hop count."
   },
   {
-    "id": 109,
+    "id": 110,
     "term": "RJ45",
     "definition": "Connettore standard per cavi Ethernet (doppino intrecciato)."
   },
   {
-    "id": 110,
+    "id": 111,
     "term": "Rootkit",
     "definition": "Malware che si nasconde nel sistema operativo per mantenere accesso privilegiato."
   },
   {
-    "id": 111,
+    "id": 112,
     "term": "Router",
     "definition": "Apparato di rete livello 3 che collega reti diverse e instrada pacchetti IP."
   },
   {
-    "id": 112,
+    "id": 113,
     "term": "Router-on-a-stick",
     "definition": "Tecnica inter-VLAN routing con un trunk e subinterface virtuali sul router."
   },
   {
-    "id": 113,
+    "id": 114,
     "term": "Routing",
     "definition": "Processo di determinazione del percorso migliore per i pacchetti."
   },
   {
-    "id": 114,
+    "id": 115,
     "term": "Routing statico",
     "definition": "Routing con percorsi configurati manualmente dall'amministratore."
   },
   {
-    "id": 115,
+    "id": 116,
     "term": "Routing dinamico",
     "definition": "Routing con aggiornamento automatico delle rotte tramite protocolli."
   },
   {
-    "id": 116,
+    "id": 117,
     "term": "RSA",
     "definition": "Algoritmo di crittografia asimmetrica basato sulla fattorizzazione di numeri primi."
   },
   {
-    "id": 117,
+    "id": 118,
     "term": "Segmento",
     "definition": "Unità dati del livello 4 (Trasporto) in TCP."
   },
   {
-    "id": 118,
+    "id": 119,
     "term": "SHA-256",
     "definition": "Secure Hash Algorithm a 256 bit - funzione hash crittografica standard attuale."
   },
   {
-    "id": 119,
+    "id": 120,
     "term": "SMTP",
     "definition": "Simple Mail Transfer Protocol - protocollo per l'invio di email. Porta 25 (o 587 con TLS)."
   },
   {
-    "id": 120,
+    "id": 121,
     "term": "Social engineering",
     "definition": "Tecniche che sfruttano la psicologia umana per ottenere informazioni o accesso ai sistemi."
   },
   {
-    "id": 121,
+    "id": 122,
     "term": "Socket",
     "definition": "Combinazione di indirizzo IP e porta che identifica un endpoint di comunicazione."
   },
   {
-    "id": 122,
+    "id": 123,
     "term": "Split Horizon",
     "definition": "Tecnica anti-loop per distance vector: non inviare una rotta al vicino da cui l'hai appresa. Previene il count-to-infinity."
   },
   {
-    "id": 123,
+    "id": 124,
     "term": "SPF (Shortest Path First)",
     "definition": "Altro nome dell'algoritmo di Dijkstra, usato da OSPF per calcolare l'albero dei cammini minimi."
   },
   {
-    "id": 124,
+    "id": 125,
     "term": "Spyware",
     "definition": "Malware che spia le attività dell'utente e raccoglie dati senza consenso."
   },
   {
-    "id": 125,
+    "id": 126,
     "term": "Stateful firewall",
     "definition": "Firewall che tiene traccia delle connessioni attive per decisioni di filtraggio più intelligenti."
   },
   {
-    "id": 126,
+    "id": 127,
     "term": "STP (cavo)",
     "definition": "Shielded Twisted Pair - doppino con schermatura metallica."
   },
   {
-    "id": 127,
+    "id": 128,
     "term": "Subnet mask",
     "definition": "Maschera che separa la parte rete dalla parte host di un indirizzo IP."
   },
   {
-    "id": 128,
+    "id": 129,
     "term": "Subnetting",
     "definition": "Tecnica di divisione di una rete in sottoreti più piccole."
   },
   {
-    "id": 129,
+    "id": 130,
     "term": "Switch",
     "definition": "Apparato di rete livello 2 che commuta frame usando la tabella MAC."
   },
   {
-    "id": 130,
+    "id": 131,
     "term": "SYN",
     "definition": "Synchronize - primo messaggio del three-way handshake TCP."
   },
   {
-    "id": 131,
+    "id": 132,
     "term": "Tabella di routing",
     "definition": "Database del router con le rotte verso le reti di destinazione."
   },
   {
-    "id": 132,
+    "id": 133,
     "term": "Tabella MAC",
     "definition": "Database dello switch con associazioni MAC address - porta fisica."
   },
   {
-    "id": 133,
+    "id": 134,
     "term": "TCP",
     "definition": "Transmission Control Protocol - protocollo di trasporto affidabile e orientato alla connessione."
   },
   {
-    "id": 134,
+    "id": 135,
     "term": "TCP/IP",
     "definition": "Modello di rete a 4 livelli usato da Internet."
   },
   {
-    "id": 135,
+    "id": 136,
     "term": "Three-way handshake",
     "definition": "Processo in 3 passi (SYN, SYN-ACK, ACK) per stabilire una connessione TCP."
   },
   {
-    "id": 136,
+    "id": 137,
     "term": "TLS",
     "definition": "Transport Layer Security - protocollo di crittografia per comunicazioni sicure."
   },
   {
-    "id": 137,
+    "id": 138,
+    "term": "TTL",
+    "definition": "Time To Live - campo del pacchetto IP decrementato ad ogni router. Se arriva a 0 il pacchetto viene scartato, evitando loop infiniti."
+  },
+  {
+    "id": 139,
     "term": "Topologia a bus",
     "definition": "Tutti i dispositivi condividono un unico cavo. Oggi obsoleta."
   },
   {
-    "id": 138,
+    "id": 140,
     "term": "Topologia a maglia",
     "definition": "Ogni dispositivo collegato a tutti (o quasi) gli altri. Massima ridondanza, usata nei backbone."
   },
   {
-    "id": 139,
+    "id": 141,
     "term": "Topologia a stella",
     "definition": "Configurazione in cui tutti i dispositivi sono collegati a un nodo centrale (switch)."
   },
   {
-    "id": 140,
+    "id": 142,
     "term": "Topologia ad albero",
     "definition": "Stella gerarchica su più livelli. Tipica del cablaggio strutturato di campus."
   },
   {
-    "id": 141,
+    "id": 143,
     "term": "Topologia ad anello",
     "definition": "Dispositivi collegati in circuito chiuso. Usata in Token Ring, oggi obsoleta."
   },
   {
-    "id": 142,
+    "id": 144,
     "term": "Trojan",
     "definition": "Malware mascherato da programma legittimo che esegue azioni malevole in background."
   },
   {
-    "id": 143,
+    "id": 145,
     "term": "Trunk",
     "definition": "Collegamento tra switch che trasporta traffico di più VLAN con tagging 802.1Q."
   },
   {
-    "id": 144,
+    "id": 146,
     "term": "Tunneling",
     "definition": "Tecnica VPN che incapsula e cifra pacchetti originali dentro nuovi pacchetti."
   },
   {
-    "id": 145,
+    "id": 147,
     "term": "UDP",
     "definition": "User Datagram Protocol - protocollo di trasporto veloce senza garanzie di consegna."
   },
   {
-    "id": 146,
+    "id": 148,
     "term": "UTP",
     "definition": "Unshielded Twisted Pair - doppino senza schermatura, economico."
   },
   {
-    "id": 147,
+    "id": 149,
     "term": "VLAN",
     "definition": "Virtual LAN - rete locale virtuale per segmentare logicamente una rete fisica."
   },
   {
-    "id": 148,
+    "id": 150,
     "term": "VLSM",
     "definition": "Variable Length Subnet Mask - subnetting con mask diverse per ogni sottorete."
   },
   {
-    "id": 149,
+    "id": 151,
     "term": "VPN",
     "definition": "Virtual Private Network - tunnel cifrato su rete pubblica per connessioni sicure."
   },
   {
-    "id": 150,
+    "id": 152,
     "term": "Wi-Fi",
     "definition": "Tecnologia wireless per reti locali basata su standard IEEE 802.11."
   },
   {
-    "id": 151,
+    "id": 153,
     "term": "WireGuard",
     "definition": "Protocollo VPN moderno con codice minimale e prestazioni elevate."
   },
   {
-    "id": 152,
+    "id": 154,
     "term": "Worm",
     "definition": "Malware che si replica autonomamente attraverso la rete senza azione umana."
   }
